@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Customer List</title>
+</head>
+<body>
+
+<div layout:fragment="content" >
+    <section class="my-5" th:fragment="table-refresh">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Customer list</h2>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Created</th>
+                            <th>Modified</th>
+                            <th>Modified by</th>
+                            <th>Created by</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="customer : ${customers}">
+                            <td th:text="${customer.id}"></td>
+                            <td th:text="${customer.firstName}"></td>
+                            <td th:text="${customer.lastName}"></td>
+                            <td th:text="${customer.emailId}"></td>
+                            <td th:text="${customer.creationDate}"></td>
+                            <td th:text="${customer.lastModifiedDate}"></td>
+                            <td th:text="${customer.lastModifiedBy}"></td>
+                            <td th:text="${customer.createdBy}"></td>
+                            <td><a href="#" th:href="@{/customer/} + ${customer.id}">View</a></td>
+                            <td><a href="#" th:href="@{/admin/customer/edit/} + ${customer.id}">Edit</a></td>
+                            <td><a href="#" th:href="@{/admin/customer/delete/} + ${customer.id}">Delete</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <a th:href="@{/admin/customer/create}">Add New Customer</a>
+                    <br/><br/>
+
+                    <div th:if="${customers.isEmpty()} == true">
+                        <!--                    <div th:if="${customers.size()} == 0">-->
+                        <p class="alert alert-warning" role="alert">No Customer Found.</p>
+                        <p th:text="${customers.size()}"></p>
+                        <p th:text="${customers.isEmpty()}"></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>

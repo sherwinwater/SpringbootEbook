@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Book List</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="my-5" th:fragment="table-refresh">
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3" th:each="book : ${books}">
+                        <div class="card mb-3 shadow-sm">
+                            <img class="card-img-top" th:src="@{${book.photoUrl}}" alt="photo" width="80%" height="250">
+                            <div class="card-body">
+                                <p class="card-text text-center" th:text="${book.name}">This is a wider card ow content is a little
+                                    bit longer.</p>
+                                    <a href="https://d28hxt8xuicvrx.cloudfront.net/lsat/lsat_explanations/lsat80/lsat80.s3.game-1.mp4?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMjhoeHQ4eHVpY3ZyeC5jbG91ZGZyb250Lm5ldC9sc2F0L2xzYXRfZXhwbGFuYXRpb25zL2xzYXQ4MC9sc2F0ODAuczMuZ2FtZS0xLm1wNCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTU5NzE5ODk0MH19fV19&Signature=Qn4uIii5A7MUzsTc-uGmCGX4fuYeo2CwgfgpEgmAtM1mxsuefRbW7YFA9WE4uEMNTtrx8Qc9yt7HBVWwApZqvNFKSHOhq0F07c3Mzl~LguDKe0g9M~tsZaCMyo8beumlmB2S88GqVHervcvff0L3QdK-qMDmAV6~xGntBndwJ~c3jLdVXLGmGxpN6Onsghp31uThVUcnXpgrtlkzhzLZ~DNbHvOnwAXLrDGiFypX3uKAq4kJlH18uT48Uu-SwYYVuUjrK~UwigW~x61mROso7fuQjZzzwYiV9VcW4Rv-a1Y0fTSVv03SobIZyZoXaw7g8ZClePL0EEFzgeNEsxTlCA__&Key-Pair-Id=APKAJHUOMBFQBWGXVQHA">1</a>
+                                    <a href="https://d28hxt8xuicvrx.cloudfront.net/lsat/lsat_explanations/lsat80/lsat80.s3.game-2.mp4?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMjhoeHQ4eHVpY3ZyeC5jbG91ZGZyb250Lm5ldC9sc2F0L2xzYXRfZXhwbGFuYXRpb25zL2xzYXQ4MC9sc2F0ODAuczMuZ2FtZS0yLm1wNCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTU5NzIwMDY0MH19fV19&Signature=X-o~7~OwYog6U9UwHSzDjhdnQtYORDVBHwwOaDtT~VbD71tkby~2zbUjOhN4iW3Z5KQZbVK06kHebHuKvGj29GTNXjUlf3ByxC0oFF6tRSvvW44fqMdAF1y3W4KxvNJIlQalWhc5zmrcBPg-tv1HYJubeiQWdKdwOGyxalawWAHCoYCoP3nlBST1ok5Q92OZWwskIX5czbVphtN4r~-IQtjtKcjZ2bpSeczmVIdX9QtcYDYZi61dANUoanGQPZ4NDF6-THKJSticYm313mG44LEPNRggtFLlWLqjuaI3zLZX98pdjB3HvGYa886PEJJ5O4~BtzfYgtW7j-yb7mMaLw__&Key-Pair-Id=APKAJHUOMBFQBWGXVQHA">2</a>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="#" th:href="@{/cart/add/} + ${book.id}">Add</a>&nbsp;
+                                        <a href="#" th:href="@{/book/} + ${book.id}">View</a>&nbsp;
+                                        <a href="#" th:href="@{/admin/book/edit/} + ${book.id}">Edit</a>&nbsp;
+                                        <a href="#" th:href="@{/admin/book/delete/} + ${book.id}">Delete</a>&nbsp;
+                                    </div>
+                                    <small class="text-muted" th:text="${book.price}">9 mins</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <a th:href="@{/admin/book/create}">Add New book</a>
+            <br/><br/>
+
+            <div th:if="${books.isEmpty()} == true">
+                <!--                    <div th:if="${books.size()} == 0">-->
+                <p class="alert alert-warning" role="alert">No book Found.</p>
+                <p th:text="${books.size()}"></p>
+                <p th:text="${books.isEmpty()}"></p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>

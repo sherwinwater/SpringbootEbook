@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Book View</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Book </h2>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Photo</th>
+                            <th>Price</th>
+                            <th>Add</th>
+                            <th>View</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr >
+                            <td th:text="${Book.id}"></td>
+                            <td th:text="${Book.name}"></td>
+                            <td >
+                                <img th:src="@{${Book.photoUrl}}" alt="photo" width="200" height="250">
+                            </td>
+                            <td th:text="${Book.price}"></td>
+                            <td><a href="#" th:href="@{/Book/add/} + ${Book.id}">Add</a></td>
+                            <td><a href="#" th:href="@{/Book/} + ${Book.id}">View</a></td>
+                            <td><a href="#" th:href="@{/admin/Book/edit/} + ${Book.id}">Edit</a></td>
+                            <td><a href="#" th:href="@{/admin/Book/delete/} + ${Book.id}">Delete</a></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                    <a th:href="@{/Books/}">Back To Book List</a>
+                    <br/><br/><br/>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>
