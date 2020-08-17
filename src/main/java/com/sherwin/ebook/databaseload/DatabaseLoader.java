@@ -33,6 +33,7 @@ public class DatabaseLoader implements CommandLineRunner {
         Customer four = new Customer("andy","s","andy@sam.com","images/thehuntingground.png");
         Customer five = new Customer("joe","s","joe@sam.com","images/larry.png");
         Customer six = new Customer("thomas","s","tomas@sam.com","images/timemachine.png");
+
 //        one.setDate(LocalDateTime.now());
         customerService.save(one);
         customerService.save(two);
@@ -47,6 +48,13 @@ public class DatabaseLoader implements CommandLineRunner {
         Book book4 = new Book("the hunting ground",45.49,"images/thehuntingground.png");
         Book book5 = new Book("larry friends",45.49,"images/larry.png");
         Book book6 = new Book("time machine",45.49,"images/timemachine.png");
+
+        book1.setQuantity(100);
+        book2.setQuantity(200);
+        book3.setQuantity(300);
+        book4.setQuantity(400);
+        book5.setQuantity(500);
+        book6.setQuantity(600);
 
         bookService.save(book1);
         bookService.save(book2);

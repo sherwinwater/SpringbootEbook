@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.sherwin</groupId>
-    <artifactId>postgresdemo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>postgresdemo</name>
-    <description>Demo project for Spring Boot postgresDB</description>
+    <artifactId>ebook</artifactId>
+    <version>1.0</version>
+    <name>ebook</name>
+    <description>ebook online store</description>
 
     <properties>
         <java.version>1.8</java.version>

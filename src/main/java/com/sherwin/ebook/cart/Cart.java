@@ -27,11 +27,12 @@ public class Cart extends Auditable {
 //    @JoinTable(name = "cart_booklist")
     private List<Book> bookList;
 
-    public void addBook(Book book){
-        this.bookList.add(book);
+    public void addBook(Book book) {
+        if (!bookList.contains(book))
+            this.bookList.add(book);
     }
 
-    public void removeBook(Book book){
+    public void removeBook(Book book) {
         this.bookList.remove(book);
     }
 }

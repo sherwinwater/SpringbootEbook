@@ -7,59 +7,58 @@
 </head>
 <body>
 
-<div layout:fragment="content" >
+<div layout:fragment="content">
     <section class="my-5" th:fragment="table-refresh">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Cart list</h2>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Photo</th>
-                            <th>Price</th>
-                            <th>Add</th>
-                            <th>View</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="book : ${cart.getBookList()}">
-                            <td th:text="${book.id}"></td>
-                            <td th:text="${book.name}"></td>
-                            <td >
-                                <img th:src="@{${book.photoUrl}}" alt="photo" width="200" height="250">
-<!--                                <img th:src="@{images/Apocalypto.png}" alt="photo" width="200" height="250">-->
-                            </td>
-                            <td th:text="${book.price}"></td>
-                            <td><a href="#" th:href="@{/book/add/} + ${book.id}">Add</a></td>
-                            <td><a href="#" th:href="@{/book/} + ${book.id}">View</a></td>
-                            <td><a href="#" th:href="@{/admin/book/edit/} + ${book.id}">Edit</a></td>
-                            <td><a href="#" th:href="@{/cart/delete/} + ${book.id}">Delete</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div th:if="${cart.bookList.isEmpty()} == false">
+                        <h2>Your shopping cart</h2>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Photo</th>
+                                <th>Price</th>
+                                <th>Add</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="book : ${cart.getBookList()}">
+                                <td th:text="${book.id}"></td>
+                                <td th:text="${book.name}"></td>
+                                <td>
+                                    <img th:src="@{${book.photoUrl}}" alt="photo" width="200" height="250">
+                                    <!--                                <img th:src="@{images/Apocalypto.png}" alt="photo" width="200" height="250">-->
+                                </td>
+                                <td th:text="${book.price}"></td>
+                                <td><a href="#" th:href="@{/book/add/} + ${book.id}">Add</a></td>
+                                <td><a href="#" th:href="@{/book/} + ${book.id}">View</a></td>
+                                <td><a href="#" th:href="@{/admin/book/edit/} + ${book.id}">Edit</a></td>
+                                <td><a href="#" th:href="@{/cart/delete/} + ${book.id}">Delete</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p th:text="'Your items: '+${cart.bookList.size()} "></p>
 
-                    <a th:href="@{/books}">Add book</a>
-                    <br/><br/>
+                    </div>
 
                     <div th:if="${cart.bookList.isEmpty()} == true">
                         <!--                    <div th:if="${carts.size()} == 0">-->
                         <p class="alert alert-warning" role="alert">No Cart Found.</p>
-                        <p th:text="${cart.bookList.size()}"></p>
-                        <p th:text="${cart.bookList.isEmpty()}"></p>
                     </div>
 
+                    <a th:href="@{/books}">Add book</a>
+                    <br/><br/>
                 </div>
             </div>
         </div>
     </section>
 </div>
-
-
 
 
 <th:block th:fragment="optional">
