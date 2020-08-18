@@ -20,25 +20,40 @@
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Photo</th>
+                                <th>TotalPrice</th>
                                 <th>Price</th>
-                                <th>Add</th>
+                                <th>Inventory</th>
+                                <th>Quantity</th>
                                 <th>View</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="book : ${cart.getBookList()}">
+                            <tr th:each="book : ${cart.bookList}" th:with="totalprice=${book.price}*${book.quantity}">
                                 <td th:text="${book.id}"></td>
                                 <td th:text="${book.name}"></td>
                                 <td>
                                     <img th:src="@{${book.photoUrl}}" alt="photo" width="200" height="250">
                                     <!--                                <img th:src="@{images/Apocalypto.png}" alt="photo" width="200" height="250">-->
                                 </td>
+<!--                                <td>$ <span th:text="${#numbers.formatDecimal(2343.443498, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>-->
+                                <td>$ <span th:text="${#numbers.formatDecimal(totalprice, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>
                                 <td th:text="${book.price}"></td>
-                                <td><a href="#" th:href="@{/book/add/} + ${book.id}">Add</a></td>
-                                <td><a href="#" th:href="@{/book/} + ${book.id}">View</a></td>
-                                <td><a href="#" th:href="@{/admin/book/edit/} + ${book.id}">Edit</a></td>
+                                <td th:text="${book.inventory}"></td>
+                                <td>
+                                    <form th:action="@{/cart/update/} + ${book.id}" method="post">
+                                        <div th:class="form-group " >
+                                            <div class="col-sm-12 d-inline-block">
+                                                <input type="number" class="form-control" name="quantity" th:value="${book.quantity}" min="1" th:max="${book.inventory}+${book.quantity}"/>
+                                            </div>
+                                        </div>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-link pull-right d-inline-block">Update</button>
+                                    </form>
+                                </td>
+                                <td><a href="#" th:href="@{/books} ">View</a></td>
                                 <td><a href="#" th:href="@{/cart/delete/} + ${book.id}">Delete</a></td>
                             </tr>
                             </tbody>

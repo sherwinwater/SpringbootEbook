@@ -49,12 +49,12 @@ public class DatabaseLoader implements CommandLineRunner {
         Book book5 = new Book("larry friends",45.49,"images/larry.png");
         Book book6 = new Book("time machine",45.49,"images/timemachine.png");
 
-        book1.setQuantity(100);
-        book2.setQuantity(200);
-        book3.setQuantity(300);
-        book4.setQuantity(400);
-        book5.setQuantity(500);
-        book6.setQuantity(600);
+        book1.setInventory(100);
+        book2.setInventory(200);
+        book3.setInventory(300);
+        book4.setInventory(400);
+        book5.setInventory(500);
+        book6.setInventory(600);
 
         bookService.save(book1);
         bookService.save(book2);
@@ -66,11 +66,11 @@ public class DatabaseLoader implements CommandLineRunner {
         Customer customer = customerService.get(1L);
         Cart cart = new Cart();
         cart.setCustomer(customer);
-        List<Book> bookList = new ArrayList<>();
-        bookList.add(book1);
-        cart.setBookList(bookList);
-        cart.addBook(book2);
-        book1.setCart(cart);
+//        List<Book> bookList = new ArrayList<>();
+//        bookList.add(book1);
+//        cart.setBookList(bookList);
+//        cart.addBook(book2);
+//        book1.setCart(cart);
         cartService.save(cart);
 
     }

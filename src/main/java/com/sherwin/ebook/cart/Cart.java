@@ -28,8 +28,7 @@ public class Cart extends Auditable {
     private List<Book> bookList;
 
     public void addBook(Book book) {
-        if (!bookList.contains(book))
-            this.bookList.add(book);
+        this.bookList.add(book);
     }
 
     public void removeBook(Book book) {

@@ -22,11 +22,12 @@ public class Book extends Auditable {
     private String name;
 
     @NonNull
-    private double price;
+    private Double price;
 
     @NonNull
     private String photoUrl;
 
+    private long inventory;
     private long quantity;
 
     @ManyToOne
