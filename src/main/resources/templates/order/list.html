@@ -56,10 +56,6 @@
                                 <td><a href="#" th:href="@{/books} ">View</a></td>
                                 <td><a href="#" th:href="@{/cart/delete/} + ${book.id}">Delete</a></td>
                             </tr>
-                            <tr>
-                                <td colspan="3" class="text-right">total price</td>
-                                <td th:text="'$ ' +${cart.totalPrice}">total price</td>
-                            </tr>
                             </tbody>
                         </table>
                         <p th:text="'Your items: '+${cart.bookList.size()} "></p>

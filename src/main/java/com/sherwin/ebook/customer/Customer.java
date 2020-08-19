@@ -1,9 +1,12 @@
 package com.sherwin.ebook.customer;
 
+import com.sherwin.ebook.book.Book;
 import com.sherwin.ebook.config.Auditable;
+import com.sherwin.ebook.order.Order;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -28,6 +31,10 @@ public class Customer extends Auditable {
 
     @NonNull
     private String photoUrl;
+
+//    @OneToMany(fetch = FetchType.EAGER)
+////    @JoinTable(name = "cart_booklist")
+//    private List<Order> orderList;
 
 //    @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 //    private LocalDateTime Date;
