@@ -49,8 +49,8 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto" id="navbaritems">
             <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Photo</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/about}">News</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/photo}">Photo</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/news}">News</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/customers}">Customer</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/books}">Book</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/email}">Email</a></li>
@@ -65,6 +65,7 @@
                name="ajaxsearch" id="ajaxsearch">
         </form>
         <ul class="navbar-nav ml-auto ">
+            <li class="nav-item"><a class="nav-link" th:href="@{/account}">Account</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/order}">Order</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/cart}">Cart</a></li>
             <li><a th:href="@{/signup}" class="nav-link"><i class="fas fa-user-plus"></i>Sign Up</a></li>
@@ -77,7 +78,7 @@
 <section layout:fragment="content" id="data">
 </section>
 
-<footer class="footer mt-auto py-3 text-center">
+<footer class="footer mt-auto py-3 text-center fixed-bottom">
     <div class="container">
         <span class="text-muted" th:text="${#dates.year(#dates.createNow())}"></span>
         <span class="text-muted">Sherwin Inc. All rights reserved.</span></div>
