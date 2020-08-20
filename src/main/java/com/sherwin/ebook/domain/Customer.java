@@ -4,6 +4,7 @@ import com.sherwin.ebook.config.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -29,9 +30,9 @@ public class Customer extends Auditable {
     @NonNull
     private String photoUrl;
 
-//    @OneToMany(fetch = FetchType.EAGER)
-////    @JoinTable(name = "cart_booklist")
-//    private List<Order> orderList;
+    @OneToMany
+//    @JoinTable(name = "cart_booklist")
+    private List<Order> orderList;
 
 //    @DateTimeFormat(pattern = "yyyy.MM.dd HH:mm:ss")
 //    private LocalDateTime Date;

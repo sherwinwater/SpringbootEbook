@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Cart List</title>
+    <title>Order </title>
 </head>
 <body>
 
@@ -12,63 +12,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div th:if="${cart.bookList.isEmpty()} == false">
-                        <h2>Your shopping cart</h2>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Photo</th>
-                                <th>TotalPrice</th>
-                                <th>Price</th>
-                                <th>Inventory</th>
-                                <th>Quantity</th>
-                                <th>View</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="book : ${cart.bookList}" th:with="totalprice=${book.price}*${book.quantity}">
-                                <td th:text="${book.id}"></td>
-                                <td th:text="${book.name}"></td>
-                                <td>
-                                    <img th:src="@{${book.photoUrl}}" alt="photo" width="200" height="250">
-                                    <!--                                <img th:src="@{images/Apocalypto.png}" alt="photo" width="200" height="250">-->
-                                </td>
-<!--                                <td>$ <span th:text="${#numbers.formatDecimal(2343.443498, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>-->
-                                <td>$ <span th:text="${#numbers.formatDecimal(totalprice, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>
-                                <td th:text="${book.price}"></td>
-                                <td th:text="${book.inventory}"></td>
-                                <td>
-                                    <form th:action="@{/cart/update/} + ${book.id}" method="post">
-                                        <div th:class="form-group " >
-                                            <div class="col-sm-12 d-inline-block">
-                                                <input type="number" class="form-control" name="quantity" th:value="${book.quantity}" min="1" th:max="${book.inventory}+${book.quantity}"/>
-                                            </div>
-                                        </div>
-                                </td>
-                                <td>
-                                    <button type="submit" class="btn btn-link pull-right d-inline-block">Update</button>
-                                    </form>
-                                </td>
-                                <td><a href="#" th:href="@{/books} ">View</a></td>
-                                <td><a href="#" th:href="@{/cart/delete/} + ${book.id}">Delete</a></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <p th:text="'Your items: '+${cart.bookList.size()} "></p>
-
-                    </div>
-
-                    <div th:if="${cart.bookList.isEmpty()} == true">
-                        <!--                    <div th:if="${carts.size()} == 0">-->
-                        <p class="alert alert-warning" role="alert">No Cart Found.</p>
-                    </div>
-
-                    <a th:href="@{/books}">Add book</a>
-                    <br/><br/>
+                   order
                 </div>
             </div>
         </div>
