@@ -1,5 +1,7 @@
-package com.sherwin.ebook.customer;
+package com.sherwin.ebook.service;
 
+import com.sherwin.ebook.domain.Customer;
+import com.sherwin.ebook.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

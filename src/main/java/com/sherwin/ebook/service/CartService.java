@@ -1,12 +1,10 @@
-package com.sherwin.ebook.cart;
+package com.sherwin.ebook.service;
 
-import com.sherwin.ebook.book.Book;
-import com.sherwin.ebook.book.BookService;
-import com.sherwin.ebook.customer.Customer;
-import com.sherwin.ebook.customer.CustomerService;
+import com.sherwin.ebook.domain.Book;
+import com.sherwin.ebook.domain.Cart;
+import com.sherwin.ebook.domain.Customer;
+import com.sherwin.ebook.repository.CartRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;

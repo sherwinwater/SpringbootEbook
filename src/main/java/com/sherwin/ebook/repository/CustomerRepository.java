@@ -1,5 +1,6 @@
-package com.sherwin.ebook.customer;
+package com.sherwin.ebook.repository;
 
+import com.sherwin.ebook.domain.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,5 @@
-package com.sherwin.ebook.book;
+package com.sherwin.ebook.domain;
 
-import com.sherwin.ebook.cart.Cart;
 import com.sherwin.ebook.config.Auditable;
 import lombok.*;
 

@@ -1,12 +1,9 @@
-package com.sherwin.ebook.customer;
+package com.sherwin.ebook.domain;
 
-import com.sherwin.ebook.book.Book;
 import com.sherwin.ebook.config.Auditable;
-import com.sherwin.ebook.order.Order;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor

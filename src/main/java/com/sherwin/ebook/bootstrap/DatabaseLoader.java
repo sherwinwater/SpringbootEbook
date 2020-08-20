@@ -1,16 +1,13 @@
-package com.sherwin.ebook.databaseload;
+package com.sherwin.ebook.bootstrap;
 
-import com.sherwin.ebook.book.Book;
-import com.sherwin.ebook.book.BookService;
-import com.sherwin.ebook.cart.Cart;
-import com.sherwin.ebook.cart.CartService;
-import com.sherwin.ebook.customer.Customer;
-import com.sherwin.ebook.customer.CustomerService;
+import com.sherwin.ebook.domain.Book;
+import com.sherwin.ebook.service.BookService;
+import com.sherwin.ebook.domain.Cart;
+import com.sherwin.ebook.service.CartService;
+import com.sherwin.ebook.domain.Customer;
+import com.sherwin.ebook.service.CustomerService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {

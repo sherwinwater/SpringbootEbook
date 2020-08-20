@@ -26,7 +26,7 @@ public class CustomerServiceLoggingAspect {
      *
      * @param joinPoint
      */
-    @Before("execution(* com.sherwin.ebook.customer.CustomerService.findAll(..))")
+    @Before("execution(* com.sherwin.ebook.service.CustomerService.findAll(..))")
     public void logBefore(JoinPoint joinPoint) {
         log.info("logBefore running .....");
         log.info("Enter: {}() with argument[s] = {}", joinPoint.getSignature().getDeclaringTypeName(),
@@ -39,7 +39,7 @@ public class CustomerServiceLoggingAspect {
      *
      * @param joinPoint
      */
-    @After("execution(* com.sherwin.ebook.customer.CustomerService.findAll(..))")
+    @After("execution(* com.sherwin.ebook.service.CustomerService.findAll(..))")
     public void logAfter(JoinPoint joinPoint) {
         log.info("logAfter running .....");
         log.info("Enter: {}() with argument[s] = {}", joinPoint.getSignature().getDeclaringTypeName(),
@@ -52,7 +52,7 @@ public class CustomerServiceLoggingAspect {
      * @param joinPoint
      * @param result
      */
-    @AfterReturning(pointcut = "execution(* com.sherwin.ebook.customer.CustomerService.delete(..))", returning = "result")
+    @AfterReturning(pointcut = "execution(* com.sherwin.ebook.service.CustomerService.delete(..))", returning = "result")
     public void logAfterReturning(JoinPoint joinPoint, Object result) {
         log.info("logAfterReturning running .....");
         log.info("Enter: {}() with argument[s] = {}", joinPoint.getSignature().getDeclaringTypeName(),
@@ -68,7 +68,7 @@ public class CustomerServiceLoggingAspect {
 	 * @return
 	 * @throws Throwable
 	 */
-	@Around("execution(* com.sherwin.ebook.customer.CustomerService.get(..))")
+	@Around("execution(* com.sherwin.ebook.service.CustomerService.get(..))")
 	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		log.info("logAround running .....");
 		if (log.isDebugEnabled()) {
@@ -97,7 +97,7 @@ public class CustomerServiceLoggingAspect {
 	 * @param e         exception
 	 */
 
-	@AfterThrowing(pointcut = "execution(* com.sherwin.ebook.customer.CustomerService.save(..))", throwing = "error")
+	@AfterThrowing(pointcut = "execution(* com.sherwin.ebook.service.CustomerService.save(..))", throwing = "error")
 	public void logAfterThrowing(JoinPoint joinPoint, Throwable error) {
 		log.info("logAfterThrowing running .....");
 		log.error("Exception in {}.{}() with cause = {}", joinPoint.getSignature().getDeclaringTypeName(),

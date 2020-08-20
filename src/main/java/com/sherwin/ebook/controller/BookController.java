@@ -1,5 +1,7 @@
-package com.sherwin.ebook.book;
+package com.sherwin.ebook.controller;
 
+import com.sherwin.ebook.service.BookService;
+import com.sherwin.ebook.domain.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +17,7 @@ public class BookController {
 
     @GetMapping("/books")
     public String home(Model model){
-        List<Book> books = bookService.findAll();
+        List<Book> books = bookService.findAllSortedById();
         model.addAttribute("books",books);
         return "book/list";
     }

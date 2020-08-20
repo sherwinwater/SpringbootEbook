@@ -1,4 +1,4 @@
-package com.sherwin.ebook.email;
+package com.sherwin.ebook.service;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;

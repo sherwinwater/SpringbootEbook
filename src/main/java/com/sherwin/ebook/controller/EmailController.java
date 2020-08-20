@@ -1,7 +1,8 @@
-package com.sherwin.ebook.email;
+package com.sherwin.ebook.controller;
 
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import com.sherwin.ebook.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

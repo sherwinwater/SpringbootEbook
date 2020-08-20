@@ -1,5 +1,7 @@
-package com.sherwin.ebook.book;
+package com.sherwin.ebook.service;
 
+import com.sherwin.ebook.domain.Book;
+import com.sherwin.ebook.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public class BookService {
 
     public List<Book> findAll() {
         return bookRepository.findAll();
+    }
+    public List<Book> findAllSortedById() {
+        return bookRepository.findAllByOrderByIdAsc();
     }
 
     public Book get(Long id) {

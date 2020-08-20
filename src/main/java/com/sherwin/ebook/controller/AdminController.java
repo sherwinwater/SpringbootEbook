@@ -1,7 +1,7 @@
-package com.sherwin.ebook.admin;
+package com.sherwin.ebook.controller;
 
-import com.sherwin.ebook.customer.Customer;
-import com.sherwin.ebook.customer.CustomerService;
+import com.sherwin.ebook.domain.Customer;
+import com.sherwin.ebook.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

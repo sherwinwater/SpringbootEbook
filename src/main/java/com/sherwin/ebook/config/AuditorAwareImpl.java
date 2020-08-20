@@ -1,6 +1,6 @@
 package com.sherwin.ebook.config;
 
-import com.sherwin.ebook.customer.Customer;
+import com.sherwin.ebook.domain.Customer;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.context.SecurityContextHolder;
 

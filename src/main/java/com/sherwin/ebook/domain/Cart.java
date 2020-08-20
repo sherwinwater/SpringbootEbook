@@ -1,9 +1,6 @@
-package com.sherwin.ebook.cart;
+package com.sherwin.ebook.domain;
 
-import com.sherwin.ebook.book.Book;
 import com.sherwin.ebook.config.Auditable;
-import com.sherwin.ebook.customer.Customer;
-import com.sun.org.apache.bcel.internal.generic.ARETURN;
 import lombok.*;
 
 import javax.persistence.*;

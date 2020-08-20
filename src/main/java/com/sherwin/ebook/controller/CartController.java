@@ -1,12 +1,11 @@
-package com.sherwin.ebook.cart;
+package com.sherwin.ebook.controller;
 
-import com.sherwin.ebook.book.Book;
-import com.sherwin.ebook.book.BookService;
-import com.sherwin.ebook.customer.Customer;
-import com.sherwin.ebook.customer.CustomerService;
+import com.sherwin.ebook.service.BookService;
+import com.sherwin.ebook.service.CartService;
+import com.sherwin.ebook.domain.Cart;
+import com.sherwin.ebook.domain.Customer;
+import com.sherwin.ebook.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
