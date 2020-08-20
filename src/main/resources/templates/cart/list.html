@@ -34,11 +34,9 @@
                                 <td th:text="${book.id}"></td>
                                 <td th:text="${book.name}"></td>
                                 <td>
-                                    <img th:src="@{${book.photoUrl}}" alt="photo" width="200" height="250">
-                                    <!--                                <img th:src="@{images/Apocalypto.png}" alt="photo" width="200" height="250">-->
+                                    <img th:src="@{${book.photoUrl}}" alt="photo" width="70" height="100">
                                 </td>
-<!--                                <td>$ <span th:text="${#numbers.formatDecimal(2343.443498, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>-->
-                                <td>$ <span th:text="${#numbers.formatDecimal(totalprice, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>
+                                <td class="text-right">$ <span th:text="${#numbers.formatDecimal(totalprice, 0, 'COMMA', 2, 'POINT')}">10.00</span></td>
                                 <td th:text="${book.price}"></td>
                                 <td th:text="${book.inventory}"></td>
                                 <td>
@@ -56,9 +54,9 @@
                                 <td><a href="#" th:href="@{/books} ">View</a></td>
                                 <td><a href="#" th:href="@{/cart/delete/} + ${book.id}">Delete</a></td>
                             </tr>
-                            <tr>
+                            <tr th:with="totalPrice=${cart.totalPrice}" class="text-right">
                                 <td colspan="3" class="text-right">total price</td>
-                                <td th:text="'$ ' +${cart.totalPrice}">total price</td>
+                                <td th:text="'$ '+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 2, 'POINT')}" >total price</td>
                             </tr>
                             </tbody>
                         </table>

@@ -16,30 +16,25 @@
                         <div class="card mb-3 shadow-sm">
                             <img class="card-img-top" th:src="@{${book.photoUrl}}" alt="photo" width="80%" height="250">
                             <div class="card-body">
-                                <p class="card-text text-center" th:text="${book.name}">This is a wider card ow content is a little
-                                    bit longer.</p>
+                                <a href="#" th:href="@{/books}"><p class="card-text text-center" th:text="${book.name}">
+                                </p></a>
+
                                 <div class="d-flex justify-content-between align-items-center">
                                     <form th:action="@{/cart/add/} + ${book.id}" method="post">
-                                        <div th:class="form-group" >
+                                        <div th:class="form-group">
                                             <label class="col-sm-12 control-label">quantity </label>
-                                            <div class="col-sm-12">
-                                                <input type="number" class="form-control" name="quantity" value="1" min="1" th:max="${book.inventory}"/>
+                                            <div class="col-sm-12 ">
+                                                <input type="number" class="form-control" name="quantity" value="1"
+                                                       min="1" th:max="${book.inventory}"/>
+                                                <small class="text-muted" th:text="${book.inventory}">Stock</small>
                                             </div>
                                         </div>
-                                        <div th:class="form-group" >
-                                            <label class="col-sm-12 control-label">inventory </label>
-                                            <span th:text="${book.inventory}"></span>
+                                        <div th:class="form-group">
+                                            <p th:text="'$ '+${book.price}"></p>
                                         </div>
-                                        <button type="submit" class="btn btn-link pull-right">add</button>
+                                        <button type="submit" class="btn btn-primary pull-right">Add to cart</button>
                                     </form>
 
-                                    <div class="btn-group">
-<!--                                        <a href="#" th:href="@{/cart/add/} + ${book.id}">Add</a>-->
-                                        <a href="#" th:href="@{/book/} + ${book.id}">View</a>&nbsp;
-                                        <a href="#" th:href="@{/admin/book/edit/} + ${book.id}">Edit</a>&nbsp;
-                                        <a href="#" th:href="@{/admin/book/delete/} + ${book.id}">Delete</a>&nbsp;
-                                    </div>
-                                    <small class="text-muted" th:text="${book.price}">9 mins</small>
                                 </div>
                             </div>
                         </div>
