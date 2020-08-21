@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -106,7 +107,7 @@ public class User extends Auditable implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return "Hi "+ StringUtils.capitalize(alias) +"!";
     }
 
     @Override

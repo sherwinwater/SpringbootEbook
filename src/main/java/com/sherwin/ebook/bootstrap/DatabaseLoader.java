@@ -35,9 +35,11 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+//        addUsersAndRoles();
+//        addBooks();
+    }
 
-        addUsersAndRoles();
-
+    private void addBooks() {
         Book book1 = new Book("Apocalypto", 45.49, "images/Apocalypto.png");
         Book book2 = new Book("concussion", 45.49, "images/concussion.png");
         Book book3 = new Book("legends of the fall", 45.49, "images/legendsofthefall.png");
@@ -58,7 +60,6 @@ public class DatabaseLoader implements CommandLineRunner {
         bookService.save(book4);
         bookService.save(book5);
         bookService.save(book6);
-
     }
 
     private void addUsersAndRoles() {
