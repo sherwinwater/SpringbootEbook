@@ -7,20 +7,20 @@
 <body>
 <h1>hello sherwin</h1>
 <div>
-    <div th:each="customer:${customers}">
+    <div th:each="user:${users}">
         <div>
-            <p th:text="${customer.getId()}"></p>
-            <p th:text="${customer.getFirstName()}"></p>
-            <p th:text="${customer.getLastName()}"></p>
-            <p th:text="${customer.getEmailId()}"></p>
-            <p th:text="${customer.getCreatedBy()}"></p>
-            <time th:text="${customer.getCreationDate()}"
-                  th:datetime="${customer.getCreationDate()}"></time>
+            <p th:text="${user.getId()}"></p>
+            <p th:text="${user.getFirstName()}"></p>
+            <p th:text="${user.getLastName()}"></p>
+            <p th:text="${user.getEmailId()}"></p>
+            <p th:text="${user.getCreatedBy()}"></p>
+            <time th:text="${user.getCreationDate()}"
+                  th:datetime="${user.getCreationDate()}"></time>
             <p>getDate</p>
-            <time th:text="${customer.getDate()}"></time>
-            <p th:text="${customer.getLastModifiedBy()}"></p>
-            <time th:datetime="${customer.getLastModifiedDate()}"></time>
-            <p th:text="${customer.toString()}"></p>
+            <time th:text="${user.getDate()}"></time>
+            <p th:text="${user.getLastModifiedBy()}"></p>
+            <time th:datetime="${user.getLastModifiedDate()}"></time>
+            <p th:text="${user.toString()}"></p>
         </div>
     </div>
 </div>

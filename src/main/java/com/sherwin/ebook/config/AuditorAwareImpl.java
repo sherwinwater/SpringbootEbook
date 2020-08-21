@@ -1,6 +1,6 @@
 package com.sherwin.ebook.config;
 
-import com.sherwin.ebook.domain.Customer;
+import com.sherwin.ebook.domain.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -13,7 +13,7 @@ public class AuditorAwareImpl implements AuditorAware<String> {
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")) {
             return Optional.of("admin@gmail.com");
         } else {
-            return Optional.of(((Customer) SecurityContextHolder.getContext().
+            return Optional.of(((User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getFirstName());
         }
     }

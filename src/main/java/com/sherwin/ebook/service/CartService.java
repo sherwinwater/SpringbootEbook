@@ -2,7 +2,7 @@ package com.sherwin.ebook.service;
 
 import com.sherwin.ebook.domain.Book;
 import com.sherwin.ebook.domain.Cart;
-import com.sherwin.ebook.domain.Customer;
+import com.sherwin.ebook.domain.User;
 import com.sherwin.ebook.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,12 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final BookService bookService;
-    private final CustomerService customerService;
+    private final UserService userService;
 
-    public CartService(CartRepository cartRepository, BookService bookService, CustomerService customerService) {
+    public CartService(CartRepository cartRepository, BookService bookService, UserService userService) {
         this.cartRepository = cartRepository;
         this.bookService = bookService;
-        this.customerService = customerService;
+        this.userService = userService;
     }
 
     public void save(Cart Cart) {
@@ -30,17 +30,18 @@ public class CartService {
         return cartRepository.findAll();
     }
 
-    public Optional<Cart> get(Customer customer) {
-        return cartRepository.findCartByCustomer(customer);
-    }
+//    public Optional<Cart> get(User user) {
+//        return cartRepository.findCartByUser(user);
+//    }
 
     public Cart getByid(Long id) {
         return cartRepository.findCartById(id);
     }
 
-    public void delete(Long id, Customer customer) {
-        Optional<Cart> cartOptional = cartRepository.findCartByCustomer(customer);
-        Cart cart = cartOptional.get();
+    public void delete(Long id, User user) {
+//        Optional<Cart> cartOptional = cartRepository.findCartByUser(user);
+//        Cart cart = cartOptional.get();
+        Cart cart = user.getCart();
         Book book = bookService.get(id);
         long bookInventory = book.getInventory();
         book.setInventory(bookInventory + book.getQuantity());
@@ -49,9 +50,12 @@ public class CartService {
     }
 
     public void addBook(long id, int quantity) {
-        Customer customer = customerService.get(1L);
-        Optional<Cart> cartOptional = cartRepository.findCartByCustomer(customer);
+
+        Optional<User> userOptional = userService.getByid(1L);
+        User user = userOptional.get();
+        Optional<Cart> cartOptional = Optional.ofNullable(user.getCart());
         Cart cart = cartOptional.get();
+
         Book book = bookService.get(id);
         long bookInventory = book.getInventory();
 
@@ -78,9 +82,12 @@ public class CartService {
     }
 
     public void updateBook(long id, int quantity) {
-        Customer customer = customerService.get(1L);
-        Optional<Cart> cartOptional = cartRepository.findCartByCustomer(customer);
+
+        Optional<User> userOptional = userService.getByid(1L);
+        User user = userOptional.get();
+        Optional<Cart> cartOptional = Optional.ofNullable(user.getCart());
         Cart cart = cartOptional.get();
+
         Book book = bookService.get(id);
         long bookInventory = book.getInventory();
         bookInventory += book.getQuantity();

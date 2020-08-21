@@ -1,7 +1,7 @@
 package com.sherwin.ebook.controller;
 
-import com.sherwin.ebook.domain.Customer;
-import com.sherwin.ebook.service.CustomerService;
+import com.sherwin.ebook.domain.User;
+import com.sherwin.ebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,47 +9,49 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class AdminController {
 
     @Autowired
-    private CustomerService customerService;
+    private UserService userService;
 
-    @RequestMapping("/admin/customer/{id}")
+    @RequestMapping("/admin/user/{id}")
     public String view(@PathVariable Long id, Model model) {
-        model.addAttribute("customer", customerService.get(id));
-        return "customer/view";
+        model.addAttribute("user", userService.getByid(id).get());
+        return "user/view";
     }
 
-    @GetMapping("/admin/customer/edit/{id}")
-    public String viewCustomer(@PathVariable Long id, Model model) {
-        Customer customer = customerService.get(id);
-        model.addAttribute("customer", customer);
-        return "admin/customerform";
+    @GetMapping("/admin/user/edit/{id}")
+    public String viewUser(@PathVariable Long id, Model model) {
+        Optional<User> userOptional = userService.getByid(id);
+        User user = userOptional.get();
+        model.addAttribute("user", user);
+        return "admin/userform";
     }
 
-    @GetMapping("/admin/customer/delete/{id}")
-    public String deleteCustomer(@PathVariable Long id, Model model) {
-        customerService.delete(id);
-        return "redirect:/customers";
+    @GetMapping("/admin/user/delete/{id}")
+    public String deleteUser(@PathVariable Long id, Model model) {
+        userService.delete(id);
+        return "redirect:/users";
     }
 
-    @GetMapping("/admin/customer/create")
-    public String createCustomer(Model model) {
-        model.addAttribute("customer", new Customer());
-        return "admin/customerform";
+    @GetMapping("/admin/user/create")
+    public String createUser(Model model) {
+        model.addAttribute("user", new User());
+        return "admin/userform";
     }
 
-    @PostMapping("/admin/customer/save")
-    public String saveCustomer(@Valid Customer customer, BindingResult bindingResult,
+    @PostMapping("/admin/user/save")
+    public String saveUser(@Valid User user, BindingResult bindingResult,
                                Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("customer", customerService.findAll());
-            return "customer/list";
+            model.addAttribute("user", userService.findAll());
+            return "user/list";
         } else {
-            customerService.save(customer);
-            return "redirect:/admin/customer/"+customer.getId();
+            userService.save(user);
+            return "redirect:/admin/user/"+user.getId();
         }
     }
 

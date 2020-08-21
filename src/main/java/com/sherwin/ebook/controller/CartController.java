@@ -3,8 +3,8 @@ package com.sherwin.ebook.controller;
 import com.sherwin.ebook.service.BookService;
 import com.sherwin.ebook.service.CartService;
 import com.sherwin.ebook.domain.Cart;
-import com.sherwin.ebook.domain.Customer;
-import com.sherwin.ebook.service.CustomerService;
+import com.sherwin.ebook.domain.User;
+import com.sherwin.ebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,15 +19,16 @@ public class CartController {
     private CartService cartService;
 
     @Autowired
-    private CustomerService customerService;
+    private UserService userService;
 
     @Autowired
     private BookService bookService;
 
     @GetMapping("/cart")
     public String getList(Model model) {
-        Customer customer = customerService.get(1L);
-        Optional<Cart> cartOptional = cartService.get(customer);
+        Optional<User> userOptional = userService.getByid(1L);
+        User user = userOptional.get();
+        Optional<Cart> cartOptional = Optional.ofNullable(user.getCart());
         Cart cart = cartOptional.get();
         model.addAttribute("cart", cart);
         return "cart/list";
@@ -40,7 +41,7 @@ public class CartController {
 //    public ResponseEntity addBook(@PathVariable long id, @RequestParam("quantity") int quantity){
     public String addBook(@PathVariable long id, @RequestParam("quantity") int quantity) {
         cartService.addBook(id,quantity);
-        return "redirect:/books";
+        return "redirect:/book";
 //            return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -52,8 +53,9 @@ public class CartController {
 
     @GetMapping("/cart/delete/{id}")
     public String deleteBook(@PathVariable long id) {
-        Customer customer = customerService.get(1L);
-        cartService.delete(id, customer);
+        Optional<User> userOptional = userService.getByid(1L);
+        User user = userOptional.get();
+        cartService.delete(id, user);
         return "redirect:/cart";
     }
 

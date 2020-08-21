@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -51,25 +53,59 @@
             <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/photo}">Photo</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/news}">News</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/customers}">Customer</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/books}">Book</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/users}">User</a></li>
+            <li class="nav-item"><a class="nav-link" th:href="@{/book}">Book</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/email}">Email</a></li>
         </ul>
-        <form class="form-inline mt-0 mt-md-0" th:action="@{/search}" th:method="post">
+        <form class="form-inline mt-0 mt-md-0" th:action="@{/user/search}" th:method="post">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
                    name="searchcontent">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </button>
-        <input class="form-control my-2 mr-sm-2" type="text" placeholder="QuickSearch" aria-label="Search"
-               name="ajaxsearch" id="ajaxsearch">
+            <input class="form-control my-2 mr-sm-2" type="text" placeholder="QuickSearch" aria-label="Search"
+                   name="ajaxsearch" id="ajaxsearch">
         </form>
         <ul class="navbar-nav ml-auto ">
-            <li class="nav-item"><a class="nav-link" th:href="@{/account}">Account</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/order}">Order</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/cart}">Cart</a></li>
-            <li><a th:href="@{/signup}" class="nav-link"><i class="fas fa-user-plus"></i>Sign Up</a></li>
-            <li><a th:href="@{/login}" class="nav-link"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+
+            <!-- if user is signed in -->
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/account}">
+                    <i class="fa fa-user" aria-hidden="true"></i> Account</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/cart}">
+                    <i class="fa fa-user" aria-hidden="true"></i> Cart</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/order}">
+                    <i class="fa fa-user" aria-hidden="true"></i> Order</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <!--                    <i class="fa fa-user" aria-hidden="true" sec:authentication="name">Account</i>-->
+               <a class="nav-link" href="#" sec:authentication="name">
+                    <i class="fa fa-user" aria-hidden="true"></i>Bob</a>
+            </li>
+            <li class="nav-item">
+                <form method="POST" th:action="@{/logout}" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" href="/logout"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Sign Out</a>
+                </form>
+            </li>
+
+            <!-- if user is not signed in -->
+            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <a class="nav-link" th:href="@{/cart}">
+                    <i class="fa fa-user" aria-hidden="true"></i> Cart</a>
+            </li>
+            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <a class="nav-link" th:href="@{/login}">
+                    <i class="fa fa-sign-in-alt" aria-hidden="true"></i> Sign In</a>
+            </li>
+            <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <a class="nav-link" th:href="@{/register}">
+                    <i class="fa fa-user-plus" aria-hidden="true"></i> Register</a>
+            </li>
+
         </ul>
     </div>
 </nav>
@@ -105,14 +141,14 @@
         $("#ajaxsearch").keyup(function () {
             console.log("d");
             let searchvalue = $(this).val();
-            $("#data").load("/ajaxsearch3/"+searchvalue);
+            $("#data").load("/user/ajaxsearch3" + searchvalue);
         });
     });
     /*
     async function ajaxsearch() {
         console.log("hello");
         let url = '/ajaxsearch';
-        let url2 = '/ajaxsearch2';
+        let url2 = '/user/ajaxsearch2';
         let url3 = '/ajaxsearch3';
         let d = document.getElementById("data-ajxsearch");
         // fetch
@@ -153,7 +189,7 @@
 <!--    const searchdata = document.getElementById("data-ajxsearch");-->
 <!--    function search() {-->
 <!--        console.log("hello");-->
-<!--        fetch(`/search/${ajxsearch.value}`)-->
+<!--        fetch(`/user/search/${ajxsearch.value}`)-->
 <!--        .then(response => response.json())-->
 <!--        .then(data => {-->
 <!--            // searchdata.innerHTML = data[0][lastName];-->

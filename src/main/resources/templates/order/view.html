@@ -53,7 +53,7 @@
                                     <button type="submit" class="btn btn-link pull-right d-inline-block">Update</button>
                                     </form>
                                 </td>
-                                <td><a href="#" th:href="@{/books} ">View</a></td>
+                                <td><a href="#" th:href="@{/book} ">View</a></td>
                                 <td><a href="#" th:href="@{/cart/delete/} + ${book.id}">Delete</a></td>
                             </tr>
                             </tbody>
@@ -67,7 +67,7 @@
                         <p class="alert alert-warning" role="alert">No Cart Found.</p>
                     </div>
 
-                    <a th:href="@{/books}">Add book</a>
+                    <a th:href="@{/book}">Add book</a>
                     <br/><br/>
                 </div>
             </div>

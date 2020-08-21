@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Customer View</title>
+    <title>User View</title>
 </head>
 <body>
 
@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Customer </h2>
+                    <h2>User </h2>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -31,22 +31,22 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td th:text="${customer.id}"></td>
-                            <td th:text="${customer.firstName}"></td>
-                            <td th:text="${customer.lastName}"></td>
-                            <td th:text="${customer.emailId}"></td>
-                            <td th:text="${customer.creationDate}"></td>
-                            <td th:text="${customer.lastModifiedDate}"></td>
-                            <td th:text="${customer.lastModifiedBy}"></td>
-                            <td th:text="${customer.createdBy}"></td>
-                            <td><a href="#" th:href="@{/customer/} + ${customer.id}">View</a></td>
-                            <td><a href="#" th:href="@{/admin/customer/edit/} + ${customer.id}">Edit</a></td>
-                            <td><a href="#" th:href="@{/admin/customer/delete/} + ${customer.id}">Delete</a></td>
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.firstName}"></td>
+                            <td th:text="${user.lastName}"></td>
+                            <td th:text="${user.emailId}"></td>
+                            <td th:text="${user.creationDate}"></td>
+                            <td th:text="${user.lastModifiedDate}"></td>
+                            <td th:text="${user.lastModifiedBy}"></td>
+                            <td th:text="${user.createdBy}"></td>
+                            <td><a href="#" th:href="@{/user/} + ${user.id}">View</a></td>
+                            <td><a href="#" th:href="@{/admin/user/edit/} + ${user.id}">Edit</a></td>
+                            <td><a href="#" th:href="@{/admin/user/delete/} + ${user.id}">Delete</a></td>
                         </tr>
                         </tbody>
                     </table>
 
-                    <a th:href="@{/customers/}">Back To Customer List</a>
+                    <a th:href="@{/users/}">Back To User List</a>
                     <br/><br/><br/>
                 </div>
             </div>

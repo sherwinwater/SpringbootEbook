@@ -16,12 +16,12 @@ public class BookRestController {
 	@Autowired
 	private BookService bookService;
 
-	@GetMapping("/booksrestdata")
+	@GetMapping("/bookrestdata")
 	public List<Book> getAllBooks() {
 		return bookService.findAll();
 	}
 
-	@GetMapping("/search/book/{ajxsearchcontent}")
+	@GetMapping("/book/search/{ajxsearchcontent}")
 	public List<Book> search(@PathVariable("ajxsearchcontent") String ajxsearchcontent){
 		System.out.println(ajxsearchcontent);
 		return  bookService.search(ajxsearchcontent);

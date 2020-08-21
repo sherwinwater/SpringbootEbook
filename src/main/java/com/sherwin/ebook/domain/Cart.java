@@ -17,13 +17,17 @@ public class Cart extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NonNull
-    @OneToOne
-    private Customer customer;
+//    @NonNull
+//    @OneToOne
+//    private User user;
 
     @OneToMany(fetch = FetchType.EAGER)
 //    @JoinTable(name = "cart_booklist")
     private List<Book> bookList;
+
+    public Cart(long id) {
+        this.id =id;
+    }
 
     private double totalPrice;
 

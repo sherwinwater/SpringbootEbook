@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
-@Table(name = "customer_order")
+@Table(name = "user_order")
 public class Order extends Auditable {
 
     @Id
@@ -23,7 +23,7 @@ public class Order extends Auditable {
     private Cart cart;
 
     @ManyToOne
-    private Customer customer;
+    private User user;
 
     private String status;
 
