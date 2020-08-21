@@ -28,9 +28,7 @@ public class User extends Auditable implements UserDetails {
     private Long id;
 
     @NonNull
-    @Size(min = 8, max = 20,
-    message ="Email size must be between {min} and {max}."
-    )
+    @Size(min = 8, max = 20, message ="Email size must be between {min} and {max}.")
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -51,6 +49,7 @@ public class User extends Auditable implements UserDetails {
     private Cart cart;
 
     @OneToMany
+    @ToString.Exclude
     private List<Order> orderList;
 
     @NonNull
@@ -77,6 +76,7 @@ public class User extends Auditable implements UserDetails {
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @ToString.Exclude
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
@@ -129,5 +129,6 @@ public class User extends Auditable implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
 
 }

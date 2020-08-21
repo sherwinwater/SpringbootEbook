@@ -6,10 +6,12 @@ import com.sherwin.ebook.domain.Cart;
 import com.sherwin.ebook.domain.User;
 import com.sherwin.ebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -25,11 +27,18 @@ public class CartController {
     private BookService bookService;
 
     @GetMapping("/cart")
-    public String getList(Model model) {
-        Optional<User> userOptional = userService.getByid(1L);
-        User user = userOptional.get();
-        Optional<Cart> cartOptional = Optional.ofNullable(user.getCart());
-        Cart cart = cartOptional.get();
+    public String getList(Model model, Principal principal, Authentication authentication) {
+//        System.out.println(principal.getName());
+//        User user = (User)principal;
+//        System.out.println(principal);
+//        Cart cart = ((User) principal).getCart();
+        User user = (User)authentication.getPrincipal();
+        Cart cart = user.getCart();
+//        long id = ((User) principal).getId();
+//        Optional<User> userOptional = userService.getByid(id);
+//        User user = userOptional.get();
+//        Optional<Cart> cartOptional = Optional.ofNullable(user.getCart());
+//        Cart cart = cartOptional.get();
         model.addAttribute("cart", cart);
         return "cart/list";
     }
@@ -40,14 +49,14 @@ public class CartController {
 //    public void  addBook(@PathVariable long id, @RequestParam("quantity") int quantity){
 //    public ResponseEntity addBook(@PathVariable long id, @RequestParam("quantity") int quantity){
     public String addBook(@PathVariable long id, @RequestParam("quantity") int quantity) {
-        cartService.addBook(id,quantity);
+        cartService.addBook(id, quantity);
         return "redirect:/book";
 //            return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/cart/update/{id}")
     public String updateBook(@PathVariable long id, @RequestParam("quantity") int quantity) {
-        cartService.updateBook(id,quantity);
+        cartService.updateBook(id, quantity);
         return "redirect:/cart";
     }
 

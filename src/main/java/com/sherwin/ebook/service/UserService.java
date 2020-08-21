@@ -1,5 +1,6 @@
 package com.sherwin.ebook.service;
 
+import com.sherwin.ebook.domain.Cart;
 import com.sherwin.ebook.domain.User;
 import com.sherwin.ebook.repository.RoleRepository;
 import com.sherwin.ebook.repository.UserRepository;
@@ -48,6 +49,7 @@ public class UserService {
         user.setEnabled(true);  //
         user.setPassword(secret);
         user.setConfirmPassword(secret);
+        user.setCart(new Cart());
         user.addRole(roleRepository.findByName("ROLE_USER"));
         user.setActivationCode(UUID.randomUUID().toString());
         save(user);
