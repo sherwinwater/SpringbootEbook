@@ -3,16 +3,16 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>User View</title>
+    <title>User List</title>
 </head>
 <body>
 
-<div layout:fragment="content">
-    <section class="my-5">
+<div layout:fragment="content" >
+    <section class="my-5" th:fragment="table-refresh">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>User </h2>
+                    <h2>User list</h2>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -30,11 +30,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr th:each="user : ${users}">
                             <td th:text="${user.id}"></td>
                             <td th:text="${user.firstName}"></td>
                             <td th:text="${user.lastName}"></td>
-                            <td th:text="${user.emailId}"></td>
+                            <td th:text="${user.email}"></td>
                             <td th:text="${user.creationDate}"></td>
                             <td th:text="${user.lastModifiedDate}"></td>
                             <td th:text="${user.lastModifiedBy}"></td>
@@ -46,8 +46,16 @@
                         </tbody>
                     </table>
 
-                    <a th:href="@{/users/}">Back To User List</a>
-                    <br/><br/><br/>
+                    <a th:href="@{/admin/user/create}">Add New User</a>
+                    <br/><br/>
+
+                    <div th:if="${users.isEmpty()} == true">
+                        <!--                    <div th:if="${users.size()} == 0">-->
+                        <p class="alert alert-warning" role="alert">No User Found.</p>
+                        <p th:text="${users.size()}"></p>
+                        <p th:text="${users.isEmpty()}"></p>
+                    </div>
+
                 </div>
             </div>
         </div>
