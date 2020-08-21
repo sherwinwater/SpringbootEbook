@@ -1,6 +1,7 @@
 package com.sherwin.ebook.domain;
 
 import com.sherwin.ebook.config.Auditable;
+import com.sherwin.ebook.domain.validator.PasswordsMatch;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +18,7 @@ import java.util.*;
 @ToString
 @Getter
 @Setter
+@PasswordsMatch
 @Table(name = "ebook_user")
 public class User extends Auditable implements UserDetails {
 
@@ -25,7 +27,9 @@ public class User extends Auditable implements UserDetails {
     private Long id;
 
     @NonNull
-    @Size(min = 8, max = 20)
+    @Size(min = 8, max = 20,
+    message ="Email size must be between {min} and {max}."
+    )
     @Column(nullable = false, unique = true)
     private String email;
 

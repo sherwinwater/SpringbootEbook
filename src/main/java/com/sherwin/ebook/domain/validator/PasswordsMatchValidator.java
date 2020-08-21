@@ -1,7 +1,6 @@
-package com.sherwin.springit.domain.validator;
+package com.sherwin.ebook.domain.validator;
 
-import com.sherwin.springit.domain.User;
-
+import com.sherwin.ebook.domain.User;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

@@ -1,4 +1,4 @@
-package com.sherwin.springit.domain.validator;
+package com.sherwin.ebook.domain.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
