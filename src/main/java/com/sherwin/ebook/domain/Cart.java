@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
-@ToString
+//@ToString
 @Getter
 @Setter
 public class Cart extends Auditable {
@@ -17,10 +17,11 @@ public class Cart extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-//    @NonNull
-//    @OneToOne
-//    private User user;
+    @NonNull
+    @OneToOne
+    private User user;
 
+    @NonNull
     @OneToMany(fetch = FetchType.EAGER)
 //    @JoinTable(name = "cart_booklist")
     private List<Book> bookList;

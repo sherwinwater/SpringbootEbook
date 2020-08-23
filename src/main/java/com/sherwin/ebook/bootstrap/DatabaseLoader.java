@@ -35,8 +35,8 @@ public class DatabaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//        addUsersAndRoles();
-//        addBooks();
+        addUsersAndRoles();
+        addBooks();
     }
 
     private void addBooks() {
@@ -81,11 +81,11 @@ public class DatabaseLoader implements CommandLineRunner {
         userService.save(user);
         users.put("user@gmail.com", user);
 
-        User admin = new User("admin@gmail.com", secret, true, cart2, "Joe", "Admin", "joeadmin");
+        User admin = new User("sam@sam.com", secret, true, cart2, "sam", "sam", "sam");
         admin.setConfirmPassword(secret);
         admin.addRole(adminRole);
         userService.save(admin);
-        users.put("admin@gmail.com", admin);
+        users.put("sam@sam.com", admin);
 
         User master = new User("super@gmail.com", secret, true, cart3, "Super", "User", "superduper");
         master.addRoles(new HashSet<>(Arrays.asList(userRole, adminRole)));

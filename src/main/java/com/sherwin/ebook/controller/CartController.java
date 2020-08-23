@@ -27,20 +27,22 @@ public class CartController {
     private BookService bookService;
 
     @GetMapping("/cart")
-    public String getList(Model model, Principal principal, Authentication authentication) {
-//        System.out.println(principal.getName());
-//        User user = (User)principal;
-//        System.out.println(principal);
-//        Cart cart = ((User) principal).getCart();
+    public String getUserCart(Model model,  Authentication authentication) {
         User user = (User)authentication.getPrincipal();
         Cart cart = user.getCart();
-//        long id = ((User) principal).getId();
-//        Optional<User> userOptional = userService.getByid(id);
-//        User user = userOptional.get();
-//        Optional<Cart> cartOptional = Optional.ofNullable(user.getCart());
-//        Cart cart = cartOptional.get();
+//        System.out.println(cart.getBookList().isEmpty());
+//        System.out.println(cart.getBookList() == null);
         model.addAttribute("cart", cart);
         return "cart/list";
+    }
+
+    @GetMapping("/cart/guest")
+    public String getGuestCart(Model model) {
+        User one = new User("guest");
+        one.setCart(new Cart());
+//        System.out.println(one.getCart().getBookList() == null);
+        model.addAttribute("cart", one.getCart());
+        return "cart/guestlist";
     }
 
     @PostMapping("/cart/add/{id}")
@@ -48,8 +50,15 @@ public class CartController {
 //    @ResponseBody
 //    public void  addBook(@PathVariable long id, @RequestParam("quantity") int quantity){
 //    public ResponseEntity addBook(@PathVariable long id, @RequestParam("quantity") int quantity){
-    public String addBook(@PathVariable long id, @RequestParam("quantity") int quantity) {
-        cartService.addBook(id, quantity);
+    public String addBook(@PathVariable long id, @RequestParam("quantity") int quantity,
+                          Authentication authentication) {
+
+        // guest--> addGuestBook
+
+        //user--addBook
+        User user = (User)authentication.getPrincipal();
+        Cart cart = user.getCart();
+        cartService.addUserBook(id, quantity,cart);
         return "redirect:/book";
 //            return new ResponseEntity(HttpStatus.OK);
     }

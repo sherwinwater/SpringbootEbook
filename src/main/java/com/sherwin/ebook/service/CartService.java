@@ -49,7 +49,39 @@ public class CartService {
         cartRepository.save(cart);
     }
 
+    public void addUserBook(long id, int quantity, Cart cart) {
+
+        Book book = bookService.get(id);
+        long bookInventory = book.getInventory();
+
+        if (cart.getBookList().stream().anyMatch(b -> b.getId() == id)) {
+            bookInventory += book.getQuantity();
+            book.setInventory(bookInventory);
+            if (bookInventory >= quantity) {
+                book.setQuantity(quantity);
+                book.setInventory(bookInventory - quantity);
+                bookService.save(book);
+                this.save(cart);
+            } else {
+                book.setInventory(bookInventory);
+            }
+        } else {
+            if (bookInventory >= quantity) {
+                book.setQuantity(quantity);
+                book.setInventory(bookInventory - quantity);
+                cart.addBook(book);
+                System.out.println(cart.getBookList().get(0));
+                this.save(cart); // problem: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "uk_dudttlotp8tbpk3nas8ywkq92"
+            }
+        }
+
+    }
+
     public void addBook(long id, int quantity) {
+
+        //guest
+
+        //user
 
         Optional<User> userOptional = userService.getByid(1L);
         User user = userOptional.get();

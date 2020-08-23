@@ -16,7 +16,7 @@ import java.util.*;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-@ToString
+//@ToString
 @Getter
 @Setter
 @PasswordsMatch
@@ -48,8 +48,9 @@ public class User extends Auditable implements UserDetails {
     @OneToOne(cascade = {CascadeType.ALL})
     private Cart cart;
 
-    @OneToMany
-    @ToString.Exclude
+//    @NonNull
+    @OneToMany(fetch = FetchType.LAZY)
+//    @ToString.Exclude
     private List<Order> orderList;
 
     @NonNull
@@ -70,6 +71,10 @@ public class User extends Auditable implements UserDetails {
     private String alias;
 
     private String activationCode;
+
+    public User(String fullName) {
+        this.fullName = fullName;
+    }
 
     public String getFullName(){
         return firstName + " " + lastName;
