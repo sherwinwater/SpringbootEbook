@@ -64,8 +64,11 @@ public class CartController {
     }
 
     @PostMapping("/cart/update/{id}")
-    public String updateBook(@PathVariable long id, @RequestParam("quantity") int quantity) {
-        cartService.updateBook(id, quantity);
+    public String updateBook(@PathVariable long id, @RequestParam("quantity") int quantity,
+                             Authentication authentication) {
+        User user = (User)authentication.getPrincipal();
+        Cart cart = user.getCart();
+        cartService.updateBook(id, quantity,cart);
         return "redirect:/cart";
     }
 

@@ -113,12 +113,7 @@ public class CartService {
 
     }
 
-    public void updateBook(long id, int quantity) {
-
-        Optional<User> userOptional = userService.getByid(1L);
-        User user = userOptional.get();
-        Optional<Cart> cartOptional = Optional.ofNullable(user.getCart());
-        Cart cart = cartOptional.get();
+    public void updateBook(long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
         long bookInventory = book.getInventory();
