@@ -4,6 +4,7 @@ import com.sherwin.ebook.config.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,13 +19,15 @@ public class Cart extends Auditable {
     private long id;
 
     @NonNull
-    @OneToOne
+    @OneToOne(mappedBy = "cart")
     private User user;
 
-    @NonNull
-    @OneToMany(fetch = FetchType.EAGER)
+//    @NonNull
+//    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 //    @JoinTable(name = "cart_booklist")
-    private List<Book> bookList;
+//    @JoinColumn(name = "cart_booklist",nullable = false)
+    private List<Book> bookList = new ArrayList<>();
 
     public Cart(long id) {
         this.id =id;

@@ -1,5 +1,6 @@
 package com.sherwin.ebook.controller;
 
+import com.sherwin.ebook.domain.Book;
 import com.sherwin.ebook.service.BookService;
 import com.sherwin.ebook.service.CartService;
 import com.sherwin.ebook.domain.Cart;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Optional;
 
@@ -27,8 +29,8 @@ public class CartController {
     private BookService bookService;
 
     @GetMapping("/cart")
-    public String getUserCart(Model model,  Authentication authentication) {
-        User user = (User)authentication.getPrincipal();
+    public String getUserCart(Model model, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
         Cart cart = user.getCart();
 //        System.out.println(cart.getBookList().isEmpty());
 //        System.out.println(cart.getBookList() == null);
@@ -37,12 +39,17 @@ public class CartController {
     }
 
     @GetMapping("/cart/guest")
-    public String getGuestCart(Model model) {
-        User one = new User("guest");
-        one.setCart(new Cart());
+    public String getGuestCart(Model model, HttpSession session) {
+        User guest = (User) session.getAttribute("guest");
+        if (guest == null) {
+            guest = new User("guest");
+            session.setAttribute("guest", guest);
+            guest.setCart(new Cart());
+        }
+        Cart cart = guest.getCart();
 //        System.out.println(one.getCart().getBookList() == null);
-        model.addAttribute("cart", one.getCart());
-        return "cart/guestlist";
+        model.addAttribute("cart", cart);
+        return "cart/list";
     }
 
     @PostMapping("/cart/add/{id}")
@@ -51,14 +58,25 @@ public class CartController {
 //    public void  addBook(@PathVariable long id, @RequestParam("quantity") int quantity){
 //    public ResponseEntity addBook(@PathVariable long id, @RequestParam("quantity") int quantity){
     public String addBook(@PathVariable long id, @RequestParam("quantity") int quantity,
-                          Authentication authentication) {
-
+                          Authentication authentication, HttpSession session) {
         // guest--> addGuestBook
 
         //user--addBook
-        User user = (User)authentication.getPrincipal();
-        Cart cart = user.getCart();
-        cartService.addUserBook(id, quantity,cart);
+//        User user = (User) authentication.getPrincipal();
+        if (authentication != null) {
+            User user = (User) authentication.getPrincipal();
+            Cart cart = user.getCart();
+            cartService.addUserBook(id, quantity, cart);
+        } else {
+            User guest = (User) session.getAttribute("guest");
+            if (guest == null) {
+                guest = new User("guest");
+                session.setAttribute("guest", guest);
+                guest.setCart(new Cart());
+            }
+            Cart cart = guest.getCart();
+            cartService.addGuestBook(id, quantity, cart);
+        }
         return "redirect:/book";
 //            return new ResponseEntity(HttpStatus.OK);
     }
@@ -66,9 +84,9 @@ public class CartController {
     @PostMapping("/cart/update/{id}")
     public String updateBook(@PathVariable long id, @RequestParam("quantity") int quantity,
                              Authentication authentication) {
-        User user = (User)authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
         Cart cart = user.getCart();
-        cartService.updateBook(id, quantity,cart);
+        cartService.updateBook(id, quantity, cart);
         return "redirect:/cart";
     }
 

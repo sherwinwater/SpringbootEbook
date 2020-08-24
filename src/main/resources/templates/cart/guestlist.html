@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-md-12">
 <!--                    <div th:if="${cart.bookList.isEmpty()} == false">-->
-                    <div th:if="${cart.bookList != null}">
+                    <div th:if="${!cart.bookList.isEmpty()}">
                         <h2>Your shopping cart</h2>
                         <table class="table table-striped">
                             <thead>
@@ -66,7 +66,7 @@
                     </div>
 
 <!--                    <div th:if="${cart.bookList.isEmpty()} == true">-->
-                        <div th:if="${cart.bookList == null}">
+                        <div th:if="${cart.bookList.isEmpty()}">
                             <!--                    <div th:if="${carts.size()} == 0">-->
                         <p class="alert alert-warning" role="alert">No Cart Found.</p>
                     </div>

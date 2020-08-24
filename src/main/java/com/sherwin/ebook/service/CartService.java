@@ -77,6 +77,32 @@ public class CartService {
 
     }
 
+    public void addGuestBook(long id, int quantity, Cart cart) {
+
+        Book book = bookService.get(id);
+        long bookInventory = book.getInventory();
+
+        if (cart.getBookList().stream().anyMatch(b -> b.getId() == id)) {
+            bookInventory += book.getQuantity();
+            book.setInventory(bookInventory);
+            if (bookInventory >= quantity) {
+                book.setQuantity(quantity);
+                book.setInventory(bookInventory - quantity);
+                cart.addBook(book);
+
+            } else {
+                book.setInventory(bookInventory);
+            }
+        } else {
+            if (bookInventory >= quantity) {
+                book.setQuantity(quantity);
+                book.setInventory(bookInventory - quantity);
+                cart.addBook(book);
+            }
+        }
+
+    }
+
     public void addBook(long id, int quantity) {
 
         //guest
