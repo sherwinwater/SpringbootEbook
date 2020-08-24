@@ -22,8 +22,8 @@ public class Order extends Auditable {
     @OneToOne
     private Cart cart;
 
-//    @ManyToOne
-//    private User user;
+    @ManyToOne
+    private User user;
 
     private String status;
 

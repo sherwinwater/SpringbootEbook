@@ -38,14 +38,24 @@ public class CartService {
         return cartRepository.findCartById(id);
     }
 
-    public void delete(Long id, User user) {
-//        Optional<Cart> cartOptional = cartRepository.findCartByUser(user);
-//        Cart cart = cartOptional.get();
-        Cart cart = user.getCart();
-        Book book = bookService.get(id);
-        long bookInventory = book.getInventory();
-        book.setInventory(bookInventory + book.getQuantity());
+    public void deleteGuestBook(Long id, Cart cart) {
+        Book book = cart.getBookList().stream()
+                .filter(book1 -> book1.getId() == id)
+                .findAny()
+                .orElse(null);
         cart.removeBook(book);
+    }
+
+    public void deleteUserBook(Long id, Cart cart) {
+
+        Book bookSelected = cart.getBookList().stream()
+                .filter(book1 -> book1.getId() == id)
+                .findAny()
+                .orElse(null);
+        Book book = bookService.get(id);
+        book.setInventory(book.getInventory() + bookSelected.getQuantity());
+
+        cart.removeBook(bookSelected);
         cartRepository.save(cart);
     }
 
@@ -61,85 +71,49 @@ public class CartService {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
                 bookService.save(book);
-                this.save(cart);
+                cart.updateBook(book, id);
+                cartRepository.save(cart);
             } else {
                 book.setInventory(bookInventory);
+                bookService.save(book);
             }
         } else {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
                 cart.addBook(book);
-                System.out.println(cart.getBookList().get(0));
-                this.save(cart); // problem: org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "uk_dudttlotp8tbpk3nas8ywkq92"
+                bookService.save(book);
+                cartRepository.save(cart);
             }
         }
-
     }
 
     public void addGuestBook(long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
-        long bookInventory = book.getInventory();
+        book.setQuantity(quantity);
 
-        if (cart.getBookList().stream().anyMatch(b -> b.getId() == id)) {
-            bookInventory += book.getQuantity();
-            book.setInventory(bookInventory);
-            if (bookInventory >= quantity) {
-                book.setQuantity(quantity);
-                book.setInventory(bookInventory - quantity);
-                cart.addBook(book);
-
-            } else {
-                book.setInventory(bookInventory);
-            }
+        if (cart.getBookList().isEmpty()) {
+            cart.addBook(book);
         } else {
-            if (bookInventory >= quantity) {
-                book.setQuantity(quantity);
-                book.setInventory(bookInventory - quantity);
+            if (cart.getBookList().stream().anyMatch(b -> b.getId() == id)) {
+                cart.updateBook(book, id);
+            } else {
                 cart.addBook(book);
             }
         }
 
     }
 
-    public void addBook(long id, int quantity) {
-
-        //guest
-
-        //user
-
-        Optional<User> userOptional = userService.getByid(1L);
-        User user = userOptional.get();
-        Optional<Cart> cartOptional = Optional.ofNullable(user.getCart());
-        Cart cart = cartOptional.get();
+    public void updateGuestBook(long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
-        long bookInventory = book.getInventory();
-
-        if (cart.getBookList().stream().anyMatch(b -> b.getId() == id)) {
-            bookInventory += book.getQuantity();
-            book.setInventory(bookInventory);
-            if (bookInventory >= quantity) {
-                book.setQuantity(quantity);
-                book.setInventory(bookInventory - quantity);
-                bookService.save(book);
-                this.save(cart);
-            } else {
-                book.setInventory(bookInventory);
-            }
-        } else {
-            if (bookInventory >= quantity) {
-                book.setQuantity(quantity);
-                book.setInventory(bookInventory - quantity);
-                cart.addBook(book);
-                this.save(cart);
-            }
-        }
+        book.setQuantity(quantity);
+        cart.updateBook(book, id);
 
     }
 
-    public void updateBook(long id, int quantity, Cart cart) {
+    public void updateUserBook(long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
         long bookInventory = book.getInventory();
@@ -149,11 +123,13 @@ public class CartService {
         if (bookInventory >= quantity) {
             book.setQuantity(quantity);
             book.setInventory(bookInventory - quantity);
-            bookService.save(book);
-            this.save(cart);
         } else {
             book.setInventory(bookInventory);
         }
-    }
+        cart.updateBook(book, id);
 
+        bookService.save(book);
+        cart.updateBook(book, id);
+        this.save(cart);
+    }
 }

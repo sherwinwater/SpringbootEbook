@@ -16,7 +16,7 @@ public class Cart extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NonNull
     @OneToOne(mappedBy = "cart")
@@ -37,6 +37,14 @@ public class Cart extends Auditable {
 
     public void addBook(Book book) {
         this.bookList.add(book);
+    }
+    public void updateBook(Book book, Long id) {
+        for(Book one: this.bookList){
+            if(one.getId() == id){
+                one.setQuantity(book.getQuantity());
+                one.setInventory(book.getInventory());
+            }
+        }
     }
 
     public void removeBook(Book book) {
