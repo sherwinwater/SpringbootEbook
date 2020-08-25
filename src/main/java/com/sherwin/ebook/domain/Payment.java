@@ -4,15 +4,13 @@ import com.sherwin.ebook.config.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @ToString
 @Getter
 @Setter
-@Table(name = "user_order")
-public class Order extends Auditable {
+public class Payment extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,23 +18,20 @@ public class Order extends Auditable {
 
     @NonNull
     @OneToOne
-    private Cart cart;
+    private Order order;
 
-    @ManyToOne
+    @NonNull
+    @OneToOne
     private User user;
 
-    @OneToOne
+    @NonNull
+    @OneToOne(cascade = CascadeType.ALL)
     private Billing billing;
 
-    @OneToOne
-    private Delivery delivery;
-
-    @OneToOne
-    private Payment payment;
-
-    private String status;
-    private Double tax;
-    private Double deliveryFee;
-    private Double totalPrice;
+    private String fullName;
+    private String CreditCardNumber;
+    private String Expiration;
+    private String CVV;
+    private String paymentType;
 
 }

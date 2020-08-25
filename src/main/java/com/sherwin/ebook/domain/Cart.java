@@ -22,7 +22,7 @@ public class Cart extends Auditable {
     @OneToOne(mappedBy = "cart")
     private User user;
 
-//    @NonNull
+    @NonNull
 //    @OneToMany(fetch = FetchType.EAGER)
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 //    @JoinTable(name = "cart_booklist")

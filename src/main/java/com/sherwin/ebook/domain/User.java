@@ -48,6 +48,15 @@ public class User extends Auditable implements UserDetails {
     @OneToOne(cascade = {CascadeType.ALL})
     private Cart cart;
 
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Payment payment;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Delivery delivery ;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Billing billing;
+
 //    @NonNull
     @OneToMany(fetch = FetchType.LAZY)
 //    @ToString.Exclude

@@ -4,6 +4,7 @@ import com.sherwin.ebook.service.CartService;
 import com.sherwin.ebook.domain.Cart;
 import com.sherwin.ebook.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,7 @@ public class CartController {
     }
 
     @PostMapping("/cart/add/{id}")
-    public String addBook(@PathVariable long id, @RequestParam("quantity") int quantity,
+    public String  addBook(@PathVariable long id, @RequestParam("quantity") int quantity,
                           Authentication authentication, HttpSession session) {
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
