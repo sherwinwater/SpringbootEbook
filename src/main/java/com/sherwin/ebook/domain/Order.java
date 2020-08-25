@@ -26,5 +26,8 @@ public class Order extends Auditable {
     private User user;
 
     private String status;
+    private Double tax;
+    private Double deliveryFee;
+    private Double totalPrice;
 
 }

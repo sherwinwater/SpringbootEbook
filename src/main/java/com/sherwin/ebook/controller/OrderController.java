@@ -6,14 +6,11 @@ import com.sherwin.ebook.service.BookService;
 import com.sherwin.ebook.service.CartService;
 import com.sherwin.ebook.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Optional;
 
 @Controller
 public class OrderController {
@@ -30,7 +27,25 @@ public class OrderController {
     @GetMapping("/order")
     public String getList(Model model) {
 
-        return "order/list";
+        return "order/checkout";
+    }
+
+    @GetMapping("/checkout")
+    public String checkout(Model model, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        Cart cart = user.getCart();
+        model.addAttribute("cart", cart);
+
+        return "order/checkout";
+    }
+
+    @PostMapping("/placeorder")
+    public String placeOrder(Model model, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        Cart cart = user.getCart();
+        model.addAttribute("cart", cart);
+
+        return "order/placeorder";
     }
 
 }
