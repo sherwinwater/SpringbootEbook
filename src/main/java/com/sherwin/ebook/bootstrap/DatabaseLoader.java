@@ -64,7 +64,7 @@ public class DatabaseLoader implements CommandLineRunner {
 
     private void addUsersAndRoles() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String secret = "{bcrypt}" + encoder.encode("000");
+        String secret = "{bcrypt}" + encoder.encode("0");
 
         Cart cart1 = new Cart();
         Cart cart2 = new Cart();
