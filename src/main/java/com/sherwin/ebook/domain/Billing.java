@@ -21,7 +21,7 @@ public class Billing extends Auditable {
     private Order order;
 
     @NonNull
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private User user;
 
     @NonNull

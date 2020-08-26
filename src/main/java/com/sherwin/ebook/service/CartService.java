@@ -30,9 +30,9 @@ public class CartService {
         return cartRepository.findAll();
     }
 
-//    public Optional<Cart> get(User user) {
-//        return cartRepository.findCartByUser(user);
-//    }
+    public Optional<Cart> get(User user) {
+        return cartRepository.findCartByUser(user);
+    }
 
     public Cart getByid(Long id) {
         return cartRepository.findCartById(id);
@@ -56,6 +56,11 @@ public class CartService {
         book.setInventory(book.getInventory() + bookSelected.getQuantity());
 
         cart.removeBook(bookSelected);
+        cartRepository.save(cart);
+    }
+
+    public void clearCart(Cart cart){
+        cart.removeAll();
         cartRepository.save(cart);
     }
 

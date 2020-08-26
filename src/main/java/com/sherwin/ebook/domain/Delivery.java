@@ -21,11 +21,12 @@ public class Delivery extends Auditable {
     private Order order;
 
     @NonNull
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private User user;
 
     private String firstName;
     private String lastName;
+    private String email;
     private String address;
     private String country;
     private String state;

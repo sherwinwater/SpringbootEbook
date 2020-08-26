@@ -51,6 +51,9 @@ public class Cart extends Auditable {
         this.bookList.remove(book);
     }
 
+    public void removeAll(){
+        this.bookList.clear();
+    }
     public double getTotalPrice(){
         totalPrice = 0;
         bookList.forEach(book ->  totalPrice += book.getPrice() *book.getQuantity());

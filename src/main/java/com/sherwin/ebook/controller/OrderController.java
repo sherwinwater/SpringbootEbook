@@ -1,13 +1,7 @@
 package com.sherwin.ebook.controller;
 
-import com.sherwin.ebook.domain.Billing;
-import com.sherwin.ebook.domain.Cart;
-import com.sherwin.ebook.domain.Delivery;
-import com.sherwin.ebook.domain.User;
-import com.sherwin.ebook.service.BillingService;
-import com.sherwin.ebook.service.BookService;
-import com.sherwin.ebook.service.CartService;
-import com.sherwin.ebook.service.UserService;
+import com.sherwin.ebook.domain.*;
+import com.sherwin.ebook.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 public class OrderController {
@@ -30,10 +25,13 @@ public class OrderController {
     private CartService cartService;
 
     @Autowired
-    private UserService userService;
+    private OrderService orderService;
 
     @Autowired
     private BillingService billingService;
+
+    @Autowired
+    private DeliveryService deliveryService;
 
     @GetMapping("/order")
     public String getList(Model model) {
@@ -45,35 +43,74 @@ public class OrderController {
     public String checkout(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Cart cart = user.getCart();
+        Order order = new Order();
+
+        order.setCart(cart);
+        order.setStatus("open");
+        order.setTax(cart.getTotalPrice()*0.17);
+        order.setDeliveryFee(cart.getTotalPrice()*0.11);
+        order.setTotalPrice(cart.getTotalPrice()*(1+0.17+0.11));
+        order.setUser(user);
+        orderService.save(order);
+
         Billing billing = user.getBilling();
+        if(billing == null){
+            billing = new Billing();
+        }
         Delivery delivery = user.getDelivery();
-        model.addAttribute("cart", cart);
-        model.addAttribute("billing", new Billing());
+        if(delivery == null){
+            delivery = new Delivery();
+        }
+        System.out.println(billing);
+        System.out.println(delivery);
+        model.addAttribute("order", order);
+        model.addAttribute("billing", billing);
         model.addAttribute("delivery", delivery);
 
         return "order/checkout";
     }
 
-    @PostMapping("/order/placeorder")
+    @GetMapping("/order/placeorder")
     public String placeOrder(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Cart cart = user.getCart();
-        model.addAttribute("cart", cart);
-
+        cartService.clearCart(cart);
         return "order/placeorder";
     }
 
     @PostMapping("/order/billing")
     public String getBilling(@Valid Billing billing, BindingResult bindingResult,
-                             Model model, RedirectAttributes redirectAttributes) {
+                             Model model, RedirectAttributes redirectAttributes,
+                             Authentication authentication) {
         if (bindingResult.hasErrors()) {
             logger.info("Validation errors were found while registering a new user");
             model.addAttribute("billing", billing);
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "order/checkout";
         } else {
+            User user = (User) authentication.getPrincipal();
+            user.setBilling(billing);
             billingService.save(billing);
-//            User newUser = userService.register(user);
+//                redirectAttributes
+//                        .addAttribute("id", newUser.getId())
+//                        .addFlashAttribute("success", true);
+            return "redirect:/order/checkout";
+        }
+    }
+
+    @PostMapping("/order/delivery")
+    public String getDelivery(@Valid Delivery delivery, BindingResult bindingResult,
+                             Model model, RedirectAttributes redirectAttributes,
+                              Authentication authentication) {
+        if (bindingResult.hasErrors()) {
+            logger.info("Validation errors were found while registering a new user");
+            model.addAttribute("delivery", delivery);
+            model.addAttribute("validationErrors", bindingResult.getAllErrors());
+            return "order/checkout";
+        } else {
+            User user = (User) authentication.getPrincipal();
+            user.setDelivery(delivery);
+            deliveryService.save(delivery);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
 //                        .addFlashAttribute("success", true);
