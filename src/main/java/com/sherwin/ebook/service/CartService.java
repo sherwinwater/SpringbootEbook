@@ -33,6 +33,9 @@ public class CartService {
     public Optional<Cart> get(User user) {
         return cartRepository.findCartByUser(user);
     }
+    public void deleteCart(Cart cart){
+        cartRepository.delete(cart);
+    }
 
     public Cart getByid(Long id) {
         return cartRepository.findCartById(id);
@@ -59,7 +62,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void clearCart(Cart cart){
+    public void clearCart(Cart cart) {
         cart.removeAll();
         cartRepository.save(cart);
     }
@@ -75,22 +78,19 @@ public class CartService {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
-                bookService.save(book);
                 cart.updateBook(book, id);
-                cartRepository.save(cart);
             } else {
                 book.setInventory(bookInventory);
-                bookService.save(book);
             }
         } else {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
                 cart.addBook(book);
-                bookService.save(book);
-                cartRepository.save(cart);
             }
         }
+        bookService.save(book);
+        cartRepository.save(cart);
     }
 
     public void addGuestBook(long id, int quantity, Cart cart) {
@@ -131,7 +131,6 @@ public class CartService {
         } else {
             book.setInventory(bookInventory);
         }
-        cart.updateBook(book, id);
 
         bookService.save(book);
         cart.updateBook(book, id);

@@ -22,6 +22,11 @@ public class CartController {
     public String getUserCart(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Cart cart = user.getCart();
+        System.out.println(cart);
+        if (cart == null) {
+            cart = new Cart();
+            user.setCart(cart);
+        }
         model.addAttribute("cart", cart);
         return "cart/list";
     }
@@ -40,11 +45,16 @@ public class CartController {
     }
 
     @PostMapping("/cart/add/{id}")
-    public String  addBook(@PathVariable long id, @RequestParam("quantity") int quantity,
+    public String addBook(@PathVariable long id, @RequestParam("quantity") int quantity,
                           Authentication authentication, HttpSession session) {
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
             Cart cart = user.getCart();
+            System.out.println(cart);
+            if (cart == null) {
+                cart = new Cart();
+                user.setCart(cart);
+            }
             cartService.addUserBook(id, quantity, cart);
         } else {
             User guest = (User) session.getAttribute("guest");
@@ -66,6 +76,9 @@ public class CartController {
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
             Cart cart = user.getCart();
+            if (cart == null) {
+                cart = new Cart();
+            }
             cartService.updateUserBook(id, quantity, cart);
             return "redirect:/cart";
         } else {
@@ -88,6 +101,9 @@ public class CartController {
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
             Cart cart = user.getCart();
+            if (cart == null) {
+                cart = new Cart();
+            }
             cartService.deleteUserBook(id, cart);
             return "redirect:/cart";
         } else {

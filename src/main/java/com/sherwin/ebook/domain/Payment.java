@@ -17,7 +17,7 @@ public class Payment extends Auditable {
     private long id;
 
     @NonNull
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Order order;
 
     @NonNull

@@ -44,8 +44,7 @@ public class User extends Auditable implements UserDetails {
     @Column(nullable = false)
     private boolean enabled;
 
-    @NonNull
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne(cascade = {CascadeType.ALL},mappedBy = "user", orphanRemoval = true)
     private Cart cart;
 
     @OneToOne(cascade = {CascadeType.ALL})
@@ -57,9 +56,7 @@ public class User extends Auditable implements UserDetails {
     @OneToOne(cascade = {CascadeType.ALL})
     private Billing billing;
 
-//    @NonNull
-    @OneToMany(fetch = FetchType.LAZY)
-//    @ToString.Exclude
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Order> orderList;
 
     @NonNull
@@ -144,5 +141,9 @@ public class User extends Auditable implements UserDetails {
         return enabled;
     }
 
-
+//    public Cart getCart(){
+//        Cart cart = new Cart();
+//        cart.setUser(this);
+//        return cart;
+//    }
 }

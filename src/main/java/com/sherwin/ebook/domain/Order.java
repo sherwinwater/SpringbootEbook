@@ -19,19 +19,19 @@ public class Order extends Auditable {
     private long id;
 
     @NonNull
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Cart cart;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL},mappedBy = "order", orphanRemoval = true)
     private Billing billing;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL},mappedBy = "order", orphanRemoval = true)
     private Delivery delivery;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL},mappedBy = "order", orphanRemoval = true)
     private Payment payment;
 
     private String status;

@@ -19,8 +19,11 @@ public class Cart extends Auditable {
     private Long id;
 
     @NonNull
-    @OneToOne(mappedBy = "cart")
+    @OneToOne
     private User user;
+
+    @OneToOne(cascade = {CascadeType.ALL},mappedBy = "cart", orphanRemoval = true)
+    private Order order;
 
     @NonNull
 //    @OneToMany(fetch = FetchType.EAGER)

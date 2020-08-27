@@ -66,35 +66,27 @@ public class DatabaseLoader implements CommandLineRunner {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String secret = "{bcrypt}" + encoder.encode("0");
 
-        Cart cart1 = new Cart();
-        Cart cart2 = new Cart();
-        Cart cart3 = new Cart();
-
         Role userRole = new Role("ROLE_USER");
         roleRepository.save(userRole);
         Role adminRole = new Role("ROLE_ADMIN");
         roleRepository.save(adminRole);
 
-        User user = new User("user@gmail.com", secret, true, cart1, "Joe", "User", "joedirt");
+        User user = new User("user@gmail.com", secret, true, "Joe", "User", "joedirt");
         user.addRole(userRole);
         user.setConfirmPassword(secret);
         userService.save(user);
         users.put("user@gmail.com", user);
 
-        User admin = new User("sam@sam.com", secret, true, cart2, "sam", "sam", "sam");
+        User admin = new User("sam@sam.com", secret, true, "sam", "sam", "sam");
         admin.setConfirmPassword(secret);
         admin.addRole(adminRole);
         userService.save(admin);
         users.put("sam@sam.com", admin);
 
-        User master = new User("super@gmail.com", secret, true, cart3, "Super", "User", "superduper");
+        User master = new User("super@gmail.com", secret, true, "Super", "User", "superduper");
         master.addRoles(new HashSet<>(Arrays.asList(userRole, adminRole)));
         master.setConfirmPassword(secret);
         userService.save(master);
         users.put("super@gmail.com", master);
-
-        cartService.save(cart1);
-        cartService.save(cart2);
-        cartService.save(cart3);
     }
 }

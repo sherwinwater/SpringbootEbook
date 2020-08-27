@@ -23,6 +23,8 @@ public class OrderController {
 
     @Autowired
     private CartService cartService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private OrderService orderService;
@@ -43,23 +45,34 @@ public class OrderController {
     public String checkout(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Cart cart = user.getCart();
-        Order order = new Order();
+        if (cart == null) {
+            cart = new Cart();
+        }
+        Order order = cart.getOrder();
 
+        if (order == null) {
+            order = new Order();
+        }
         order.setCart(cart);
         order.setStatus("open");
-        order.setTax(cart.getTotalPrice()*0.17);
-        order.setDeliveryFee(cart.getTotalPrice()*0.11);
-        order.setTotalPrice(cart.getTotalPrice()*(1+0.17+0.11));
+        order.setTax(cart.getTotalPrice() * 0.17);
+        order.setDeliveryFee(cart.getTotalPrice() * 0.11);
+        order.setTotalPrice(cart.getTotalPrice() * (1 + 0.17 + 0.11));
         order.setUser(user);
+        cart.setOrder(order);
+        user.setCart(cart);
+        userService.save(user);
         orderService.save(order);
 
-        Billing billing = user.getBilling();
-        if(billing == null){
+        Billing billing = order.getBilling();
+        if (billing == null) {
             billing = new Billing();
+//            order.setBilling(billing);
         }
-        Delivery delivery = user.getDelivery();
-        if(delivery == null){
+        Delivery delivery = order.getDelivery();
+        if (delivery == null) {
             delivery = new Delivery();
+//            order.setDelivery(delivery);
         }
         System.out.println(billing);
         System.out.println(delivery);
@@ -74,7 +87,11 @@ public class OrderController {
     public String placeOrder(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Cart cart = user.getCart();
+        if (cart == null) {
+            cart = new Cart();
+        }
         cartService.clearCart(cart);
+        cartService.deleteCart(cart);
         return "order/placeorder";
     }
 
@@ -88,8 +105,15 @@ public class OrderController {
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "order/checkout";
         } else {
+//            User user = (User) authentication.getPrincipal();
+//            user.setBilling(billing);
             User user = (User) authentication.getPrincipal();
-            user.setBilling(billing);
+            Cart cart = user.getCart();
+            if(cart == null){
+                cart = new Cart();
+            }
+            Order order = cart.getOrder();
+            order.setBilling(billing);
             billingService.save(billing);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
@@ -100,7 +124,7 @@ public class OrderController {
 
     @PostMapping("/order/delivery")
     public String getDelivery(@Valid Delivery delivery, BindingResult bindingResult,
-                             Model model, RedirectAttributes redirectAttributes,
+                              Model model, RedirectAttributes redirectAttributes,
                               Authentication authentication) {
         if (bindingResult.hasErrors()) {
             logger.info("Validation errors were found while registering a new user");
@@ -108,8 +132,15 @@ public class OrderController {
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "order/checkout";
         } else {
+//            User user = (User) authentication.getPrincipal();
+//            user.setDelivery(delivery);
             User user = (User) authentication.getPrincipal();
-            user.setDelivery(delivery);
+            Cart cart = user.getCart();
+            if(cart == null){
+                cart = new Cart();
+            }
+            Order order = cart.getOrder();
+            order.setDelivery(delivery);
             deliveryService.save(delivery);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
@@ -117,6 +148,5 @@ public class OrderController {
             return "redirect:/order/checkout";
         }
     }
-
 
 }
