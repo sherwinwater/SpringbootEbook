@@ -29,6 +29,6 @@ public class Book extends Auditable {
     private long inventory;
     private long quantity;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Cart cart;
 }

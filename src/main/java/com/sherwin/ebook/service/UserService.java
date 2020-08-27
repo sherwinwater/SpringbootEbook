@@ -35,7 +35,7 @@ public class UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
-    public Optional<User> get(String email){return userRepository.findUserByEmail(email);}
+    public Optional<User> getUserByEmail(String email){return userRepository.findUserByEmail(email);}
     public Optional<User> getByid(Long id){return userRepository.findUserById(id);}
     public void delete(Long id){userRepository.deleteById(id);}
 

@@ -12,10 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
@@ -63,6 +60,13 @@ public class DatabaseLoader implements CommandLineRunner {
     }
 
     private void addUsersAndRoles() {
+        Cart cart1 = new Cart();
+        Cart cart2 = new Cart();
+        Cart cart3 = new Cart();
+        cart1.setBookList(new ArrayList<Book>());
+        cart2.setBookList(new ArrayList<Book>());
+        cart3.setBookList(new ArrayList<Book>());
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String secret = "{bcrypt}" + encoder.encode("0");
 
@@ -74,19 +78,30 @@ public class DatabaseLoader implements CommandLineRunner {
         User user = new User("user@gmail.com", secret, true, "Joe", "User", "joedirt");
         user.addRole(userRole);
         user.setConfirmPassword(secret);
+        cart1.setUser(user);
+        user.setCart(cart1);
         userService.save(user);
         users.put("user@gmail.com", user);
 
         User admin = new User("sam@sam.com", secret, true, "sam", "sam", "sam");
         admin.setConfirmPassword(secret);
         admin.addRole(adminRole);
+        cart2.setUser(admin);
+        admin.setCart(cart2);
         userService.save(admin);
         users.put("sam@sam.com", admin);
 
         User master = new User("super@gmail.com", secret, true, "Super", "User", "superduper");
         master.addRoles(new HashSet<>(Arrays.asList(userRole, adminRole)));
         master.setConfirmPassword(secret);
+        cart3.setUser(master);
+        master.setCart(cart3);
         userService.save(master);
         users.put("super@gmail.com", master);
+
+        cartService.save(cart1);
+        cartService.save(cart2);
+        cartService.save(cart3);
+
     }
 }

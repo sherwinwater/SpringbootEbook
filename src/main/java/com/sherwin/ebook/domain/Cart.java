@@ -27,10 +27,11 @@ public class Cart extends Auditable {
 
     @NonNull
 //    @OneToMany(fetch = FetchType.EAGER)
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL},
+            mappedBy = "cart")
 //    @JoinTable(name = "cart_booklist")
 //    @JoinColumn(name = "cart_booklist",nullable = false)
-    private List<Book> bookList = new ArrayList<>();
+    private List<Book> bookList;
 
     public Cart(long id) {
         this.id =id;

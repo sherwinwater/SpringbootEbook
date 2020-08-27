@@ -67,7 +67,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void addUserBook(long id, int quantity, Cart cart) {
+    public void addUserBook(long id, int quantity, Cart cart, User user) {
 
         Book book = bookService.get(id);
         long bookInventory = book.getInventory();
@@ -87,10 +87,14 @@ public class CartService {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
                 cart.addBook(book);
+                System.out.println("booklist");
+                System.out.println(cart.getBookList().toString());
             }
         }
         bookService.save(book);
         cartRepository.save(cart);
+        System.out.println("after add userbook");
+        System.out.println(user.getCart().getBookList().toString());
     }
 
     public void addGuestBook(long id, int quantity, Cart cart) {
