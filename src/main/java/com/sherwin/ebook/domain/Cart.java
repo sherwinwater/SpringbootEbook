@@ -31,7 +31,7 @@ public class Cart extends Auditable {
             mappedBy = "cart")
 //    @JoinTable(name = "cart_booklist")
 //    @JoinColumn(name = "cart_booklist",nullable = false)
-    private List<Book> bookList;
+    private List<Book> bookList = new ArrayList<>();
 
     public Cart(long id) {
         this.id =id;

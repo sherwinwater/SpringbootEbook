@@ -1,6 +1,7 @@
 package com.sherwin.ebook.controller;
 
 import com.sherwin.ebook.domain.Book;
+import com.sherwin.ebook.security.UserDetailsServiceImpl;
 import com.sherwin.ebook.service.CartService;
 import com.sherwin.ebook.domain.Cart;
 import com.sherwin.ebook.domain.User;
@@ -25,21 +26,33 @@ public class CartController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+//    private Optional<User> userOptional = userService.getUserByEmail("sam@sam.com");
+//    private User user = userOptional.get();
+
+//    private User user = userService.getUserByEmail("sam@sam.com").get();
+
     @GetMapping("/cart")
     public String getUserCart(Model model, Authentication authentication) {
 
+//     User user = (User)userDetailsService.loadUserByUsername("sam@sam.com");
 //        User user = (User) authentication.getPrincipal();
 //        Optional<Cart> cartOptional = cartService.get(user);
 
-        Optional<User> userOptional = userService.getUserByEmail("sam@sam.com");
-        User user = userOptional.get();
-        Cart cart = user.getCart();
+
+//        Optional<User> userOptional = userService.getUserByEmail("sam@sam.com");
+//        User user = userOptional.get();
+
+//        Cart cart = user.getCart();
+        Cart cart = cartService.getCartByid(1L);
 //        Cart cart = cartOptional.orElse(null);
         System.out.println(cart.getBookList());
         System.out.println(cart);
         if (cart == null) {
             cart = new Cart();
-            cart.setUser(user);
+//            cart.setUser(user);
             cartService.save(cart);
         }
         model.addAttribute("cart", cart);
