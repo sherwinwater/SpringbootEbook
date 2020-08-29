@@ -28,7 +28,7 @@ public class User extends Auditable implements UserDetails {
     private Long id;
 
     @NonNull
-    @Size(min = 8, max = 20, message ="Email size must be between {min} and {max}.")
+    @Size(min = 8, max = 20, message = "Email size must be between {min} and {max}.")
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -44,14 +44,14 @@ public class User extends Auditable implements UserDetails {
     @Column(nullable = false)
     private boolean enabled;
 
-    @NonNull
     @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
-//    @NonNull
-    @OneToMany(fetch = FetchType.LAZY)
+    //    @NonNull
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
 //    @ToString.Exclude
-    private List<Order> orderList;
+    private List<Order> orderList = new ArrayList<>();
 
     @NonNull
     @NotEmpty(message = "You must enter First Name.")
@@ -76,11 +76,12 @@ public class User extends Auditable implements UserDetails {
         this.fullName = fullName;
     }
 
-    public String getFullName(){
+    public String getFullName() {
         return firstName + " " + lastName;
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
+//    @ManyToMany(cascade = CascadeType.ALL)  // detached entity passed to persist
     @ToString.Exclude
     @JoinTable(
             name = "users_roles",
@@ -112,7 +113,7 @@ public class User extends Auditable implements UserDetails {
 
     @Override
     public String getUsername() {
-        return "Hi "+ StringUtils.capitalize(alias) +"!";
+        return "Hi " + StringUtils.capitalize(alias) + "!";
     }
 
     @Override

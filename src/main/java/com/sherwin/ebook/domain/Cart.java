@@ -2,7 +2,6 @@ package com.sherwin.ebook.domain;
 
 import com.sherwin.ebook.config.Auditable;
 import lombok.*;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,26 +12,21 @@ import java.util.List;
 @Getter
 @Setter
 public class Cart extends Auditable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cart_id")
     private Long id;
 
     @NonNull
     @OneToOne(mappedBy = "cart")
     private User user;
 
-//    @NonNull
-//    @OneToMany(fetch = FetchType.EAGER)
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-//    @JoinTable(name = "cart_booklist")
-//    @JoinColumn(name = "cart_booklist",nullable = false)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart",fetch = FetchType.EAGER)
     private List<Book> bookList = new ArrayList<>();
 
     public Cart(long id) {
         this.id =id;
     }
-
     private double totalPrice;
 
     public void addBook(Book book) {
@@ -50,7 +44,6 @@ public class Cart extends Auditable {
     public void removeBook(Book book) {
         this.bookList.remove(book);
     }
-
     public double getTotalPrice(){
         totalPrice = 0;
         bookList.forEach(book ->  totalPrice += book.getPrice() *book.getQuantity());

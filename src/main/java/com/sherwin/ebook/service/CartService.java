@@ -54,9 +54,11 @@ public class CartService {
                 .orElse(null);
         Book book = bookService.get(id);
         book.setInventory(book.getInventory() + bookSelected.getQuantity());
-
+        book.setQuantity(0L);
         cart.removeBook(bookSelected);
+        book.setCart(null);
         cartRepository.save(cart);
+        bookService.save(book);
     }
 
     public void addUserBook(long id, int quantity, Cart cart) {
@@ -70,17 +72,20 @@ public class CartService {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
+                book.setCart(cart);
                 bookService.save(book);
                 cart.updateBook(book, id);
                 cartRepository.save(cart);
             } else {
                 book.setInventory(bookInventory);
+                book.setCart(cart);
                 bookService.save(book);
             }
         } else {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
+                book.setCart(cart);
                 cart.addBook(book);
                 bookService.save(book);
                 cartRepository.save(cart);

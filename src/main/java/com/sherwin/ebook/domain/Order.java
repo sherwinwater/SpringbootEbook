@@ -23,6 +23,7 @@ public class Order extends Auditable {
     private Cart cart;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     private String status;

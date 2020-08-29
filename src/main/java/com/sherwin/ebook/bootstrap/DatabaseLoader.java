@@ -75,26 +75,32 @@ public class DatabaseLoader implements CommandLineRunner {
         Role adminRole = new Role("ROLE_ADMIN");
         roleRepository.save(adminRole);
 
-        User user = new User("user@gmail.com", secret, true, cart1, "Joe", "User", "joedirt");
+        User user = new User("user@gmail.com", secret, true, "Joe", "User", "joedirt");
         user.addRole(userRole);
         user.setConfirmPassword(secret);
+        cart1.setUser(user);
+        user.setCart(cart1);
         userService.save(user);
+        cartService.save(cart1);
         users.put("user@gmail.com", user);
 
-        User admin = new User("sam@sam.com", secret, true, cart2, "sam", "sam", "sam");
+        User admin = new User("sam@sam.com", secret, true,  "sam", "sam", "sam");
         admin.setConfirmPassword(secret);
         admin.addRole(adminRole);
+        cart2.setUser(admin);
+        admin.setCart(cart2);
         userService.save(admin);
+        cartService.save(cart2);
         users.put("sam@sam.com", admin);
 
-        User master = new User("super@gmail.com", secret, true, cart3, "Super", "User", "superduper");
+        User master = new User("super@gmail.com", secret, true,  "Super", "User", "superduper");
         master.addRoles(new HashSet<>(Arrays.asList(userRole, adminRole)));
         master.setConfirmPassword(secret);
+        cart3.setUser(master);
+        master.setCart(cart3);
         userService.save(master);
+        cartService.save(cart3);
         users.put("super@gmail.com", master);
 
-        cartService.save(cart1);
-        cartService.save(cart2);
-        cartService.save(cart3);
     }
 }

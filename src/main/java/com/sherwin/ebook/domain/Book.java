@@ -30,5 +30,6 @@ public class Book extends Auditable {
     private long quantity;
 
     @ManyToOne
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 }

@@ -21,6 +21,7 @@ public class CartController {
     public String getUserCart(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Cart cart = user.getCart();
+        System.out.println(cart);
         model.addAttribute("cart", cart);
         return "cart/list";
     }

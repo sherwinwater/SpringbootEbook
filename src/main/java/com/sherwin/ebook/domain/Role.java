@@ -5,11 +5,10 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,7 +23,7 @@ public class Role {
     @NonNull
     private String name;
 
-    @ManyToMany( mappedBy = "roles")
-    private Collection<User> users;
+    @ManyToMany( mappedBy = "roles",cascade = CascadeType.ALL)
+    private Set<User> users = new HashSet<>();
 
 }
