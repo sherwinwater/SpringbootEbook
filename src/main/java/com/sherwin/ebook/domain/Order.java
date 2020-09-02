@@ -11,7 +11,7 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
-@Table(name = "user_order")
+@Table(name = "orders")
 public class Order extends Auditable {
 
     @Id

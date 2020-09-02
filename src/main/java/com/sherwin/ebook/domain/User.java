@@ -20,7 +20,7 @@ import java.util.*;
 @Getter
 @Setter
 @PasswordsMatch
-@Table(name = "ebook_user")
+@Table(name = "users")
 public class User extends Auditable implements UserDetails {
 
     @Id

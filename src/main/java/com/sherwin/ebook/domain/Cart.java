@@ -18,15 +18,17 @@ public class Cart extends Auditable {
     private Long id;
 
     @NonNull
-    @OneToOne(mappedBy = "cart")
+    @OneToOne(mappedBy = "cart",cascade = CascadeType.ALL)
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart",fetch = FetchType.EAGER)  //eager
     private List<Book> bookList = new ArrayList<>();
 
     public Cart(long id) {
         this.id =id;
     }
+
+    @Transient
     private double totalPrice;
 
     public void addBook(Book book) {
@@ -44,6 +46,9 @@ public class Cart extends Auditable {
     public void removeBook(Book book) {
         this.bookList.remove(book);
     }
+
+    @Access(AccessType.PROPERTY)
+    @Column(name="total_price")
     public double getTotalPrice(){
         totalPrice = 0;
         bookList.forEach(book ->  totalPrice += book.getPrice() *book.getQuantity());
