@@ -6,10 +6,12 @@ import com.sherwin.ebook.domain.User;
 import com.sherwin.ebook.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+//@Transactional
 public class CartService {
 
     private final CartRepository cartRepository;
@@ -39,7 +41,7 @@ public class CartService {
     }
 
     public void deleteGuestBook(Long id, Cart cart) {
-        Book book = cart.getBookList().stream()
+        Book book = cart.getBooks().stream()
                 .filter(book1 -> book1.getId() == id)
                 .findAny()
                 .orElse(null);
@@ -48,7 +50,7 @@ public class CartService {
 
     public void deleteUserBook(Long id, Cart cart) {
 
-        Book bookSelected = cart.getBookList().stream()
+        Book bookSelected = cart.getBooks().stream()
                 .filter(book1 -> book1.getId() == id)
                 .findAny()
                 .orElse(null);
@@ -56,9 +58,11 @@ public class CartService {
         book.setInventory(book.getInventory() + bookSelected.getQuantity());
         book.setQuantity(0L);
         cart.removeBook(bookSelected);
-        book.setCart(null);
-        cartRepository.save(cart);
+
+//        book.removeCart(cart);
+//        book.setCart(null);
         bookService.save(book);
+        cartRepository.save(cart);
     }
 
     public void addUserBook(long id, int quantity, Cart cart) {
@@ -66,29 +70,34 @@ public class CartService {
         Book book = bookService.get(id);
         long bookInventory = book.getInventory();
 
-        if (cart.getBookList().stream().anyMatch(b -> b.getId() == id)) {
+        if (cart.getBooks().stream().anyMatch(b -> b.getId() == id)) {
             bookInventory += book.getQuantity();
             book.setInventory(bookInventory);
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
-                book.setCart(cart);
+//                book.getCartList().set(Math.toIntExact(cart.getId()),cart);
+//                book.setCart(cart);
                 bookService.save(book);
                 cart.updateBook(book, id);
                 cartRepository.save(cart);
             } else {
                 book.setInventory(bookInventory);
-                book.setCart(cart);
+//                book.getCartList().set(Math.toIntExact(cart.getId()),cart);
+//                book.setCart(cart);
                 bookService.save(book);
             }
         } else {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
-                book.setCart(cart);
+//                book.getCarts().add(cart);
+//                book.getCartList().set(Math.toIntExact(cart.getId()),cart);
+//                book.setCart(cart);
                 cart.addBook(book);
                 bookService.save(book);
                 cartRepository.save(cart);
+                System.out.println("end---db");
             }
         }
     }
@@ -98,10 +107,10 @@ public class CartService {
         Book book = bookService.get(id);
         book.setQuantity(quantity);
 
-        if (cart.getBookList().isEmpty()) {
+        if (cart.getBooks().isEmpty()) {
             cart.addBook(book);
         } else {
-            if (cart.getBookList().stream().anyMatch(b -> b.getId() == id)) {
+            if (cart.getBooks().stream().anyMatch(b -> b.getId() == id)) {
                 cart.updateBook(book, id);
             } else {
                 cart.addBook(book);

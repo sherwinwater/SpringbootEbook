@@ -12,8 +12,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div th:if="${cart.bookList.isEmpty()} == false">
-                        <!--                    <div th:if="${cart.bookList != null}">-->
+                    <div th:if="${cart.books.isEmpty()} == false">
+                        <!--                    <div th:if="${cart.books != null}">-->
                         <h2>Your shopping cart</h2>
                         <table class="table table-striped">
                             <thead>
@@ -31,7 +31,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="book : ${cart.bookList}" th:with="totalprice=${book.price}*${book.quantity}">
+                            <tr th:each="book : ${cart.books}" th:with="totalprice=${book.price}*${book.quantity}">
                                 <td th:text="${book.id}"></td>
                                 <td th:text="${book.name}"></td>
                                 <td>
@@ -67,15 +67,15 @@
                             </tr>
                             </tbody>
                         </table>
-                        <p th:text="'Your items: '+${cart.bookList.size()} "></p>
+                        <p th:text="'Your items: '+${cart.books.size()} "></p>
                         <a th:href="@{/book}">Add book</a>
                         <a th:href="@{/checkout}">
                             <button class="btn btn-primary btn-lg btn-block">Continue to checkout</button>
                         </a>
                     </div>
 
-                    <div th:if="${cart.bookList.isEmpty()} == true">
-                        <!--                        <div th:if="${cart.bookList == null}">-->
+                    <div th:if="${cart.books.isEmpty()} == true">
+                        <!--                        <div th:if="${cart.books == null}">-->
                         <!--                    <div th:if="${carts.size()} == 0">-->
                         <p class="alert alert-warning" role="alert">No Items Found.</p>
                         <a th:href="@{/book}">Add book</a>

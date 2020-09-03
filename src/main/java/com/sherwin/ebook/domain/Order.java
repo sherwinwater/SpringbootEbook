@@ -4,6 +4,7 @@ import com.sherwin.ebook.config.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,13 +19,18 @@ public class Order extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NonNull
-    @OneToOne
-    private Cart cart;
-
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(unique = true)
     private User user;
+
+    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Billing billing;
+
+    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Delivery delivery ;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order",fetch = FetchType.EAGER)  //eager
+    private List<Book> books = new ArrayList<>();
 
     private String status;
     private Double tax;

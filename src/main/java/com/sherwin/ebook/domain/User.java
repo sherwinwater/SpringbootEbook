@@ -45,7 +45,7 @@ public class User extends Auditable implements UserDetails {
     private boolean enabled;
 
     @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "cart_id")
+//    @JoinColumn(unique = true)
     private Cart cart;
 
     //    @NonNull
