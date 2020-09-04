@@ -18,10 +18,9 @@ public class Billing extends Auditable {
 
     @NonNull
     @OneToOne
-    @JoinColumn(unique = true)
     private Order order;
 
-    @OneToOne(mappedBy = "billing",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "billing",cascade = CascadeType.ALL)
     private Payment payment;
 
     private String firstName;

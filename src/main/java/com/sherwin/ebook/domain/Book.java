@@ -35,19 +35,10 @@ public class Book extends Auditable {
     private long quantity;
 
     @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
-//    @ManyToMany(mappedBy = "books",fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     private List<Cart> carts = new ArrayList<>();
 //    private Set<Cart> carts = new HashSet<>();
 
-    @ManyToOne
-//    @JoinColumn(unique = true)
-    private Order order ;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    private List<Order> orders = new ArrayList<>();
 
-    public void removeCart(Cart cart){
-        this.carts.remove(cart);
-    }
-
-    public void addCart(Cart cart){
-        this.carts.add(cart);
-    }
 }

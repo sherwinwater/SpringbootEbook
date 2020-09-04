@@ -4,6 +4,7 @@ import com.sherwin.ebook.config.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,16 +21,15 @@ public class Order extends Auditable {
     private long id;
 
     @ManyToOne
-    @JoinColumn(unique = true)
     private User user;
 
-    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
     private Billing billing;
 
-    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
     private Delivery delivery ;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order",fetch = FetchType.EAGER)  //eager
+    @ManyToMany(mappedBy = "orders",cascade = CascadeType.ALL)
     private List<Book> books = new ArrayList<>();
 
     private String status;
@@ -37,4 +37,20 @@ public class Order extends Auditable {
     private Double deliveryFee;
     private Double totalPrice;
 
+    public void addBook(Book book) {
+        this.books.add(book);
+        book.getOrders().add(this);
+    }
+
+    public void removeBook(Book book) {
+        this.books.remove(book);
+        book.getOrders().remove(this);
+    }
+
+    public void addBooks(List<Book> books){
+        this.books = books;
+        for(Book book:books){
+            book.getOrders().add(this);
+        }
+    }
 }

@@ -68,8 +68,7 @@
                             </tbody>
                         </table>
                         <p th:text="'Your items: '+${cart.books.size()} "></p>
-                        <a th:href="@{/book}">Add book</a>
-                        <a th:href="@{/checkout}">
+                        <a th:href="@{/order/checkout}">
                             <button class="btn btn-primary btn-lg btn-block">Continue to checkout</button>
                         </a>
                     </div>
@@ -77,9 +76,11 @@
                     <div th:if="${cart.books.isEmpty()} == true">
                         <!--                        <div th:if="${cart.books == null}">-->
                         <!--                    <div th:if="${carts.size()} == 0">-->
-                        <p class="alert alert-warning" role="alert">No Items Found.</p>
-                        <a th:href="@{/book}">Add book</a>
+                        <p class="alert alert-warning" role="alert">No Cart Found.</p>
                     </div>
+
+                    <a th:href="@{/book}">Add book</a>
+
                     <br/><br/>
                 </div>
             </div>

@@ -18,7 +18,6 @@ public class Delivery extends Auditable {
 
     @NonNull
     @OneToOne
-    @JoinColumn(unique = true)
     private Order order;
 
     private String firstName;

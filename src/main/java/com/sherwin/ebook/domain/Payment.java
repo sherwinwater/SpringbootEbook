@@ -18,7 +18,6 @@ public class Payment extends Auditable {
 
     @NonNull
     @OneToOne
-    @JoinColumn(unique = true)
     private Billing billing;
 
     private String fullName;

@@ -146,4 +146,14 @@ public class CartService {
         cart.updateBook(book, id);
         this.save(cart);
     }
+
+    public void clearCart(Cart cart) {
+        cart.removeAll();
+        cartRepository.save(cart);
+    }
+
+    public void deleteCart(Cart cart){
+        cartRepository.delete(cart);
+    }
+
 }
