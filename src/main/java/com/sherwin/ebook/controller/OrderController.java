@@ -51,21 +51,15 @@ public class OrderController {
             cart = new Cart();
         }
         Order order = new Order();
+        orderService.save(order);
 
-        if (order == null) {
-            order = new Order();
-        }
         order.setStatus("open");
         order.setTax(cart.getTotalPrice() * 0.17);
         order.setDeliveryFee(cart.getTotalPrice() * 0.11);
         order.setTotalPrice(cart.getTotalPrice() * (1 + 0.17 + 0.11));
-        order.setUser(user);
+
+        order.addUser(user);
         order.addBooks(cart.getBooks());
-        user.setCart(cart);
-        userService.save(user);
-        for (Book book : cart.getBooks()) {
-            bookService.save(book);
-        }
         orderService.save(order);
 
         Billing billing = order.getBilling();

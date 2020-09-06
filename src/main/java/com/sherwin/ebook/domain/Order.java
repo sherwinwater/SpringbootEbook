@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
 @Table(name = "orders")
@@ -20,7 +19,7 @@ public class Order extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
     @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
@@ -29,7 +28,7 @@ public class Order extends Auditable {
     @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
     private Delivery delivery ;
 
-    @ManyToMany(mappedBy = "orders",cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "orders",cascade = CascadeType.PERSIST)
     private List<Book> books = new ArrayList<>();
 
     private String status;
@@ -52,5 +51,22 @@ public class Order extends Auditable {
         for(Book book:books){
             book.getOrders().add(this);
         }
+    }
+
+    public void addUser(User user){
+        this.user = user;
+        user.getOrders().add(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", user=" + user +
+                ", status='" + status + '\'' +
+                ", tax=" + tax +
+                ", deliveryFee=" + deliveryFee +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }
