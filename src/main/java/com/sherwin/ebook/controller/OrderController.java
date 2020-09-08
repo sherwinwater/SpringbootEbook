@@ -2,6 +2,7 @@ package com.sherwin.ebook.controller;
 
 import com.sherwin.ebook.domain.*;
 import com.sherwin.ebook.service.*;
+import org.aspectj.weaver.ast.Or;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
@@ -49,40 +51,23 @@ public class OrderController {
     @GetMapping("/order/checkout")
     public String checkout(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        Cart cart = user.getCart();
-        if (cart == null) {
-            cart = new Cart();
+        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        Cart cart = cartService.get(user);  //get data from db
+        Order order = cart.getOrder();
+        if (order == null) {
+            order = new Order();
         }
-        Order order = new Order();
-        orderService.save(order);
-
-        order.setStatus("open");
-        order.setTax(cart.getTotalPrice() * 0.17);
-        order.setDeliveryFee(cart.getTotalPrice() * 0.11);
-        order.setTotalPrice(cart.getTotalPrice() * (1 + 0.17 + 0.11));
-
-        order.addUser(user);
-//        order.addBooks(cart.getBooks());
-
-        List<Book> books = new ArrayList<>();
-        Set<Book> bookSet = cart.getBooks();
-        books.addAll(bookSet);
-        order.addBooks(books);
-
-        orderService.save(order);
+        orderService.addOrder(user, cart, order);
 
         Billing billing = order.getBilling();
         if (billing == null) {
             billing = new Billing();
-//            order.setBilling(billing);
         }
+        System.out.println(billing);
         Delivery delivery = order.getDelivery();
         if (delivery == null) {
             delivery = new Delivery();
-//            order.setDelivery(delivery);
         }
-        System.out.println(billing);
-        System.out.println(delivery);
         model.addAttribute("order", order);
         model.addAttribute("billing", billing);
         model.addAttribute("delivery", delivery);
@@ -93,10 +78,9 @@ public class OrderController {
     @GetMapping("/order/placeorder")
     public String placeOrder(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        Cart cart = user.getCart();
-        if (cart == null) {
-            cart = new Cart();
-        }
+        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        Cart cart = cartService.get(user);  //get data from db
+
         cartService.clearCart(cart);
         cartService.deleteCart(cart);
         return "order/placeorder";
@@ -112,18 +96,14 @@ public class OrderController {
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "order/checkout";
         } else {
-//            User user = (User) authentication.getPrincipal();
-//            user.setBilling(billing);
             User user = (User) authentication.getPrincipal();
-            Cart cart = user.getCart();
-            if (cart == null) {
-                cart = new Cart();
-            }
+            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            Cart cart = cartService.get(user);  //get data from db
+            Order order = cart.getOrder();
 
-            Order order = new Order();
             order.setBilling(billing);
+            billing.setOrder(order);
             orderService.save(order);
-            billingService.save(billing);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
 //                        .addFlashAttribute("success", true);
@@ -141,18 +121,13 @@ public class OrderController {
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "order/checkout";
         } else {
-//            User user = (User) authentication.getPrincipal();
-//            user.setDelivery(delivery);
             User user = (User) authentication.getPrincipal();
-            Cart cart = user.getCart();
-            if (cart == null) {
-                cart = new Cart();
-            }
+            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            Cart cart = cartService.get(user);  //get data from db
+            Order order = cart.getOrder();
 
-            Order order = new Order();
             order.setDelivery(delivery);
             orderService.save(order);
-            deliveryService.save(delivery);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
 //                        .addFlashAttribute("success", true);

@@ -57,17 +57,12 @@ public class CartService {
         Book book = bookService.get(id);
         book.setInventory(book.getInventory() + bookSelected.getQuantity());
 //        book.setQuantity(0L);
+        bookService.save(book);
         cart.removeBook(bookSelected);
-
-//        book.removeCart(cart);
-//        book.setCart(null);
-//        bookService.save(book);
         cartRepository.save(cart);
     }
 
     public void addUserBook(long id, int quantity, Cart cart) {
-//        cartRepository.save(cart);
-
         Book book = bookService.get(id);
         long bookInventory = book.getInventory();
 
@@ -77,33 +72,18 @@ public class CartService {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
-//                book.getCartList().set(Math.toIntExact(cart.getId()),cart);
-//                book.setCart(cart);
-//                bookService.save(book);
-//                cart.updateBook(book, id);
-//                cartRepository.save(cart);
             } else {
                 book.setInventory(bookInventory);
-//                book.getCartList().set(Math.toIntExact(cart.getId()),cart);
-//                book.setCart(cart);
-//                bookService.save(book);
             }
-                cart.updateBook(book, id);
-                cartRepository.save(cart);
+            cart.updateBook(book, id);
         } else {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
-//                book.getCarts().add(cart);
-//                book.getCartList().set(Math.toIntExact(cart.getId()),cart);
-//                book.setCart(cart);
                 cart.addBook(book);
-                System.out.println("----book id-----------"+book.getId());
-//                bookService.save(book);
-                cartRepository.save(cart);
-                System.out.println("end---db");
             }
         }
+        cartRepository.save(cart);
     }
 
     public void addGuestBook(long id, int quantity, Cart cart) {
@@ -156,7 +136,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void deleteCart(Cart cart){
+    public void deleteCart(Cart cart) {
         cartRepository.delete(cart);
     }
 

@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.Set;
 @ToString
 @Getter
 @Setter
-public class Book extends Auditable {
+public class Book extends Auditable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,13 +33,13 @@ public class Book extends Auditable {
     private String photoUrl;
 
     private long inventory;
+
     private long quantity;
 
     @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
-//    private List<Cart> carts = new ArrayList<>();
     private Set<Cart> carts = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    private List<Order> orders = new ArrayList<>();
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
+    private Set<Order> orders = new HashSet<>();
 
 }

@@ -25,6 +25,9 @@ public class Cart extends Auditable {
     @OneToOne(mappedBy = "cart",cascade = CascadeType.ALL)
     private User user;
 
+    @OneToOne
+    private Order order;
+
 //    @ManyToMany
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(

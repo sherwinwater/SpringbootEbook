@@ -6,7 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -23,18 +25,29 @@ public class Order extends Auditable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
     private Billing billing;
 
-    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)
-    private Delivery delivery ;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Delivery delivery;
 
-    @ManyToMany(mappedBy = "orders",cascade = CascadeType.PERSIST)
-    private List<Book> books = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "orders_books",
+            joinColumns = {@JoinColumn(name = "order_id")},
+            inverseJoinColumns = {@JoinColumn(name = "book_id")}
+    )
+    private Set<Book> books = new HashSet<>();
+
+    @OneToOne
+    private Cart cart;
 
     private String status;
+    @Column(precision = 10, scale =2, columnDefinition="DECIMAL(10,2)")
     private Double tax;
+    @Column(precision = 10, scale =2, columnDefinition="DECIMAL(10,2)")
     private Double deliveryFee;
+    @Column(precision = 10, scale =2, columnDefinition="DECIMAL(10,2)")
     private Double totalPrice;
 
     public void addBook(Book book) {
@@ -47,14 +60,14 @@ public class Order extends Auditable {
         book.getOrders().remove(this);
     }
 
-    public void addBooks(List<Book> books){
+    public void addBooks(Set<Book> books) {
         this.books = books;
-        for(Book book:books){
+        for (Book book : books) {
             book.getOrders().add(this);
         }
     }
 
-    public void addUser(User user){
+    public void addUser(User user) {
         this.user = user;
         user.getOrders().add(this);
     }

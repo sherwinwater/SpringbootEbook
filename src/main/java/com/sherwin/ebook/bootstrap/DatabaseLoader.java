@@ -40,12 +40,12 @@ public class DatabaseLoader implements CommandLineRunner {
     }
 
     private void addBooks() {
-        Book book1 = new Book("Apocalypto", 45.49, "images/Apocalypto.png");
-        Book book2 = new Book("concussion", 45.49, "images/concussion.png");
-        Book book3 = new Book("legends of the fall", 45.49, "images/legendsofthefall.png");
-        Book book4 = new Book("the hunting ground", 45.49, "images/thehuntingground.png");
-        Book book5 = new Book("larry friends", 45.49, "images/larry.png");
-        Book book6 = new Book("time machine", 45.49, "images/timemachine.png");
+        Book book1 = new Book("Apocalypto", 5.49, "images/Apocalypto.png");
+        Book book2 = new Book("concussion", 15.00, "images/concussion.png");
+        Book book3 = new Book("legends of the fall", 5.9, "images/legendsofthefall.png");
+        Book book4 = new Book("the hunting ground", 4.9, "images/thehuntingground.png");
+        Book book5 = new Book("larry friends", 45.00, "images/larry.png");
+        Book book6 = new Book("time machine", 15.49, "images/timemachine.png");
 
         book1.setInventory(100);
         book2.setInventory(200);

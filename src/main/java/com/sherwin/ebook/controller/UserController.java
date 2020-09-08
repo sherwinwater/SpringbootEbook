@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public String viewUser(@PathVariable Long id,Model model){
-        Optional<User> userOptional = userService.get("sam@sam.com");
+        Optional<User> userOptional = userService.getUserByEmail("sam@sam.com");
         User user = userOptional.get();
         model.addAttribute("user",user);
         return "user/view";
