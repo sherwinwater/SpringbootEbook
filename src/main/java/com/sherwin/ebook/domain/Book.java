@@ -35,8 +35,8 @@ public class Book extends Auditable {
     private long quantity;
 
     @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
-    private List<Cart> carts = new ArrayList<>();
-//    private Set<Cart> carts = new HashSet<>();
+//    private List<Cart> carts = new ArrayList<>();
+    private Set<Cart> carts = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Order> orders = new ArrayList<>();

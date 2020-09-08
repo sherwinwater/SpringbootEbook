@@ -21,7 +21,11 @@ public class CartController {
     @GetMapping("/cart")
     public String getUserCart(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        Cart cart = user.getCart();
+//        Cart cart = user.getCart();
+        Cart cart = cartService.get(user);  //get data from db
+        if(cart == null){
+            cart = new Cart();
+        }
         System.out.println(cart);
         model.addAttribute("cart", cart);
         return "cart/list";
@@ -45,7 +49,8 @@ public class CartController {
                           Authentication authentication, HttpSession session) {
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
-            Cart cart = user.getCart();
+            Cart cart = cartService.get(user);  //get data from db
+//            Cart cart = user.getCart();  // cart is not from db
             cartService.addUserBook(id, quantity, cart);
         } else {
             User guest = (User) session.getAttribute("guest");
@@ -66,7 +71,8 @@ public class CartController {
 
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
-            Cart cart = user.getCart();
+//            Cart cart = user.getCart();
+            Cart cart = cartService.get(user);  //get data from db
             cartService.updateUserBook(id, quantity, cart);
             return "redirect:/cart";
         } else {
@@ -88,7 +94,8 @@ public class CartController {
 
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
-            Cart cart = user.getCart();
+            Cart cart = cartService.get(user);  //get data from db
+//            Cart cart = user.getCart();
             cartService.deleteUserBook(id, cart);
             return "redirect:/cart";
         } else {

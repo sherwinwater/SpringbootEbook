@@ -20,6 +20,7 @@ public class Order extends Auditable {
     private long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)

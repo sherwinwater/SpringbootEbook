@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class OrderController {
@@ -59,7 +62,13 @@ public class OrderController {
         order.setTotalPrice(cart.getTotalPrice() * (1 + 0.17 + 0.11));
 
         order.addUser(user);
-        order.addBooks(cart.getBooks());
+//        order.addBooks(cart.getBooks());
+
+        List<Book> books = new ArrayList<>();
+        Set<Book> bookSet = cart.getBooks();
+        books.addAll(bookSet);
+        order.addBooks(books);
+
         orderService.save(order);
 
         Billing billing = order.getBilling();

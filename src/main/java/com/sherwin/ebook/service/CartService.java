@@ -32,9 +32,9 @@ public class CartService {
         return cartRepository.findAll();
     }
 
-//    public Optional<Cart> get(User user) {
-//        return cartRepository.findCartByUser(user);
-//    }
+    public Cart get(User user) {
+        return cartRepository.findCartByUser(user);
+    }
 
     public Cart getByid(Long id) {
         return cartRepository.findCartById(id);
@@ -56,16 +56,17 @@ public class CartService {
                 .orElse(null);
         Book book = bookService.get(id);
         book.setInventory(book.getInventory() + bookSelected.getQuantity());
-        book.setQuantity(0L);
+//        book.setQuantity(0L);
         cart.removeBook(bookSelected);
 
 //        book.removeCart(cart);
 //        book.setCart(null);
-        bookService.save(book);
+//        bookService.save(book);
         cartRepository.save(cart);
     }
 
     public void addUserBook(long id, int quantity, Cart cart) {
+//        cartRepository.save(cart);
 
         Book book = bookService.get(id);
         long bookInventory = book.getInventory();
@@ -78,15 +79,17 @@ public class CartService {
                 book.setInventory(bookInventory - quantity);
 //                book.getCartList().set(Math.toIntExact(cart.getId()),cart);
 //                book.setCart(cart);
-                bookService.save(book);
-                cart.updateBook(book, id);
-                cartRepository.save(cart);
+//                bookService.save(book);
+//                cart.updateBook(book, id);
+//                cartRepository.save(cart);
             } else {
                 book.setInventory(bookInventory);
 //                book.getCartList().set(Math.toIntExact(cart.getId()),cart);
 //                book.setCart(cart);
-                bookService.save(book);
+//                bookService.save(book);
             }
+                cart.updateBook(book, id);
+                cartRepository.save(cart);
         } else {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
@@ -95,7 +98,8 @@ public class CartService {
 //                book.getCartList().set(Math.toIntExact(cart.getId()),cart);
 //                book.setCart(cart);
                 cart.addBook(book);
-                bookService.save(book);
+                System.out.println("----book id-----------"+book.getId());
+//                bookService.save(book);
                 cartRepository.save(cart);
                 System.out.println("end---db");
             }

@@ -29,11 +29,12 @@ public class Cart extends Auditable {
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "carts_books",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id")
+            joinColumns = {@JoinColumn(name = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "book_id")}
     )
-    private List<Book> books = new ArrayList<>();
-//    private Set<Book> books = new HashSet<>();
+
+//    private List<Book> books = new ArrayList<>();
+    private Set<Book> books = new HashSet<>();
 
     public Cart(long id) {
         this.id =id;
