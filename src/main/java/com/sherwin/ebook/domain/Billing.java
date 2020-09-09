@@ -7,20 +7,19 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
 public class Billing extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NonNull
-    @OneToOne
+    @OneToOne(mappedBy = "billing",cascade = CascadeType.ALL)
     private Order order;
 
-    @OneToOne(mappedBy = "billing",cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Payment payment;
 
     private String firstName;
@@ -31,4 +30,17 @@ public class Billing extends Auditable {
     private String state;
     private String zip;
 
+    @Override
+    public String toString() {
+        return "Billing{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", country='" + country + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                '}';
+    }
 }

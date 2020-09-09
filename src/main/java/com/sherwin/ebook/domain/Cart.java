@@ -39,7 +39,7 @@ public class Cart extends Auditable {
 //    private List<Book> books = new ArrayList<>();
     private Set<Book> books = new HashSet<>();
 
-    public Cart(long id) {
+    public Cart(Long id) {
         this.id =id;
     }
 

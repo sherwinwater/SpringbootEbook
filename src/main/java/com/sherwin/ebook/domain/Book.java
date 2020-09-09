@@ -21,7 +21,7 @@ public class Book extends Auditable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NonNull
     private String name;
@@ -32,9 +32,9 @@ public class Book extends Auditable  {
     @NonNull
     private String photoUrl;
 
-    private long inventory;
+    private Integer inventory;
 
-    private long quantity;
+    private Integer quantity;
 
     @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
     private Set<Cart> carts = new HashSet<>();

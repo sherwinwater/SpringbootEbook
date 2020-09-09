@@ -62,9 +62,9 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void addUserBook(long id, int quantity, Cart cart) {
+    public void addUserBook(Long id, int quantity, Cart cart) {
         Book book = bookService.get(id);
-        long bookInventory = book.getInventory();
+        int bookInventory = book.getInventory();
 
         if (cart.getBooks().stream().anyMatch(b -> b.getId() == id)) {
             bookInventory += book.getQuantity();
@@ -86,7 +86,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void addGuestBook(long id, int quantity, Cart cart) {
+    public void addGuestBook(Long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
         book.setQuantity(quantity);
@@ -103,7 +103,7 @@ public class CartService {
 
     }
 
-    public void updateGuestBook(long id, int quantity, Cart cart) {
+    public void updateGuestBook(Long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
         book.setQuantity(quantity);
@@ -111,10 +111,10 @@ public class CartService {
 
     }
 
-    public void updateUserBook(long id, int quantity, Cart cart) {
+    public void updateUserBook(Long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
-        long bookInventory = book.getInventory();
+        int bookInventory = book.getInventory();
         bookInventory += book.getQuantity();
 
         book.setInventory(bookInventory);

@@ -14,10 +14,10 @@ public class Payment extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NonNull
-    @OneToOne
+    @OneToOne(mappedBy = "payment")
     private Billing billing;
 
     private String fullName;

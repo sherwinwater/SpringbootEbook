@@ -45,7 +45,7 @@ public class CartController {
     }
 
     @PostMapping("/cart/add/{id}")
-    public String addBook(@PathVariable long id, @RequestParam("quantity") int quantity,
+    public String addBook(@PathVariable Long id, @RequestParam("quantity") int quantity,
                           Authentication authentication, HttpSession session) {
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
@@ -66,7 +66,7 @@ public class CartController {
     }
 
     @PostMapping("/cart/update/{id}")
-    public String updateBook(@PathVariable long id, @RequestParam("quantity") int quantity,
+    public String updateBook(@PathVariable Long id, @RequestParam("quantity") int quantity,
                              Authentication authentication, HttpSession session) {
 
         if (authentication != null) {
@@ -90,7 +90,7 @@ public class CartController {
     }
 
     @GetMapping("/cart/delete/{id}")
-    public String deleteBook(@PathVariable long id, Authentication authentication, HttpSession session) {
+    public String deleteBook(@PathVariable Long id, Authentication authentication, HttpSession session) {
 
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();

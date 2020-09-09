@@ -19,16 +19,16 @@ public class Order extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Billing billing;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Delivery delivery;
 
     @ManyToMany(cascade = CascadeType.PERSIST)

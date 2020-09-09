@@ -29,13 +29,12 @@ public class OrderController {
     private CartService cartService;
     @Autowired
     private UserService userService;
-
     @Autowired
     private OrderService orderService;
-
     @Autowired
     private BillingService billingService;
-
+    @Autowired
+    private PaymentService paymentService;
     @Autowired
     private DeliveryService deliveryService;
 
@@ -63,7 +62,8 @@ public class OrderController {
         if (billing == null) {
             billing = new Billing();
         }
-        System.out.println(billing);
+//        System.out.println(billing.getPayment());
+
         Delivery delivery = order.getDelivery();
         if (delivery == null) {
             delivery = new Delivery();
@@ -100,13 +100,7 @@ public class OrderController {
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
             Cart cart = cartService.get(user);  //get data from db
             Order order = cart.getOrder();
-
-            order.setBilling(billing);
-            billing.setOrder(order);
-            orderService.save(order);
-//                redirectAttributes
-//                        .addAttribute("id", newUser.getId())
-//                        .addFlashAttribute("success", true);
+            billingService.addBilling(order,billing);
             return "redirect:/order/checkout";
         }
     }
@@ -116,7 +110,7 @@ public class OrderController {
                               Model model, RedirectAttributes redirectAttributes,
                               Authentication authentication) {
         if (bindingResult.hasErrors()) {
-            logger.info("Validation errors were found while registering a new user");
+            logger.info("Validation errors were found while adding delivery info");
             model.addAttribute("delivery", delivery);
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "order/checkout";
@@ -125,9 +119,7 @@ public class OrderController {
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
             Cart cart = cartService.get(user);  //get data from db
             Order order = cart.getOrder();
-
-            order.setDelivery(delivery);
-            orderService.save(order);
+            deliveryService.addDelivery(order,delivery);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
 //                        .addFlashAttribute("success", true);

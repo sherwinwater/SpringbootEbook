@@ -7,17 +7,16 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
 public class Delivery extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NonNull
-    @OneToOne
+    @OneToOne(mappedBy = "delivery", cascade = CascadeType.ALL)
     private Order order;
 
     private String firstName;
@@ -28,4 +27,17 @@ public class Delivery extends Auditable {
     private String state;
     private String zip;
 
+    @Override
+    public String toString() {
+        return "Delivery{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", country='" + country + '\'' +
+                ", state='" + state + '\'' +
+                ", zip='" + zip + '\'' +
+                '}';
+    }
 }
