@@ -79,7 +79,7 @@ public class OrderController {
         User user = (User) authentication.getPrincipal();
         user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
         Cart cart = cartService.get(user);  //get data from db
-        Order order = orderService.getLastOrder(user);
+        Order order = orderService.getOpenOrder("open",user);
 
         orderService.placeOrder(user,cart,order);
         cartService.clearCart(cart);
@@ -99,8 +99,6 @@ public class OrderController {
         } else {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-            Cart cart = cartService.get(user);  //get data from db
-//            Order order = orderService.getLastOrder(user);
             Order order = orderService.getOpenOrder("open",user);
 
             billingService.addBilling(order,billing);
@@ -120,8 +118,6 @@ public class OrderController {
         } else {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-            Cart cart = cartService.get(user);  //get data from db
-//            Order order = cart.getOrder();
             Order order = orderService.getOpenOrder("open",user);
 
             deliveryService.addDelivery(order,delivery);

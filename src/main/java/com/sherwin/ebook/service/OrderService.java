@@ -27,13 +27,11 @@ public class OrderService {
 
     public Order getLastOrder(User user) {
         Optional<Order> optionalOrder = orderRepository.findFirstByUserOrderByIdDesc(user);
-        System.out.println(optionalOrder);
         return optionalOrder.get();
     }
 
     public Order getOpenOrder(String status, User user) {
-        Order order = orderRepository.findOrderByStatusAndUser(status, user);
-        return order;
+        return orderRepository.findOrderByStatusAndUser(status, user);
     }
 
     public Order getOrder(Long id) {
@@ -55,7 +53,7 @@ public class OrderService {
         order.addUser(user);
         order.setCart(cart);
         Set<Book> books = cart.getBooks();
-        order.addBooks(new HashSet<>(books));
+        order.addBooks(new HashSet<>(books));  //add books using new HashSet
         cart.getOrders().add(order);
 
         orderRepository.save(order);
