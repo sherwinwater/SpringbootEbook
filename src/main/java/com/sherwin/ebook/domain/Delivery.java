@@ -15,9 +15,8 @@ public class Delivery extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    @OneToOne(mappedBy = "delivery", cascade = CascadeType.ALL)
-    private Order order;
+//    @OneToOne(mappedBy = "delivery")
+//    private Order order;
 
     private String firstName;
     private String lastName;

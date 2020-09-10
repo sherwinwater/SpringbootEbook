@@ -2,6 +2,7 @@ package com.sherwin.ebook.service;
 
 import com.sherwin.ebook.domain.*;
 import com.sherwin.ebook.repository.BillingRepository;
+import com.sherwin.ebook.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -10,10 +11,12 @@ import java.util.Set;
 @Service
 public class BillingService {
 
-    private final BillingRepository billingRepository;
+    private  BillingRepository billingRepository;
+    private OrderRepository orderRepository;
 
-    public BillingService(BillingRepository billingRepository) {
+    public BillingService(BillingRepository billingRepository, OrderRepository orderRepository) {
         this.billingRepository = billingRepository;
+        this.orderRepository = orderRepository;
     }
 
     public void save(Billing billing) {
@@ -37,8 +40,8 @@ public class BillingService {
         order.getBilling().setId(idBilling);
         order.getBilling().getPayment().setBilling(billing);
         billing.setPayment(order.getBilling().getPayment());
-        billing.setOrder(order);
+//        billing.setOrder(order);
 
-        billingRepository.save(billing);
+        orderRepository.save(order);  // order maintain the relationship between order and billing. not billing.
     }
 }

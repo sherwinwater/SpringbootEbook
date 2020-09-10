@@ -51,7 +51,7 @@ public class User extends Auditable implements UserDetails {
     //    @NonNull
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
 //    @ToString.Exclude
-    private List<Order> orders = new ArrayList<>();
+    private Set<Order> orders = new LinkedHashSet<>();
 
     @NonNull
     @NotEmpty(message = "You must enter First Name.")

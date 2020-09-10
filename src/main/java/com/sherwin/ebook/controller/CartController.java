@@ -26,7 +26,7 @@ public class CartController {
         if(cart == null){
             cart = new Cart();
         }
-        System.out.println(cart);
+        System.out.println(cart.getBooks().toString());
         model.addAttribute("cart", cart);
         return "cart/list";
     }

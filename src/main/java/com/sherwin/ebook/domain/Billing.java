@@ -15,9 +15,9 @@ public class Billing extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    @OneToOne(mappedBy = "billing",cascade = CascadeType.ALL)
-    private Order order;
+//    @OneToOne(mappedBy = "billing")
+//    @OneToOne(mappedBy = "billing",cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Order order;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Payment payment;

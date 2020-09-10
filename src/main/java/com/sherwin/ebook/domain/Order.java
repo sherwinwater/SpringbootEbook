@@ -5,10 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
@@ -26,6 +23,7 @@ public class Order extends Auditable {
     private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
+//    @OneToOne
     private Billing billing;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -37,9 +35,9 @@ public class Order extends Auditable {
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")}
     )
-    private Set<Book> books = new HashSet<>();
+    private Set<Book> books = new LinkedHashSet<>();
 
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Cart cart;
 
     private String status;

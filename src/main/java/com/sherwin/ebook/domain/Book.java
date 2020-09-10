@@ -6,15 +6,12 @@ import org.hibernate.annotations.OnDelete;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-@ToString
+//@ToString
 @Getter
 @Setter
 public class Book extends Auditable  {
@@ -37,9 +34,20 @@ public class Book extends Auditable  {
     private Integer quantity;
 
     @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
-    private Set<Cart> carts = new HashSet<>();
+    private Set<Cart> carts = new LinkedHashSet<>();
 
     @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
-    private Set<Order> orders = new HashSet<>();
+    private Set<Order> orders = new LinkedHashSet<>();
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", inventory=" + inventory +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

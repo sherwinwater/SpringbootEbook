@@ -7,10 +7,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
@@ -25,18 +22,16 @@ public class Cart extends Auditable {
     @OneToOne(mappedBy = "cart",cascade = CascadeType.ALL)
     private User user;
 
-    @OneToOne
-    private Order order;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart")
+    private Set<Order> orders = new LinkedHashSet<>();
 
-//    @ManyToMany
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "carts_books",
             joinColumns = {@JoinColumn(name = "cart_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")}
     )
-
-//    private List<Book> books = new ArrayList<>();
+    @OrderBy("id ASC")
     private Set<Book> books = new HashSet<>();
 
     public Cart(Long id) {

@@ -52,8 +52,8 @@ public class OrderController {
         User user = (User) authentication.getPrincipal();
         user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
         Cart cart = cartService.get(user);  //get data from db
-        Order order = cart.getOrder();
-        if (order == null) {
+        Order order = orderService.getOpenOrder("open",user);
+        if (order == null || order.getStatus().equals("placed")) {
             order = new Order();
         }
         orderService.addOrder(user, cart, order);
@@ -62,7 +62,6 @@ public class OrderController {
         if (billing == null) {
             billing = new Billing();
         }
-//        System.out.println(billing.getPayment());
 
         Delivery delivery = order.getDelivery();
         if (delivery == null) {
@@ -80,9 +79,11 @@ public class OrderController {
         User user = (User) authentication.getPrincipal();
         user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
         Cart cart = cartService.get(user);  //get data from db
+        Order order = orderService.getLastOrder(user);
 
+        orderService.placeOrder(user,cart,order);
         cartService.clearCart(cart);
-        cartService.deleteCart(cart);
+
         return "order/placeorder";
     }
 
@@ -99,7 +100,9 @@ public class OrderController {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
             Cart cart = cartService.get(user);  //get data from db
-            Order order = cart.getOrder();
+//            Order order = orderService.getLastOrder(user);
+            Order order = orderService.getOpenOrder("open",user);
+
             billingService.addBilling(order,billing);
             return "redirect:/order/checkout";
         }
@@ -118,7 +121,9 @@ public class OrderController {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
             Cart cart = cartService.get(user);  //get data from db
-            Order order = cart.getOrder();
+//            Order order = cart.getOrder();
+            Order order = orderService.getOpenOrder("open",user);
+
             deliveryService.addDelivery(order,delivery);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
