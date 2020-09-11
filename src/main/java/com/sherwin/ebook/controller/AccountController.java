@@ -3,7 +3,6 @@ package com.sherwin.ebook.controller;
 import com.sherwin.ebook.domain.*;
 import com.sherwin.ebook.domain.account.Account;
 import com.sherwin.ebook.service.*;
-import org.aspectj.weaver.ast.Or;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @Controller
-public class OrderController {
+public class AccountController {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     private CartService cartService;
@@ -40,57 +35,30 @@ public class OrderController {
     private DeliveryService deliveryService;
 
     @Autowired
+    private AccountService accountService;
+
+    @Autowired
     private BookService bookService;
 
-    @GetMapping("/order")
-    public String getList(Model model) {
-
-        return "order/checkout";
+    @GetMapping("/account")
+    public String getAccountHome() {
+        return "account/home";
     }
 
-    @GetMapping("/order/checkout")
-    public String checkout(Model model, Authentication authentication) {
+    @GetMapping("/account/billing")
+    public String getBillingHome(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-        Cart cart = cartService.get(user);  //get data from db
-        Account account = user.getAccount();
-        Order order = orderService.getOpenOrder("open", user);
-        if (order == null || order.getStatus().equals("placed")) {
-            order = new Order();
-        }
-        orderService.addOrder(user, cart, order);
-
-        Billing billing = order.getBilling();
+        Billing billing = user.getAccount().getBilling();
         if (billing == null) {
-            billing = account.getBilling();
-//            billing = new Billing();
+            billing = new Billing();
         }
-
-        Delivery delivery = order.getDelivery();
-        if (delivery == null) {
-            delivery = new Delivery();
-        }
-        model.addAttribute("order", order);
         model.addAttribute("billing", billing);
-        model.addAttribute("delivery", delivery);
 
-        return "order/checkout";
+        return "account/billing";
     }
 
-    @GetMapping("/order/placeorder")
-    public String placeOrder(Model model, Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-        Cart cart = cartService.get(user);  //get data from db
-        Order order = orderService.getOpenOrder("open", user);
-
-        orderService.placeOrder(user, cart, order);
-        cartService.clearCart(cart);
-
-        return "order/placeorder";
-    }
-
-    @PostMapping("/order/billing")
+    @PostMapping("/account/billing")
     public String getBilling(@Valid Billing billing, BindingResult bindingResult,
                              Model model, RedirectAttributes redirectAttributes,
                              Authentication authentication) {
@@ -98,18 +66,17 @@ public class OrderController {
             logger.info("Validation errors were found while registering a new user");
             model.addAttribute("billing", billing);
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
-            return "order/checkout";
+            return "account/billing";
         } else {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-            Order order = orderService.getOpenOrder("open", user);
-
-            billingService.addBilling(order, billing);
-            return "redirect:/order/checkout";
+            Account account = user.getAccount();
+            accountService.addBilling(account,billing);
+            return "redirect:/account/billing";
         }
     }
 
-    @PostMapping("/order/delivery")
+    @PostMapping("/account/delivery")
     public String getDelivery(@Valid Delivery delivery, BindingResult bindingResult,
                               Model model, RedirectAttributes redirectAttributes,
                               Authentication authentication) {
@@ -121,9 +88,9 @@ public class OrderController {
         } else {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-            Order order = orderService.getOpenOrder("open", user);
+            Order order = orderService.getOpenOrder("open",user);
 
-            deliveryService.addDelivery(order, delivery);
+            deliveryService.addDelivery(order,delivery);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
 //                        .addFlashAttribute("success", true);

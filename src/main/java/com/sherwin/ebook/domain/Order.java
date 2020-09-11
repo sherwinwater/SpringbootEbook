@@ -22,7 +22,7 @@ public class Order extends Auditable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
 //    @OneToOne
     private Billing billing;
 

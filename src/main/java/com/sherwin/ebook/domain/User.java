@@ -1,6 +1,7 @@
 package com.sherwin.ebook.domain;
 
 import com.sherwin.ebook.config.Auditable;
+import com.sherwin.ebook.domain.account.Account;
 import com.sherwin.ebook.domain.validator.PasswordsMatch;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -45,8 +46,10 @@ public class User extends Auditable implements UserDetails {
     private boolean enabled;
 
     @OneToOne(cascade = {CascadeType.ALL})
-//    @JoinColumn(unique = true)
     private Cart cart;
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Account account;
 
     //    @NonNull
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")

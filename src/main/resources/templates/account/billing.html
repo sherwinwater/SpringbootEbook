@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>account</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container py-5">
+        <div class="row ">
+            <div class="col-md-2">
+
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/account}">home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/profile}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/billing}">Billing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/delivery}">Delivery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/wishlist}">Wishlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/order}">Order</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-md-10">
+
+                <h4 class="mb-3">Billing address</h4>
+                <form class="needs-validation" novalidate="" method="post" th:action="@{/account/billing}"
+                      th:object="${billing}">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="firstName">First name</label>
+                            <input type="text" class="form-control" id="firstName" placeholder="first name"
+                                   th:field="*{firstName}" required>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="lastName">Last name</label>
+                            <input type="text" class="form-control" id="lastName" placeholder="last name"
+                                   th:field="*{lastName}" value=""
+                                   required="">
+                            <div class="invalid-feedback">
+                                Valid last name is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                            <input type="email" class="form-control" id="email" placeholder="you@example.com"
+                                   th:field="*{email}">
+                            <div class="invalid-feedback">
+                                Please enter a valid email address for shipping updates.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" placeholder="1234 Main St"
+                               th:field="*{address}" required="">
+                        <div class="invalid-feedback">
+                            Please enter your shipping address.
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 mb-3">
+                            <label for="country">Country</label>
+                            <select class="custom-select d-block w-100" id="country" th:field="*{country}"
+                                    required="">
+                                <option value="c">Choose...</option>
+                                <option value="u">United States</option>
+                                <option value="c">Canada</option>
+                                <option value="f">France</option>
+                                <option value="k">United Kingdom</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid country.
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="state">State</label>
+                            <select class="custom-select d-block w-100" id="state" th:field="*{state}" required="">
+                                <option value="">Choose...</option>
+                                <option value="c">California</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please provide a valid state.
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="zip">Zip</label>
+                            <input type="text" class="form-control" id="zip" placeholder="" th:field="*{zip}"
+                                   required="">
+                            <div class="invalid-feedback">
+                                Zip code required.
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="same-address">
+                        <label class="custom-control-label" for="same-address">Shipping address is the same as my
+                            billing address</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="save-info">
+                        <label class="custom-control-label" for="save-info">Save this information for next
+                            time</label>
+                    </div>
+                    <hr class="mb-4">
+
+                    <h4 class="mb-3">Payment</h4>
+
+                    <div class="d-block my-3">
+                        <div class="custom-control custom-radio d-inline mx-3">
+                            <input id="credit" name="paymentType" type="radio" class="custom-control-input"
+                                   checked="" th:field="*{payment.paymentType}" value="credit" required="">
+                            <label class="custom-control-label" for="credit">Credit card</label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline mx-3">
+                            <input id="debit" name="paymentType" type="radio" class="custom-control-input"
+                                   th:field="*{payment.paymentType}" value="debit" required="">
+                            <label class="custom-control-label" for="debit">Debit card</label>
+                        </div>
+                        <div class="custom-control custom-radio d-inline mx-3">
+                            <input id="paypal" name="paymentType" type="radio" class="custom-control-input"
+                                   th:field="*{payment.paymentType}" value="paypal" required="">
+                            <label class="custom-control-label" for="paypal">Paypal</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="cc-name">Name on card</label>
+                            <input type="text" class="form-control" id="cc-name" placeholder="firstname lastname"
+                                   th:field="*{payment.fullName}" required="">
+                            <small class="text-muted">Full name as displayed on card</small>
+                            <div class="invalid-feedback">
+                                Name on card is required
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="cc-number">Credit card number</label>
+                            <input type="text" class="form-control" id="cc-number" placeholder=""
+                                   th:field="*{payment.creditCardNumber}" required="">
+                            <div class="invalid-feedback">
+                                Credit card number is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="cc-expiration">Expiration</label>
+                            <input type="text" class="form-control" id="cc-expiration" placeholder="02/22"
+                                   th:field="*{payment.expiration}" required="">
+                            <small class="text-muted">mm/yy</small>
+                            <div class="invalid-feedback">
+                                Expiration date required
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="cc-expiration">CVV</label>
+                            <input type="text" class="form-control" id="cc-cvv" placeholder=""
+                                   th:field="*{payment.CVV}" required="">
+                            <div class="invalid-feedback">
+                                Security code required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-3 mb-3 ">
+                            <button class="btn btn-info btn-lg btn-block" type="submit">Confirm</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
