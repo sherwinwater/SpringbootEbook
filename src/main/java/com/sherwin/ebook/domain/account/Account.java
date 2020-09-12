@@ -1,10 +1,7 @@
 package com.sherwin.ebook.domain.account;
 
 import com.sherwin.ebook.config.Auditable;
-import com.sherwin.ebook.domain.Billing;
-import com.sherwin.ebook.domain.Book;
-import com.sherwin.ebook.domain.Order;
-import com.sherwin.ebook.domain.User;
+import com.sherwin.ebook.domain.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -27,6 +24,12 @@ public class Account extends Auditable {
     @OneToOne(cascade = CascadeType.PERSIST)
     private Billing billing;
 
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Delivery delivery;
+
     @OneToOne(mappedBy = "account")
     private User user;
+
+    @OneToOne(cascade = CascadeType.PERSIST,mappedBy = "account")
+    private Favorite favorite;
 }

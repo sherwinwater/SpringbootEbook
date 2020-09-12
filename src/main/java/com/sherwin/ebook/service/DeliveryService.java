@@ -23,17 +23,18 @@ public class DeliveryService {
     }
 
     public void addDelivery(Order order, Delivery delivery) {
-        Long idDelivery = 1L;
-        if (order.getDelivery() != null) {
-            idDelivery = order.getDelivery().getId();
-        }
-        order.setDelivery(delivery);
-        order.getDelivery().setCreationDate(order.getCreationDate());
-        order.getDelivery().setCreatedBy(order.getCreatedBy());
-        order.getDelivery().setId(idDelivery);
-//        delivery.setOrder(order);
 
+        if (order.getDelivery() == null) {
+            order.setDelivery(delivery);
+        } else {
+            order.getDelivery().setFirstName(delivery.getFirstName());
+            order.getDelivery().setLastName(delivery.getLastName());
+            order.getDelivery().setEmail(delivery.getEmail());
+            order.getDelivery().setAddress(delivery.getAddress());
+            order.getDelivery().setCountry(delivery.getCountry());
+            order.getDelivery().setState(delivery.getState());
+            order.getDelivery().setZip(delivery.getZip());
+        }
         orderRepository.save(order);  // order maintain the relationship between order and billing. not billing.
-        deliveryRepository.save(delivery);
     }
 }

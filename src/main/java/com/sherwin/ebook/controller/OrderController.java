@@ -62,13 +62,12 @@ public class OrderController {
 
         Billing billing = order.getBilling();
         if (billing == null) {
-            billing = account.getBilling();
-//            billing = new Billing();
+            billing = account.getBilling()==null?new Billing():account.getBilling();
         }
 
         Delivery delivery = order.getDelivery();
         if (delivery == null) {
-            delivery = new Delivery();
+            delivery = account.getDelivery()==null?new Delivery():account.getDelivery();
         }
         model.addAttribute("order", order);
         model.addAttribute("billing", billing);

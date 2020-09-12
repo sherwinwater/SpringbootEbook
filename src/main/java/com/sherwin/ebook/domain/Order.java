@@ -26,7 +26,7 @@ public class Order extends Auditable {
 //    @OneToOne
     private Billing billing;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Delivery delivery;
 
     @ManyToMany(cascade = CascadeType.PERSIST)

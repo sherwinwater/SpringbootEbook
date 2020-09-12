@@ -4,6 +4,10 @@
       layout:decorate="~{layout}">
 <head>
     <title>account</title>
+
+<style>
+
+</style>
 </head>
 <body>
 
@@ -13,16 +17,16 @@
             <div class="col-md-2">
 
                 <ul class="nav flex-column">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link " th:href="@{/account}">home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/account/profile}">Profile</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item ">
                         <a class="nav-link" th:href="@{/account/billing}">Billing</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" th:href="@{/account/delivery}">Delivery</a>
                     </li>
                     <li class="nav-item">
@@ -35,13 +39,31 @@
 
             </div>
             <div class="col-md-10">
-                home
-
+                <h4>Delivery Information</h4>
+                <form class="needs-validation" novalidate="" method="post" th:action="@{/account/delivery}"
+                      th:object="${delivery}">
+                <div th:replace="account/fragments.html :: delivery-info"></div>
+                </form>
             </div>
 
         </div>
     </div>
 </div>
 
+<script>
+    // $(document).ready(function() {
+    //     $('.nav-link').click(function(e) {
+    //         console.log("h");
+    //         e.preventDefault();
+    //         $('.nav-link').removeClass('active');
+    //         $(this).addClass('active');
+    //     });
+    // });
+
+    $('.nav .nav-link').click(function(){
+        $('.nav .nav-link').removeClass('active');
+        $(this).addClass('active');
+    })
+</script>
 </body>
 </html>

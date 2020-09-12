@@ -80,6 +80,7 @@ public class OrderService {
 
         Order order2 = getOpenOrder("open",user);
         order2.setBilling(null);
+        order2.setDelivery(null);
 //        order2.getBilling().setFirstName(order.getBilling().getFirstName());
 //        order2.getBilling().setLastName(order.getBilling().getLastName());
 //        order2.getBilling().setEmail(order.getBilling().getEmail());

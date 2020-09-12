@@ -11,9 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -46,7 +49,7 @@ public class AccountController {
     }
 
     @GetMapping("/account/billing")
-    public String getBillingHome(Model model, Authentication authentication) {
+    public String getBillingInfo(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
         Billing billing = user.getAccount().getBilling();
@@ -57,6 +60,7 @@ public class AccountController {
 
         return "account/billing";
     }
+
 
     @PostMapping("/account/billing")
     public String getBilling(@Valid Billing billing, BindingResult bindingResult,
@@ -71,9 +75,22 @@ public class AccountController {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
             Account account = user.getAccount();
-            accountService.addBilling(account,billing);
+            accountService.addBilling(account, billing);
             return "redirect:/account/billing";
         }
+    }
+
+    @GetMapping("/account/delivery")
+    public String getDeliveryInfo(Model model, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        Delivery delivery = user.getAccount().getDelivery();
+        if (delivery == null) {
+            delivery = new Delivery();
+        }
+        model.addAttribute("delivery", delivery);
+
+        return "account/delivery";
     }
 
     @PostMapping("/account/delivery")
@@ -84,18 +101,38 @@ public class AccountController {
             logger.info("Validation errors were found while adding delivery info");
             model.addAttribute("delivery", delivery);
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
-            return "order/checkout";
+            return "account/delivery";
         } else {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-            Order order = orderService.getOpenOrder("open",user);
-
-            deliveryService.addDelivery(order,delivery);
+            Account account = user.getAccount();
+            accountService.addDelivery(account, delivery);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
 //                        .addFlashAttribute("success", true);
-            return "redirect:/order/checkout";
+            return "redirect:/account/delivery";
         }
+    }
+
+    @PostMapping("/account/favorite/{id}")
+    public String addBook(@PathVariable Long id,
+                          Authentication authentication, HttpSession session) {
+        if (authentication != null) {
+            User user = (User) authentication.getPrincipal();
+            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            Account account = user.getAccount();
+            accountService.addFavorite(account, id);
+        } else {
+            User guest = (User) session.getAttribute("guest");
+            if (guest == null) {
+                guest = new User("guest");
+                session.setAttribute("guest", guest);
+                guest.setCart(new Cart());
+            }
+            Cart cart = guest.getCart();
+//            cartService.addGuestBook(id, quantity, cart);
+        }
+        return "redirect:/book";
     }
 
 }
