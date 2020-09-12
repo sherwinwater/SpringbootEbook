@@ -31,20 +31,32 @@ public class UserService {
         encoder = new BCryptPasswordEncoder();
     }
 
-    public void save(User user){userRepository.save(user);}
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
-    public Optional<User> get(String email){return userRepository.findUserByEmail(email);}
-    public Optional<User> getByid(Long id){return userRepository.findUserById(id);}
-    public void delete(Long id){userRepository.deleteById(id);}
 
-    public List<User> search(String content) {
-        return userRepository.findByFirstNameOrLastNameOrEmailContaining(content,content,content);
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
-    public User register(User user){
-        String secret= "{bcrypt}" + encoder.encode(user.getPassword());
+    public Optional<User> getByid(Long id) {
+        return userRepository.findUserById(id);
+    }
+
+    public void delete(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public List<User> search(String content) {
+        return userRepository.findByFirstNameOrLastNameOrEmailContaining(content, content, content);
+    }
+
+    public User register(User user) {
+        String secret = "{bcrypt}" + encoder.encode(user.getPassword());
 //        user.setEnabled(false);  //? need to activate
         user.setEnabled(true);  //
         user.setPassword(secret);
@@ -57,9 +69,9 @@ public class UserService {
     }
 
     @Transactional
-    public void saveUsers(User... users){
-        for (User user:users){
-            logger.info("Saving user: "+user.getEmail());
+    public void saveUsers(User... users) {
+        for (User user : users) {
+            logger.info("Saving user: " + user.getEmail());
             userRepository.save(user);
         }
     }

@@ -32,6 +32,64 @@
             background-color: #f5f5f5;
         }
 
+        li.active{
+            background-color: lightpink;
+        }
+        li.nav-item > a:hover {
+            color: purple;
+        }
+
+        /* Style the form - display items horizontally */
+        .form-inline {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+        }
+
+        /* Add some margins for each label */
+        .form-inline label {
+            margin: 5px 10px 5px 0;
+        }
+
+        /* Style the input fields */
+        .form-inline input {
+            vertical-align: middle;
+            margin: 5px 10px 5px 0;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        /* Style the submit button */
+        .form-inline button {
+            padding: 10px 20px;
+            background-color: dodgerblue;
+            border: 1px solid #ddd;
+            color: white;
+        }
+
+        .form-inline button:hover {
+            background-color: royalblue;
+        }
+        .checked {
+            color: orange;
+        }
+
+        /* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
+        @media (max-width: 800px) {
+            .form-inline input {
+                margin: 10px 0;
+            }
+
+            .form-inline {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+
+
+
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
@@ -70,25 +128,22 @@
 
             <!-- if user is signed in -->
             <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/cart}">
+                    <i class="fas fa-shopping-cart" aria-hidden="true"></i> Cart</a>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" th:href="@{/account}">
                     <i class="fa fa-user" aria-hidden="true"></i> Account</a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:href="@{/cart}">
-                    <i class="fa fa-user" aria-hidden="true"></i> Cart</a>
-            </li>
-            <li class="nav-item" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:href="@{/order}">
-                    <i class="fa fa-user" aria-hidden="true"></i> Order</a>
-            </li>
-            <li class="nav-item" sec:authorize="isAuthenticated()">
                 <!--                    <i class="fa fa-user" aria-hidden="true" sec:authentication="name">Account</i>-->
-               <a class="nav-link" href="#" sec:authentication="name">
+                <a class="nav-link" th:href="@{/account}" sec:authentication="name">
                     <i class="fa fa-user" aria-hidden="true"></i>Bob</a>
             </li>
             <li class="nav-item">
                 <form method="POST" th:action="@{/logout}" sec:authorize="isAuthenticated()">
-                    <a class="nav-link" href="/logout"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Sign Out</a>
+                    <a class="nav-link" href="/logout"><i class="fa fa-sign-out-alt" aria-hidden="true"></i> Sign
+                        Out</a>
                 </form>
             </li>
 
@@ -143,7 +198,16 @@
             let searchvalue = $(this).val();
             $("#data").load("/user/ajaxsearch3" + searchvalue);
         });
+
+        $('ul.nav li.nav-item').click(function (e) {
+            // e.preventDefault();
+            $('ul.nav li.nav-item').removeClass('active');
+            $(this).addClass('active');
+        });
+
     });
+
+
     /*
     async function ajaxsearch() {
         console.log("hello");

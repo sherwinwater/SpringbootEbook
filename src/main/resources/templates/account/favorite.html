@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Favorite</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container py-5">
+        <div class="row ">
+            <div class="col-md-2">
+
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link " th:href="@{/account}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/profile}">Profile</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" th:href="@{/account/billing}">Billing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/delivery}">Delivery</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/account/favorite}">Wishlist</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/order}">Order</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-md-10">
+
+                <div th:if="${favorite.books.isEmpty()} == false">
+                    <!--                    <div th:if="${cart.books != null}">-->
+                    <h2>Your favorite</h2>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Photo</th>
+                            <th>Price</th>
+                            <th>View</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="book : ${favorite.books}" >
+                            <td th:text="${book.id}"></td>
+                            <td th:text="${book.name}"></td>
+                            <td>
+                                <img th:src="@{${book.photoUrl}}" alt="photo" width="70" height="100">
+                            </td>
+                            <td th:text="${book.price}"></td>
+                            <td><a href="#" th:href="@{/book} ">View</a></td>
+                            <td><a href="#" th:href="@{/account/favorite/delete/} + ${book.id}">Delete</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div th:if="${favorite.books.isEmpty()} == true">
+                    <!--                        <div th:if="${cart.books == null}">-->
+                    <!--                    <div th:if="${carts.size()} == 0">-->
+                    <p class="alert alert-warning" role="alert">No Favorite Found.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>

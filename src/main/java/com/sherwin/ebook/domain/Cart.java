@@ -2,44 +2,47 @@ package com.sherwin.ebook.domain;
 
 import com.sherwin.ebook.config.Auditable;
 import lombok.*;
+import org.aspectj.weaver.ast.Or;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @NoArgsConstructor
-//@ToString
 @Getter
 @Setter
 public class Cart extends Auditable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
-    @OneToOne(mappedBy = "cart")
+    @OneToOne(mappedBy = "cart",cascade = CascadeType.ALL)
     private User user;
 
-//    @NonNull
-//    @OneToMany(fetch = FetchType.EAGER)
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-//    @JoinTable(name = "cart_booklist")
-//    @JoinColumn(name = "cart_booklist",nullable = false)
-    private List<Book> bookList = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart")
+    private Set<Order> orders = new LinkedHashSet<>();
 
-    public Cart(long id) {
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "carts_books",
+            joinColumns = {@JoinColumn(name = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "book_id")}
+    )
+    @OrderBy("id ASC")
+    private Set<Book> books = new HashSet<>();
+
+    public Cart(Long id) {
         this.id =id;
     }
 
+    @Transient
     private double totalPrice;
 
-    public void addBook(Book book) {
-        this.bookList.add(book);
-    }
     public void updateBook(Book book, Long id) {
-        for(Book one: this.bookList){
+        for(Book one: this.books){
             if(one.getId() == id){
                 one.setQuantity(book.getQuantity());
                 one.setInventory(book.getInventory());
@@ -47,13 +50,25 @@ public class Cart extends Auditable {
         }
     }
 
-    public void removeBook(Book book) {
-        this.bookList.remove(book);
+    public void addBook(Book book) {
+        this.books.add(book);
+        book.getCarts().add(this);
     }
 
+    public void removeBook(Book book) {
+        this.books.remove(book);
+        book.getCarts().remove(this);
+    }
+
+    public void removeAll(){
+        this.books.clear();
+    }
+
+    @Access(AccessType.PROPERTY)
+    @Column(name="total_price")
     public double getTotalPrice(){
         totalPrice = 0;
-        bookList.forEach(book ->  totalPrice += book.getPrice() *book.getQuantity());
+        this.books.forEach(book ->  totalPrice += book.getPrice() *book.getQuantity());
         return totalPrice;
     }
 }

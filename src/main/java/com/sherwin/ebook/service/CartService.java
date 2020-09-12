@@ -6,10 +6,12 @@ import com.sherwin.ebook.domain.User;
 import com.sherwin.ebook.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+//@Transactional
 public class CartService {
 
     private final CartRepository cartRepository;
@@ -30,16 +32,16 @@ public class CartService {
         return cartRepository.findAll();
     }
 
-//    public Optional<Cart> get(User user) {
-//        return cartRepository.findCartByUser(user);
-//    }
+    public Cart get(User user) {
+        return cartRepository.findCartByUser(user);
+    }
 
     public Cart getByid(Long id) {
         return cartRepository.findCartById(id);
     }
 
     public void deleteGuestBook(Long id, Cart cart) {
-        Book book = cart.getBookList().stream()
+        Book book = cart.getBooks().stream()
                 .filter(book1 -> book1.getId() == id)
                 .findAny()
                 .orElse(null);
@@ -48,55 +50,51 @@ public class CartService {
 
     public void deleteUserBook(Long id, Cart cart) {
 
-        Book bookSelected = cart.getBookList().stream()
+        Book bookSelected = cart.getBooks().stream()
                 .filter(book1 -> book1.getId() == id)
                 .findAny()
                 .orElse(null);
         Book book = bookService.get(id);
         book.setInventory(book.getInventory() + bookSelected.getQuantity());
-
+//        book.setQuantity(0L);
+        bookService.save(book);
         cart.removeBook(bookSelected);
         cartRepository.save(cart);
     }
 
-    public void addUserBook(long id, int quantity, Cart cart) {
-
+    public void addUserBook(Long id, int quantity, Cart cart) {
         Book book = bookService.get(id);
-        long bookInventory = book.getInventory();
+        int bookInventory = book.getInventory();
 
-        if (cart.getBookList().stream().anyMatch(b -> b.getId() == id)) {
+        if (cart.getBooks().stream().anyMatch(b -> b.getId() == id)) {
             bookInventory += book.getQuantity();
             book.setInventory(bookInventory);
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
-                bookService.save(book);
-                cart.updateBook(book, id);
-                cartRepository.save(cart);
             } else {
                 book.setInventory(bookInventory);
-                bookService.save(book);
             }
+            cart.updateBook(book, id);
         } else {
             if (bookInventory >= quantity) {
                 book.setQuantity(quantity);
                 book.setInventory(bookInventory - quantity);
                 cart.addBook(book);
-                bookService.save(book);
-                cartRepository.save(cart);
             }
         }
+        cartRepository.save(cart);
     }
 
-    public void addGuestBook(long id, int quantity, Cart cart) {
+    public void addGuestBook(Long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
         book.setQuantity(quantity);
 
-        if (cart.getBookList().isEmpty()) {
+        if (cart.getBooks().isEmpty()) {
             cart.addBook(book);
         } else {
-            if (cart.getBookList().stream().anyMatch(b -> b.getId() == id)) {
+            if (cart.getBooks().stream().anyMatch(b -> b.getId() == id)) {
                 cart.updateBook(book, id);
             } else {
                 cart.addBook(book);
@@ -105,7 +103,7 @@ public class CartService {
 
     }
 
-    public void updateGuestBook(long id, int quantity, Cart cart) {
+    public void updateGuestBook(Long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
         book.setQuantity(quantity);
@@ -113,10 +111,10 @@ public class CartService {
 
     }
 
-    public void updateUserBook(long id, int quantity, Cart cart) {
+    public void updateUserBook(Long id, int quantity, Cart cart) {
 
         Book book = bookService.get(id);
-        long bookInventory = book.getInventory();
+        int bookInventory = book.getInventory();
         bookInventory += book.getQuantity();
 
         book.setInventory(bookInventory);
@@ -132,4 +130,14 @@ public class CartService {
         cart.updateBook(book, id);
         this.save(cart);
     }
+
+    public void clearCart(Cart cart) {
+        cart.removeAll();
+        cartRepository.save(cart);
+    }
+
+    public void deleteCart(Cart cart) {
+        cartRepository.delete(cart);
+    }
+
 }

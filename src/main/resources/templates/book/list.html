@@ -18,31 +18,51 @@
                             <div class="card-body">
                                 <a href="#" th:href="@{/book}"><p class="card-text text-center" th:text="${book.name}">
                                 </p></a>
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <form th:action="@{/cart/add/} + ${book.id}" method="post">
-                                        <div th:class="form-group">
-                                            <label class="col-sm-12 control-label">quantity </label>
-                                            <div class="col-sm-12 ">
-                                                <input type="number" class="form-control" name="quantity" value="1"
-                                                       min="1" th:max="${book.inventory}"/>
-                                                <small class="text-muted" th:text="${book.inventory}">Stock</small>
-                                            </div>
+                                <div>
+                                    <form th:action="@{/cart/add/} + ${book.id}" method="post" class="d-inline">
+                                        <div style="white-space:nowrap">
+                                            <span th:text="'$ '+${book.price}"></span>&nbsp;&nbsp;&nbsp;
+                                            <label class="">Qty</label>
+                                            <input type="number" class="" name="quantity" value="1"
+                                                   min="1" th:max="${book.inventory}"/>
+                                            <small class="text-muted" th:text="${book.inventory}">Stock</small>
                                         </div>
-                                        <div th:class="form-group">
-                                            <p th:text="'$ '+${book.price}"></p>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary pull-right">Add to cart</button>
+                                        <button type="submit" class="btn btn-success pull-right p-1">
+                                            <small>Add to cart</small></button>
                                     </form>
-
+                                    <form th:action="@{/account/favorite/} + ${book.id}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-warning pull-right p-1">
+                                            <small>Favorite</small></button>
+                                    </form>
+                                   <small><form th:action="@{/account/favorite/} + ${book.id}" method="post">
+                                        <div class="score-wrap">
+                                           <span class="stars-active" style="width:88%">
+                                                <i class="fa fa-star checked" aria-hidden="true"></i>
+                                                <i class="fa fa-star checked" aria-hidden="true"></i>
+                                                <i class="fa fa-star checked" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            </span>
+<!--                                        <label class="" th:text="4.2">rating</label>&nbsp;&nbsp;&nbsp;-->
+                                        <input type="number" class="" name="quantity" value="1"
+                                               min="1" max="5"/>
+                                        <button type="submit" class="btn btn-link pull-right p-1">
+                                            <small>Rate</small></button>
+                                        </div>
+                                    </form></small>
                                 </div>
+
+                                <form>
+
+                                </form>
+
                             </div>
                         </div>
                     </div>
 
                 </div>
             </div>
-            <a th:href="@{/admin/book/create}">Add New book</a>
+            <!--            <a th:href="@{/admin/book/create}">Add New book</a>-->
             <br/><br/>
 
             <div th:if="${books.isEmpty()} == true">

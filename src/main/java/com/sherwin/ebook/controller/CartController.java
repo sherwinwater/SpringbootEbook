@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 @Controller
 public class CartController {
@@ -20,7 +21,12 @@ public class CartController {
     @GetMapping("/cart")
     public String getUserCart(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        Cart cart = user.getCart();
+//        Cart cart = user.getCart();
+        Cart cart = cartService.get(user);  //get data from db
+        if(cart == null){
+            cart = new Cart();
+        }
+        System.out.println(cart.getBooks().toString());
         model.addAttribute("cart", cart);
         return "cart/list";
     }
@@ -39,11 +45,12 @@ public class CartController {
     }
 
     @PostMapping("/cart/add/{id}")
-    public String addBook(@PathVariable long id, @RequestParam("quantity") int quantity,
+    public String addBook(@PathVariable Long id, @RequestParam("quantity") int quantity,
                           Authentication authentication, HttpSession session) {
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
-            Cart cart = user.getCart();
+            Cart cart = cartService.get(user);  //get data from db
+//            Cart cart = user.getCart();  // cart is not from db
             cartService.addUserBook(id, quantity, cart);
         } else {
             User guest = (User) session.getAttribute("guest");
@@ -59,12 +66,13 @@ public class CartController {
     }
 
     @PostMapping("/cart/update/{id}")
-    public String updateBook(@PathVariable long id, @RequestParam("quantity") int quantity,
+    public String updateBook(@PathVariable Long id, @RequestParam("quantity") int quantity,
                              Authentication authentication, HttpSession session) {
 
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
-            Cart cart = user.getCart();
+//            Cart cart = user.getCart();
+            Cart cart = cartService.get(user);  //get data from db
             cartService.updateUserBook(id, quantity, cart);
             return "redirect:/cart";
         } else {
@@ -82,11 +90,12 @@ public class CartController {
     }
 
     @GetMapping("/cart/delete/{id}")
-    public String deleteBook(@PathVariable long id, Authentication authentication, HttpSession session) {
+    public String deleteBook(@PathVariable Long id, Authentication authentication, HttpSession session) {
 
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
-            Cart cart = user.getCart();
+            Cart cart = cartService.get(user);  //get data from db
+//            Cart cart = user.getCart();
             cartService.deleteUserBook(id, cart);
             return "redirect:/cart";
         } else {
