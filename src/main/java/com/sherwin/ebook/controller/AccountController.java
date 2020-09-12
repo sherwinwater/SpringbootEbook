@@ -1,7 +1,7 @@
 package com.sherwin.ebook.controller;
 
 import com.sherwin.ebook.domain.*;
-import com.sherwin.ebook.domain.account.Account;
+import com.sherwin.ebook.domain.Account;
 import com.sherwin.ebook.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -133,6 +132,28 @@ public class AccountController {
 //            cartService.addGuestBook(id, quantity, cart);
         }
         return "redirect:/book";
+    }
+
+    @GetMapping("/account/favorite")
+    public String getFavorite(Model model, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        Account account = user.getAccount();
+        Favorite favorite = account.getFavorite();
+
+        model.addAttribute("favorite", favorite);
+        return "account/favorite";
+    }
+
+
+    @GetMapping("/account/favorite/delete/{id}")
+    public String deleteBook(@PathVariable Long id, Authentication authentication, HttpSession session) {
+        User user = (User) authentication.getPrincipal();
+        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        Account account = user.getAccount();
+        Favorite favorite = account.getFavorite();
+        accountService.deleteFavorite(account, favorite, id);
+        return "redirect:/account/favorite";
     }
 
 }

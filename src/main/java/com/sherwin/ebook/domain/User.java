@@ -1,7 +1,6 @@
 package com.sherwin.ebook.domain;
 
 import com.sherwin.ebook.config.Auditable;
-import com.sherwin.ebook.domain.account.Account;
 import com.sherwin.ebook.domain.validator.PasswordsMatch;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

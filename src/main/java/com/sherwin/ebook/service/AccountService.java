@@ -1,17 +1,12 @@
 package com.sherwin.ebook.service;
 
 import com.sherwin.ebook.domain.*;
-import com.sherwin.ebook.domain.account.Account;
+import com.sherwin.ebook.domain.Account;
 import com.sherwin.ebook.repository.AccountRepository;
 import com.sherwin.ebook.repository.BookRepository;
-import com.sherwin.ebook.repository.CartRepository;
-import com.sherwin.ebook.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class AccountService {
@@ -77,9 +72,21 @@ public class AccountService {
 
         account.getFavorite().getBooks().add(book);
         account.getFavorite().setAccount(account);
-        book.setFavorite(account.getFavorite());
-        book.getFavorite().setAccount(account);
+//        book.setFavorites(account.getFavorite());
+//        book.getFavorites().setAccount(account);
         accountRepository.save(account);
     }
 
+    public void deleteFavorite(Account account, Favorite favorite,Long id) {
+
+        Book bookSelected = favorite.getBooks().stream()
+                .filter(book1 -> book1.getId() == id)
+                .findAny()
+                .orElse(null);
+
+        favorite.removeFavorite(bookSelected);
+        account.setFavorite(favorite);
+        favorite.setAccount(account);
+        accountRepository.save(account);
+    }
 }

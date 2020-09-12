@@ -39,8 +39,8 @@ public class Book extends Auditable  {
     @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
     private Set<Order> orders = new LinkedHashSet<>();
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Favorite favorite;
+    @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
+    private Set<Favorite> favorites =new LinkedHashSet<>();
 
     @Override
     public String toString() {

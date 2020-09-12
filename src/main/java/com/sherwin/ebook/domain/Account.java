@@ -1,4 +1,4 @@
-package com.sherwin.ebook.domain.account;
+package com.sherwin.ebook.domain;
 
 import com.sherwin.ebook.config.Auditable;
 import com.sherwin.ebook.domain.*;
@@ -30,6 +30,6 @@ public class Account extends Auditable {
     @OneToOne(mappedBy = "account")
     private User user;
 
-    @OneToOne(cascade = CascadeType.PERSIST,mappedBy = "account")
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Favorite favorite;
 }
