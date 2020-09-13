@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Favorite</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container py-5">
+        <div class="row ">
+            <div class="col-md-2">
+
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link " th:href="@{/account}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/profile}">Profile</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" th:href="@{/account/billing}">Billing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/account/delivery}">Delivery</a>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" th:href="@{/account/favorite}">Wishlist</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/account/order}">Order</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-md-10">
+
+                <div th:if="${orders.isEmpty()} == false">
+                    <!--                    <div th:if="${cart.orders != null}">-->
+                    <h2>Your order</h2>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>status</th>
+                            <th>Details</th>
+                            <th>Price</th>
+                            <th>Date</th>
+<!--                            <th>Delete</th>-->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order : ${orders}" >
+                            <td th:text="${order.id}"></td>
+                            <td th:text="${order.status}"></td>
+
+                            <td th:text="${order.books}">
+<!--                                <tr th:each="book:${order.books}">-->
+<!--                                    <td th:text="${book.name}"></td>-->
+<!--                                    <td th:text="${book.price}"></td>-->
+<!--                                    <td th:text="${book.quantity}"></td>-->
+<!--                                </tr>-->
+                            </td>
+                            <td th:text="${order.totalPrice}"></td>
+                            <td th:text="${order.creationDate}"></td>
+<!--                            <td><a href="#" th:href="@{/account/favorite/delete/} + ${order.id}">Delete</a></td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div th:if="${orders.isEmpty()} == true">
+                    <!--                        <div th:if="${cart.orders == null}">-->
+                    <!--                    <div th:if="${carts.size()} == 0">-->
+                    <p class="alert alert-warning" role="alert">No Order Found.</p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>

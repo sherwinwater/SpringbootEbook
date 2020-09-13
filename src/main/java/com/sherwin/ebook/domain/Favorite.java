@@ -20,10 +20,6 @@ public class Favorite extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "favorite",fetch = FetchType.LAZY)
-//    @OrderBy("id ASC")
-//    private Set<Book> books = new HashSet<>();
-
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "favorite_books",

@@ -3,6 +3,7 @@ package com.sherwin.ebook.controller;
 import com.sherwin.ebook.domain.*;
 import com.sherwin.ebook.domain.Account;
 import com.sherwin.ebook.service.*;
+import org.aspectj.weaver.ast.Or;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class AccountController {
@@ -140,7 +143,9 @@ public class AccountController {
         user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
         Account account = user.getAccount();
         Favorite favorite = account.getFavorite();
-
+        if(favorite == null){
+            favorite = new Favorite();
+        }
         model.addAttribute("favorite", favorite);
         return "account/favorite";
     }
@@ -154,6 +159,26 @@ public class AccountController {
         Favorite favorite = account.getFavorite();
         accountService.deleteFavorite(account, favorite, id);
         return "redirect:/account/favorite";
+    }
+
+    @GetMapping("/account/order")
+    public String getOrder(Model model, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        Set<Order> orders = user.getOrders();
+        if(orders.isEmpty()){
+            orders = new HashSet<>();
+        }
+        else{
+            for(Order order:orders){
+                orders = new HashSet<>(orders);
+                if (order.getStatus().equals("open")){
+                    orders.remove(order);
+                }
+            }
+        }
+        model.addAttribute("orders", orders);
+        return "account/order";
     }
 
 }
