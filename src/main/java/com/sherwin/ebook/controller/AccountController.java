@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashSet;
@@ -143,7 +144,7 @@ public class AccountController {
         user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
         Account account = user.getAccount();
         Favorite favorite = account.getFavorite();
-        if(favorite == null){
+        if (favorite == null) {
             favorite = new Favorite();
         }
         model.addAttribute("favorite", favorite);
@@ -162,23 +163,52 @@ public class AccountController {
     }
 
     @GetMapping("/account/order")
-    public String getOrder(Model model, Authentication authentication) {
+    public String getOrder(Model model, Authentication authentication, HttpServletRequest request,
+                           HttpSession session) {
         User user = (User) authentication.getPrincipal();
         user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
         Set<Order> orders = user.getOrders();
-        if(orders.isEmpty()){
+        if (orders.isEmpty()) {
             orders = new HashSet<>();
-        }
-        else{
-            for(Order order:orders){
+        } else {
+            for (Order order : orders) {
                 orders = new HashSet<>(orders);
-                if (order.getStatus().equals("open")){
+                if (order.getStatus().equals("open")) {
                     orders.remove(order);
                 }
             }
         }
+
+        Order order = (Order)request.getSession().getAttribute("order");
+        if (order == null) {
+            order = new Order();
+        }
         model.addAttribute("orders", orders);
+        model.addAttribute("order", order);
         return "account/order";
     }
 
+    @PostMapping("/account/order/search")
+    public String searchOrder(@Valid Order order, BindingResult bindingResult,
+                              Model model, RedirectAttributes redirectAttributes,
+                              Authentication authentication, HttpSession session,
+                              HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            logger.info("Validation errors were found while adding delivery info");
+            model.addAttribute("order", order);
+            model.addAttribute("validationErrors", bindingResult.getAllErrors());
+            return "account/order/search";
+        } else {
+            User user = (User) authentication.getPrincipal();
+            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            Account account = user.getAccount();
+
+            request.getSession().setAttribute("order",order);
+
+//                redirectAttributes
+//                        .addAttribute("id", newUser.getId())
+//                        .addFlashAttribute("success", true);
+            return "redirect:/account/order";
+        }
+    }
 }
