@@ -163,23 +163,27 @@ public class AccountController {
     }
 
     @GetMapping("/account/order")
-    public String getOrder(Model model, Authentication authentication, HttpServletRequest request,
+    public String getOrder(Model model, Authentication authentication,
                            HttpSession session) {
         User user = (User) authentication.getPrincipal();
         user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-        Set<Order> orders = user.getOrders();
-        if (orders.isEmpty()) {
-            orders = new HashSet<>();
-        } else {
-            for (Order order : orders) {
-                orders = new HashSet<>(orders);
-                if (order.getStatus().equals("open")) {
-                    orders.remove(order);
-                }
-            }
-        }
+//        Set<Order> orders = user.getOrders();
+//        if (orders.isEmpty()) {
+//            orders = new HashSet<>();
+//        } else {
+//            for (Order order : orders) {
+//                orders = new HashSet<>(orders);
+//                if (order.getStatus().equals("open")) {
+//                    orders.remove(order);
+//                }
+//            }
+//        }
 
-        Order order = (Order)request.getSession().getAttribute("order");
+        Order order = (Order) session.getAttribute("order");
+        Set<Order> orders = (Set<Order>) session.getAttribute("orders");
+        if (orders == null) {
+            orders = new HashSet<>();
+        }
         if (order == null) {
             order = new Order();
         }
@@ -202,8 +206,13 @@ public class AccountController {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
             Account account = user.getAccount();
+            Set<Order> orders = orderService.getOrders(order.getStatus(), user);
+            if (order.getStatus().isEmpty()) {
+                orders = orderService.getAllOrders(user);
+            }
 
-            request.getSession().setAttribute("order",order);
+            session.setAttribute("orders", orders);
+            session.setAttribute("order", order);
 
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())

@@ -35,52 +35,13 @@
             </div>
             <div class="col-md-10">
 
-                <div th:if="${orders.isEmpty()} == false">
-                    <!--                    <div th:if="${cart.orders != null}">-->
-                    <h2>Your order</h2>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>status</th>
-                            <th>Details</th>
-                            <th>Price</th>
-                            <th>Date</th>
-<!--                            <th>Delete</th>-->
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="order : ${orders}" >
-                            <td th:text="${order.id}"></td>
-                            <td th:text="${order.status}"></td>
-
-                            <td th:text="${order.books}">
-<!--                                <tr th:each="book:${order.books}">-->
-<!--                                    <td th:text="${book.name}"></td>-->
-<!--                                    <td th:text="${book.price}"></td>-->
-<!--                                    <td th:text="${book.quantity}"></td>-->
-<!--                                </tr>-->
-                            </td>
-                            <td th:text="${order.totalPrice}"></td>
-                            <td th:text="${order.creationDate}"></td>
-<!--                            <td><a href="#" th:href="@{/account/favorite/delete/} + ${order.id}">Delete</a></td>-->
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div th:if="${orders.isEmpty()} == true">
-                    <!--                        <div th:if="${cart.orders == null}">-->
-                    <!--                    <div th:if="${carts.size()} == 0">-->
-                    <p class="alert alert-warning" role="alert">No Order Found.</p>
-                </div>
-
                 <!--  start of order search     -->
                 <form method="post" th:action="@{/account/order/search}" th:object="${order}">
                     <div class="form-group row">
                         <label for="orderId" class="col-sm-2 col-form-label">Status</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control" id="orderId" placeholder="status" th:field="*{status}">
+                            <input type="text" class="form-control" id="orderId" placeholder="status"
+                                   th:field="*{status}">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -95,25 +56,29 @@
                             <legend class="col-form-label col-sm-2 pt-0">Status</legend>
                             <div class="col-sm-10">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
+                                           value="option1" checked>
                                     <label class="form-check-label" for="gridRadios1">
                                         Closed
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
+                                           value="option2">
                                     <label class="form-check-label" for="gridRadios2">
                                         Delivery
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3"
+                                           value="option3">
                                     <label class="form-check-label" for="gridRadios3">
                                         Packaging
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios4" value="option3">
+                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios4"
+                                           value="option3">
                                     <label class="form-check-label" for="gridRadios4">
                                         Placed
                                     </label>
@@ -140,17 +105,18 @@
                     </div>
                     <div class="form-group row justify-content-center align-items-center">
                         <div class="col-sm-10 ">
-                            <button type="submit" class="btn btn-info justify-content-center align-items-center">Search Order</button>
+                            <button type="submit" class="btn btn-info justify-content-center align-items-center">Search
+                                Order
+                            </button>
                         </div>
                     </div>
                 </form>
 
                 <!--  end of order search     -->
 
-
-                <div th:if="${order} != null">
+                <div th:if="${orders.isEmpty()} == false">
                     <!--                    <div th:if="${cart.orders != null}">-->
-                    <h2>Search results</h2>
+                    <h2>Your order</h2>
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -159,21 +125,63 @@
                             <th>Details</th>
                             <th>Price</th>
                             <th>Date</th>
+                            <!--                            <th>Delete</th>-->
                         </tr>
                         </thead>
                         <tbody>
-                        <tr >
+                        <tr th:each="order : ${orders}">
                             <td th:text="${order.id}"></td>
                             <td th:text="${order.status}"></td>
-
-                            <td th:text="${order.books}">
+                            <td>
+                                <table>
+                                    <tr th:each="book:${order.books}">
+                                        <td th:text="${book.name}"></td>
+                                        <td th:text="${book.quantity}"></td>
+                                        <td th:text="${book.price}"></td>
+                                    </tr>
+                                </table>
                             </td>
                             <td th:text="${order.totalPrice}"></td>
                             <td th:text="${order.creationDate}"></td>
+                            <!--                            <td><a href="#" th:href="@{/account/favorite/delete/} + ${order.id}">Delete</a></td>-->
                         </tr>
                         </tbody>
                     </table>
                 </div>
+
+                <div th:if="${orders.isEmpty()} == true">
+                    <!--                        <div th:if="${cart.orders == null}">-->
+                    <!--                    <div th:if="${carts.size()} == 0">-->
+                    <p class="alert alert-warning" role="alert">No Order Found.</p>
+                </div>
+
+
+                <!--                <div th:if="${!orders.isEmpty()}">-->
+                <!--                    &lt;!&ndash;                    <div th:if="${cart.orders != null}">&ndash;&gt;-->
+                <!--                    <h2>Search results</h2>-->
+                <!--                    <table class="table table-striped">-->
+                <!--                        <thead>-->
+                <!--                        <tr>-->
+                <!--                            <th>Id</th>-->
+                <!--                            <th>status</th>-->
+                <!--                            <th>Details</th>-->
+                <!--                            <th>Price</th>-->
+                <!--                            <th>Date</th>-->
+                <!--                        </tr>-->
+                <!--                        </thead>-->
+                <!--                        <tbody>-->
+                <!--                        <tr >-->
+                <!--                            <td th:text="${order.id}"></td>-->
+                <!--                            <td th:text="${order.status}"></td>-->
+
+                <!--                            <td th:text="${order.books}">-->
+                <!--                            </td>-->
+                <!--                            <td th:text="${order.totalPrice}"></td>-->
+                <!--                            <td th:text="${order.creationDate}"></td>-->
+                <!--                        </tr>-->
+                <!--                        </tbody>-->
+                <!--                    </table>-->
+                <!--                </div>-->
 
 
             </div>
