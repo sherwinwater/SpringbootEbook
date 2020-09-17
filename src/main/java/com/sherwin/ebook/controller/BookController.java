@@ -26,13 +26,13 @@ public class BookController {
 
     @GetMapping("/books")
     public String getAllBooks(Model model){
-        return viewPage(model,1,2,"id");
+        return viewPage(model,1,8,"id");
     }
 
     @GetMapping("/page/{pageNum}")
     public String viewPage(Model model,
                            @PathVariable(name = "pageNum") int pageNum,
-                           @RequestParam(defaultValue = "2") Integer pageSize,
+                           @RequestParam(defaultValue = "8") Integer pageSize,
                            @RequestParam(defaultValue = "id") String sortBy) {
 
         Page<Book> page = bookService.getAllBooks(pageNum-1,pageSize,sortBy);
