@@ -205,10 +205,11 @@ public class AccountController {
         } else {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-            Account account = user.getAccount();
-            Set<Order> orders = orderService.getOrders(order.getStatus(), user);
+            Set<Order> orders = new HashSet<>();
             if (order.getStatus().isEmpty()) {
                 orders = orderService.getAllOrders(user);
+            }else {
+                orders = orderService.getOrders(order.getStatus(), user);
             }
 
             session.setAttribute("orders", orders);
