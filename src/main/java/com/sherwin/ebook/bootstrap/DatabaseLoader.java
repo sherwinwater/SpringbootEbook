@@ -14,10 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class DatabaseLoader implements CommandLineRunner {
@@ -49,20 +46,48 @@ public class DatabaseLoader implements CommandLineRunner {
         Book book4 = new Book("the hunting ground", 4.9, "/images/thehuntingground.png");
         Book book5 = new Book("larry friends", 45.00, "/images/larry.png");
         Book book6 = new Book("time machine", 15.49, "/images/timemachine.png");
+        Book book7 = new Book("concussion", 1.00, "/images/concussion.png");
+        Book book8 = new Book("legends of the fall", 5.9, "/images/legendsofthefall.png");
+        Book book9 = new Book("the hunting ground", 4.9, "/images/thehuntingground.png");
+        Book book10 = new Book("larry friends", 45.00, "/images/larry.png");
+        Book book11 = new Book("Apocalypto", 50.49, "/images/Apocalypto.png");
+        Book book12 = new Book("concussion", 5.00, "/images/concussion.png");
+        Book book13 = new Book("legends of the fall", .9, "/images/legendsofthefall.png");
+        Book book14 = new Book("the hunting ground", .9, "/images/thehuntingground.png");
+        Book book15 = new Book("larry friends", 5.00, "/images/larry.png");
+        Book book16 = new Book("time machine", 1.49, "/images/timemachine.png");
+        Book book17 = new Book("concussion", 19.00, "/images/concussion.png");
+        Book book18 = new Book("legends of the fall", 45.9, "/images/legendsofthefall.png");
+        Book book19 = new Book("the hunting ground", 14.9, "/images/thehuntingground.png");
+        Book book20 = new Book("larry friends", 4.00, "/images/larry.png");
 
-        book1.setInventory(100);
-        book2.setInventory(200);
-        book3.setInventory(300);
-        book4.setInventory(400);
-        book5.setInventory(500);
-        book6.setInventory(600);
+        List<Book> books = new ArrayList<>();
+        books.add(book1);
+        books.add(book2);
+        books.add(book3);
+        books.add(book4);
+        books.add(book5);
+        books.add(book6);
+        books.add(book7);
+        books.add(book8);
+        books.add(book9);
+        books.add(book10);
+        books.add(book11);
+        books.add(book12);
+        books.add(book13);
+        books.add(book14);
+        books.add(book15);
+        books.add(book16);
+        books.add(book17);
+        books.add(book18);
+        books.add(book19);
+        books.add(book10);
+        books.add(book20);
+        for(Book book:books){
+            book.setInventory(100);
+            bookService.save(book);
+        }
 
-        bookService.save(book1);
-        bookService.save(book2);
-        bookService.save(book3);
-        bookService.save(book4);
-        bookService.save(book5);
-        bookService.save(book6);
     }
 
     private void addUsersAndRoles() {
