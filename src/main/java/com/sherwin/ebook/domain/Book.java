@@ -33,6 +33,9 @@ public class Book extends Auditable  {
 
     private Integer quantity;
 
+    private String location;
+    private String details;
+
     @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
     private Set<Cart> carts = new LinkedHashSet<>();
 

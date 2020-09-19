@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Favorite</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container py-5 m-2">
+        <div class="row">
+            <div class="col-md-2">
+
+                <ul class="nav flex-column">
+                    <li>
+                        <a class="">Products</a>
+                        <ul class="nav flex-column px-2">
+                            <li class="nav-item active">
+                                <a class="nav-link" th:href="@{/admin/product/view}">View</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" th:href="@{/admin/product/add}">Add</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/product/update}">Update</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ">
+                        <a class="nav-link" th:href="@{/admin/orders}">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/users}">Users</a>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-md-10">
+                home
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>
