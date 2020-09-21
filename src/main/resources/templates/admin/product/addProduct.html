@@ -7,15 +7,15 @@
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="container py-5 m-2">
+    <div class="p-3 m-5">
         <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-1">
 
                 <ul class="nav flex-column">
                     <li>
-                        <a class="">Products</a>
-                        <ul class="nav flex-column px-2">
-                            <li class="nav-item">
+                        <a class="">Product</a>
+                        <ul class="nav flex-column">
+                            <li class="nav-item ">
                                 <a class="nav-link" th:href="@{/admin/product/view}">View</a>
                             </li>
                             <li class="nav-item active">
@@ -26,23 +26,45 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" th:href="@{/admin/orders}">Orders</a>
+                    <li>
+                        <a class="">Order</a>
+                        <ul class="nav flex-column">
+                            <li class="nav-item ">
+                                <a class="nav-link" th:href="@{/admin/order/view}">View</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" th:href="@{/admin/order/add}">Add</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/order/update}">Update</a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/users}">Users</a>
+                    <li>
+                        <a class="">User</a>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/user/view}">View</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" th:href="@{/admin/user/add}">Add</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/user/update}">Update</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
 
             </div>
-            <div class="col-md-10">
+            <div class="col-md-11">
 
                 <h4 class="mb-3">Insert Product</h4>
                 <form class="needs-validation" novalidate="" method="post" th:action="@{/admin/product/add}"
                       th:object="${book}">
 
                     <div class="row">
-                        <div class="col-md-1 mb-3">
+                        <div class="col-md-2 mb-3">
                             <label for="id">Id</label>
                             <input type="text" class="form-control" id="id" placeholder=""
                                    th:field="*{id}" readonly>

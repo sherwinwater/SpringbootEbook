@@ -22,7 +22,7 @@
                             <th>Price</th>
                             <th>Add</th>
                             <th>View</th>
-                            <th>Edit</th>
+                            <th>Update</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
@@ -36,7 +36,7 @@
                             <td th:text="${Book.price}"></td>
                             <td><a href="#" th:href="@{/Book/add/} + ${Book.id}">Add</a></td>
                             <td><a href="#" th:href="@{/Book/} + ${Book.id}">View</a></td>
-                            <td><a href="#" th:href="@{/admin/Book/edit/} + ${Book.id}">Edit</a></td>
+                            <td><a href="#" th:href="@{/admin/Book/update/} + ${Book.id}">Update</a></td>
                             <td><a href="#" th:href="@{/admin/Book/delete/} + ${Book.id}">Delete</a></td>
                         </tr>
 

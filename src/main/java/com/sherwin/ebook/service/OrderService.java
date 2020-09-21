@@ -31,7 +31,17 @@ public class OrderService {
     }
 
     public Order getOpenOrder(User user) {
-        return orderRepository.findOrderByStatusAndUser("open", user).iterator().next();
+
+        if(orderRepository.findOrderByStatusAndUser("open", user).iterator().hasNext()){
+            return orderRepository.findOrderByStatusAndUser("open", user).iterator().next();
+        }else {
+            Order order = new Order();
+            order.setStatus("open");
+            order.setUser(user);
+            orderRepository.save(order);
+            return orderRepository.findOrderByStatusAndUser("open", user).iterator().next();
+        }
+
     }
 
     public Set<Order> getOrders(String status, User user) {

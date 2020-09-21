@@ -31,6 +31,10 @@ public class BookService {
     public List<Book> findAllSortedById() {
         return bookRepository.findAllByOrderByIdAsc();
     }
+    public List<Book> findAllByNameOrLocation(String name, String location){
+//        return bookRepository.findByNameOrLocation(name,location);
+        return bookRepository.findByNameContainingOrLocationContaining(name,location);
+    }
 
     public Page<Book> getAllBooks(Integer pageNo, Integer pageSize,String sortBy){
         Pageable paging = PageRequest.of(pageNo,pageSize,Sort.by(sortBy));
@@ -54,6 +58,16 @@ public class BookService {
 
     public List<Book> search(String content) {
         return bookRepository.findByNameContaining(content);
+    }
+
+    public void updateBook(Book book){
+        Book exisitingBook = bookRepository.findById(book.getId()).orElse(null);
+        exisitingBook.setInventory(book.getInventory());
+        exisitingBook.setDetails(book.getDetails());
+        exisitingBook.setPrice(book.getPrice());
+        exisitingBook.setName(book.getName());
+        exisitingBook.setLocation(book.getLocation());
+        bookRepository.save(exisitingBook);
     }
 
 }

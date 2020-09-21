@@ -33,7 +33,7 @@
         }
 
         li.active{
-            background-color: lightpink;
+            background-color: linen;
         }
         li.nav-item > a:hover {
             color: purple;
@@ -205,9 +205,9 @@
             $("#data").load("/user/ajaxsearch3" + searchvalue);
         });
 
-        $('li.nav-item').click(function (e) {
+        $('ul.nav li.nav-item').click(function (e) {
             // e.preventDefault();
-            $('li.nav-item').removeClass('active');
+            $('ul.nav li.nav-item').removeClass('active');
             $(this).addClass('active');
         });
 

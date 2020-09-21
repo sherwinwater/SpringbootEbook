@@ -54,7 +54,7 @@ public class AccountController {
     @GetMapping("/account/billing")
     public String getBillingInfo(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Billing billing = user.getAccount().getBilling();
         if (billing == null) {
             billing = new Billing();
@@ -76,7 +76,7 @@ public class AccountController {
             return "account/billing";
         } else {
             User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
             Account account = user.getAccount();
             accountService.addBilling(account, billing);
             return "redirect:/account/billing";
@@ -86,7 +86,7 @@ public class AccountController {
     @GetMapping("/account/delivery")
     public String getDeliveryInfo(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Delivery delivery = user.getAccount().getDelivery();
         if (delivery == null) {
             delivery = new Delivery();
@@ -107,7 +107,7 @@ public class AccountController {
             return "account/delivery";
         } else {
             User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
             Account account = user.getAccount();
             accountService.addDelivery(account, delivery);
 //                redirectAttributes
@@ -122,7 +122,7 @@ public class AccountController {
                           Authentication authentication, HttpSession session) {
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
             Account account = user.getAccount();
             accountService.addFavorite(account, id);
         } else {
@@ -141,7 +141,7 @@ public class AccountController {
     @GetMapping("/account/favorite")
     public String getFavorite(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Account account = user.getAccount();
         Favorite favorite = account.getFavorite();
         if (favorite == null) {
@@ -155,7 +155,7 @@ public class AccountController {
     @GetMapping("/account/favorite/delete/{id}")
     public String deleteBook(@PathVariable Long id, Authentication authentication, HttpSession session) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Account account = user.getAccount();
         Favorite favorite = account.getFavorite();
         accountService.deleteFavorite(account, favorite, id);
@@ -166,7 +166,7 @@ public class AccountController {
     public String getOrder(Model model, Authentication authentication,
                            HttpSession session) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
 //        Set<Order> orders = user.getOrders();
 //        if (orders.isEmpty()) {
 //            orders = new HashSet<>();
@@ -204,7 +204,7 @@ public class AccountController {
             return "account/order/search";
         } else {
             User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
             Set<Order> orders = new HashSet<>();
             if (order.getStatus().isEmpty()) {
                 orders = orderService.getAllOrders(user);

@@ -18,11 +18,11 @@ public class Cart extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    @OneToOne(mappedBy = "cart",cascade = CascadeType.ALL)
+//    @NonNull
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cart")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
     private Set<Order> orders = new LinkedHashSet<>();
 
     @ManyToMany(cascade = CascadeType.PERSIST)
@@ -35,15 +35,15 @@ public class Cart extends Auditable {
     private Set<Book> books = new HashSet<>();
 
     public Cart(Long id) {
-        this.id =id;
+        this.id = id;
     }
 
     @Transient
     private double totalPrice;
 
     public void updateBook(Book book, Long id) {
-        for(Book one: this.books){
-            if(one.getId() == id){
+        for (Book one : this.books) {
+            if (one.getId() == id) {
                 one.setQuantity(book.getQuantity());
                 one.setInventory(book.getInventory());
             }
@@ -60,15 +60,17 @@ public class Cart extends Auditable {
         book.getCarts().remove(this);
     }
 
-    public void removeAll(){
+    public void removeAll() {
         this.books.clear();
     }
 
     @Access(AccessType.PROPERTY)
-    @Column(name="total_price")
-    public double getTotalPrice(){
+    @Column(name = "total_price")
+    public double getTotalPrice() {
         totalPrice = 0;
-        this.books.forEach(book ->  totalPrice += book.getPrice() *book.getQuantity());
+        if (!this.books.isEmpty()) {
+            this.books.forEach(book -> totalPrice += book.getPrice() * book.getQuantity());
+        }
         return totalPrice;
     }
 }

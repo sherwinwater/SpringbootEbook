@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Favorite</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="p-3 m-5">
+        <div class="row">
+            <div class="col-md-1">
+
+                <ul class="nav flex-column">
+                    <li>
+                        <a class="">Product</a>
+                        <ul class="nav flex-column">
+                            <li class="nav-item ">
+                                <a class="nav-link" th:href="@{/admin/product/view}">View</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" th:href="@{/admin/product/add}">Add</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/product/update}">Update</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="">Order</a>
+                        <ul class="nav flex-column">
+                            <li class="nav-item ">
+                                <a class="nav-link" th:href="@{/admin/order/view}">View</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" th:href="@{/admin/order/add}">Add</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/order/update}">Update</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="">User</a>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/user/view}">View</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" th:href="@{/admin/user/add}">Add</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/user/update}">Update</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="col-md-11">
+
+                <h4 class="mb-3">Update Product</h4>
+                <form class="needs-validation" novalidate="" method="post" th:action="@{/admin/product/update}"
+                      th:object="${book}">
+
+                    <div class="row">
+                        <div class="col-md-2 mb-3">
+                            <label for="id">Id</label>
+                            <input type="text" class="form-control" id="id" placeholder=""
+                                   th:field="*{id}" readonly>
+                        </div>
+                        <div class="col-md-5 mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder=""
+                                   th:field="*{name}" required>
+                            <div class="invalid-feedback">
+                                name is required.
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="quantity">Inventory</label>
+                            <input type="number" class="form-control" id="quantity" placeholder=""
+                                   th:field="*{inventory}" value=""
+                                   required="">
+                            <div class="invalid-feedback">
+                                inventory is required.
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="price">Price </span></label>
+                            <input type="number" class="form-control" id="price" placeholder=""
+                                   th:field="*{price}">
+                            <div class="invalid-feedback">
+                                Please enter a valid price.
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="location">Location </span></label>
+                            <input type="text" class="form-control" id="location" placeholder=""
+                                   th:field="*{location}">
+                            <div class="invalid-feedback">
+                                Location is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="details">Details</label>
+<!--                            <input type="text" class="form-control" id="details" placeholder=""-->
+<!--                                   th:field="*{details}">-->
+                            <textarea rows="5" cols="60" class="form-control" id="details"
+                                      placeholder="details..." th:field="*{details}">
+                            </textarea>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-3 mb-3 ">
+                            <button class="btn btn-info btn-lg btn-block" type="submit">Confirm</button>
+                        </div>
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>
