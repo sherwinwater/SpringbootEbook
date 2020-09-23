@@ -6,9 +6,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -24,6 +22,7 @@ public class Role {
     private String name;
 
     @ManyToMany( mappedBy = "roles",cascade = CascadeType.ALL)
-    private Set<User> users = new HashSet<>();
+    private List<User> users = new ArrayList<>();
+//    private Set<User> users = new HashSet<>();
 
 }

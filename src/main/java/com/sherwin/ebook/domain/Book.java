@@ -33,6 +33,7 @@ public class Book extends Auditable  {
 
     private Integer quantity;
 
+    @NonNull
     private String location;
     private String details;
 

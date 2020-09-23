@@ -9,56 +9,12 @@
 
 <div layout:fragment="content">
     <section class="" th:fragment="table-refresh">
-        <div class="p-3 m-5">
+        <div class="px-5 m-2">
             <div class="row">
-                <div class="col-md-1">
-                    <ul class="nav flex-column">
-                        <li>
-                            <a class="">Product</a>
-                            <ul class="nav flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/admin/product/view}">View</a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" th:href="@{/admin/product/add}">Add</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/admin/product/update}">Update</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="">Order</a>
-                            <ul class="nav flex-column">
-                                <li class="nav-item ">
-                                    <a class="nav-link" th:href="@{/admin/order/view}">View</a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" th:href="@{/admin/order/add}">Add</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/admin/order/update}">Update</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="">User</a>
-                            <ul class="nav flex-column">
-                                <li class="nav-item active">
-                                    <a class="nav-link" th:href="@{/admin/user/view}">View</a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link" th:href="@{/admin/user/add}">Add</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/admin/user/update}">Update</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-
+                <div class="col-md-2">
+                    <div th:replace="admin/adminLeftSide.html :: leftside"></div>
                 </div>
-                <div class="col-md-11 px-4">
+                <div class="col-md-10">
                     <h2>User list</h2>
                     <table class="table table-striped">
                         <thead>
@@ -77,7 +33,7 @@
                             <td th:text="${user.firstName}"></td>
                             <td th:text="${user.lastName}"></td>
                             <td th:text="${user.email}"></td>
-                            <td >
+                            <td>
                                 <table>
                                     <tr th:each="role:${user.roles}">
                                         <p th:text="${role.name}"></p>

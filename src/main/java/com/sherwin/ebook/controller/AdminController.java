@@ -1,10 +1,8 @@
 package com.sherwin.ebook.controller;
 
-import com.sherwin.ebook.domain.Account;
-import com.sherwin.ebook.domain.Book;
-import com.sherwin.ebook.domain.Order;
-import com.sherwin.ebook.domain.User;
+import com.sherwin.ebook.domain.*;
 import com.sherwin.ebook.service.BookService;
+import com.sherwin.ebook.service.RoleService;
 import com.sherwin.ebook.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +26,12 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/admin")
     public String goAdminHome(){
@@ -126,6 +128,23 @@ public class AdminController {
         }
     }
 
+    @PostMapping("/admin/user/changePrivilege/{id}")
+    public String changePrivilege(Model model, @PathVariable Long id,
+                                  @RequestParam(required = false) String roleUser,
+                                  @RequestParam(required = false) String roleAdmin
+                                  ) {
+        User user = userService.getUserById(id);
+        user.getRoles().clear();
+        Role role1 = roleService.findByName(roleUser);
+        Role role2 = roleService.findByName(roleAdmin);
+        user.getRoles().add(role1);
+        user.getRoles().add(role2);
+        userService.save(user);
+
+        return "redirect:/admin/user/update/{id}";
+    }
+
+
 
 //------product------
     @GetMapping("/admin/product/add")
@@ -189,8 +208,8 @@ public class AdminController {
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "admin/product/search";
         } else {
-//            List<Book> books = bookService.findAllByNameOrLocation(book.getName(),book.getLocation());
-            List<Book> books = bookService.search(book.getName());
+            List<Book> books = bookService.findAllByNameAndLocation(book.getName(),book.getLocation());
+//            List<Book> books = bookService.search(book.getName());
 
             model.addAttribute("books", books);
             model.addAttribute("book", book);
@@ -208,5 +227,6 @@ public class AdminController {
         model.addAttribute("book", book);
         return "admin/product/viewProducts";
     }
+
 
 }

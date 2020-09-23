@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,10 +51,11 @@ public class UserService {
 
     public void delete(Long id) {
         User user = userRepository.findUserById(id).get();
-        for(Role role: user.getRoles()){
+        for (Role role : user.getRoles()) {
             role.getUsers().remove(user);
 //            roleRepository.save(role);
-        };
+        }
+        ;
         userRepository.deleteById(id);
     }
 
@@ -74,16 +76,18 @@ public class UserService {
         return user;
     }
 
-    public void updateUser(User user){
+    public void updateUser(User user) {
         User existingUser = this.getUserById(user.getId());
+        String secret = "{bcrypt}" + encoder.encode(user.getPassword());
+        String secret2 = "{bcrypt}" + encoder.encode(user.getConfirmPassword());
+
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
         existingUser.setAlias(user.getAlias());
         existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setConfirmPassword(user.getConfirmPassword());
-        System.out.println(user.getRoles());
-        existingUser.setRoles(user.getRoles());
+        existingUser.setPassword(secret);
+        existingUser.setConfirmPassword(secret);
+
         userRepository.save(existingUser);
     }
 

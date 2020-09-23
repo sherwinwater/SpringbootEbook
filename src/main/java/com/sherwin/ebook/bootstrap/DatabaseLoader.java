@@ -40,26 +40,26 @@ public class DatabaseLoader implements CommandLineRunner {
     }
 
     private void addBooks() {
-        Book book1 = new Book("Apocalypto", 5.49, "/images/Apocalypto.png");
-        Book book2 = new Book("concussion", 15.00, "/images/concussion.png");
-        Book book3 = new Book("legends of the fall", 5.9, "/images/legendsofthefall.png");
-        Book book4 = new Book("the hunting ground", 4.9, "/images/thehuntingground.png");
-        Book book5 = new Book("larry friends", 45.00, "/images/larry.png");
-        Book book6 = new Book("time machine", 15.49, "/images/timemachine.png");
-        Book book7 = new Book("concussion", 1.00, "/images/concussion.png");
-        Book book8 = new Book("legends of the fall", 5.9, "/images/legendsofthefall.png");
-        Book book9 = new Book("the hunting ground", 4.9, "/images/thehuntingground.png");
-        Book book10 = new Book("larry friends", 45.00, "/images/larry.png");
-        Book book11 = new Book("Apocalypto", 50.49, "/images/Apocalypto.png");
-        Book book12 = new Book("concussion", 5.00, "/images/concussion.png");
-        Book book13 = new Book("legends of the fall", .9, "/images/legendsofthefall.png");
-        Book book14 = new Book("the hunting ground", .9, "/images/thehuntingground.png");
-        Book book15 = new Book("larry friends", 5.00, "/images/larry.png");
-        Book book16 = new Book("time machine", 1.49, "/images/timemachine.png");
-        Book book17 = new Book("concussion", 19.00, "/images/concussion.png");
-        Book book18 = new Book("legends of the fall", 45.9, "/images/legendsofthefall.png");
-        Book book19 = new Book("the hunting ground", 14.9, "/images/thehuntingground.png");
-        Book book20 = new Book("larry friends", 4.00, "/images/larry.png");
+        Book book1 = new Book("Apocalypto", 5.49, "/images/Apocalypto.png","2f");
+        Book book2 = new Book("concussion", 15.00, "/images/concussion.png","3f");
+        Book book3 = new Book("legends of the fall", 5.9, "/images/legendsofthefall.png","2f");
+        Book book4 = new Book("the hunting ground", 4.9, "/images/thehuntingground.png","2f");
+        Book book5 = new Book("larry friends", 45.00, "/images/larry.png","8f");
+        Book book6 = new Book("time machine", 15.49, "/images/timemachine.png","2f");
+        Book book7 = new Book("concussion", 1.00, "/images/concussion.png","4f");
+        Book book8 = new Book("legends of the fall", 5.9, "/images/legendsofthefall.png","2f");
+        Book book9 = new Book("the hunting ground", 4.9, "/images/thehuntingground.png","2f");
+        Book book10 = new Book("larry friends", 45.00, "/images/larry.png","2f");
+        Book book11 = new Book("Apocalypto", 50.49, "/images/Apocalypto.png","3f");
+        Book book12 = new Book("concussion", 5.00, "/images/concussion.png","2f");
+        Book book13 = new Book("legends of the fall", .9, "/images/legendsofthefall.png","2f");
+        Book book14 = new Book("the hunting ground", .9, "/images/thehuntingground.png","2f");
+        Book book15 = new Book("larry friends", 5.00, "/images/larry.png","1f");
+        Book book16 = new Book("time machine", 1.49, "/images/timemachine.png","2f");
+        Book book17 = new Book("concussion", 19.00, "/images/concussion.png","9f");
+        Book book18 = new Book("legends of the fall", 45.9, "/images/legendsofthefall.png","2f");
+        Book book19 = new Book("the hunting ground", 14.9, "/images/thehuntingground.png","2f");
+        Book book20 = new Book("larry friends", 4.00, "/images/larry.png","2f");
 
         List<Book> books = new ArrayList<>();
         books.add(book1);

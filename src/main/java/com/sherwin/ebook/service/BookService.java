@@ -28,16 +28,27 @@ public class BookService {
     public List<Book> findAll() {
         return bookRepository.findAll();
     }
+
     public List<Book> findAllSortedById() {
         return bookRepository.findAllByOrderByIdAsc();
     }
-    public List<Book> findAllByNameOrLocation(String name, String location){
-//        return bookRepository.findByNameOrLocation(name,location);
-        return bookRepository.findByNameContainingOrLocationContaining(name,location);
+
+    public List<Book> findAllByNameAndLocation(String name, String location) {
+
+        if (name.equals("") && location.equals("")) {
+            return bookRepository.findAll();
+        } else if (name.equals("")) {
+            return bookRepository.findByLocationContaining(location);
+        } else if (location.equals("")) {
+            return bookRepository.findByNameContaining(name);
+        }else if (!name.equals("") && !location.equals("")) {
+            return bookRepository.findByNameContainingAndLocationContaining(name, location);
+        }
+        return bookRepository.findAll();
     }
 
-    public Page<Book> getAllBooks(Integer pageNo, Integer pageSize,String sortBy){
-        Pageable paging = PageRequest.of(pageNo,pageSize,Sort.by(sortBy));
+    public Page<Book> getAllBooks(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         return bookRepository.findAll(paging);
 
 //        if(pagedResult.hasContent()){
@@ -60,7 +71,7 @@ public class BookService {
         return bookRepository.findByNameContaining(content);
     }
 
-    public void updateBook(Book book){
+    public void updateBook(Book book) {
         Book exisitingBook = bookRepository.findById(book.getId()).orElse(null);
         exisitingBook.setInventory(book.getInventory());
         exisitingBook.setDetails(book.getDetails());
