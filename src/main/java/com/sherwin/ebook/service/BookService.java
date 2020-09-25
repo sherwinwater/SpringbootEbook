@@ -1,6 +1,7 @@
 package com.sherwin.ebook.service;
 
 import com.sherwin.ebook.domain.Book;
+import com.sherwin.ebook.domain.Category;
 import com.sherwin.ebook.repository.BookRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,6 +51,18 @@ public class BookService {
     public Page<Book> getAllBooks(Integer pageNo, Integer pageSize, String sortBy) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         return bookRepository.findAll(paging);
+
+//        if(pagedResult.hasContent()){
+//            return pagedResult;
+//        }else {
+//            return new Page<Book>();
+//        }
+    }
+
+    public Page<Book> getAllBooksByCategory(Integer pageNo, Integer pageSize,
+                                            String sortBy, Category category) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        return bookRepository.findAllByCategory(category,paging);
 
 //        if(pagedResult.hasContent()){
 //            return pagedResult;

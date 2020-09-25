@@ -1,14 +1,16 @@
 package com.sherwin.ebook.controller;
 
+import com.sherwin.ebook.domain.Category;
 import com.sherwin.ebook.service.BookService;
 import com.sherwin.ebook.domain.Book;
+import com.sherwin.ebook.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -16,26 +18,38 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+    @Autowired
+    private CategoryService categoryService;
 
-    @GetMapping("/book")
-    public String home(Model model) {
-        List<Book> books = bookService.findAllSortedById();
-        model.addAttribute("books", books);
-        return "book/list";
+//    @GetMapping("/book")
+//    public String home(Model model) {
+//        return "redirect";
+//    }
+
+    @GetMapping("/")
+    public String getAllBooks(Model model,HttpSession session){
+        Category category = categoryService.getCategory().get(0);
+        session.setAttribute("category",category);
+        return viewPage(model,1,3,"id",session);
     }
 
-    @GetMapping("/books")
-    public String getAllBooks(Model model){
-        return viewPage(model,1,8,"id");
+    @GetMapping("/book/category/{name}")
+    public String getAllBooksByCategory(Model model, @PathVariable String name,HttpSession session){
+        Category category = categoryService.getCategoryByName(name);
+        session.setAttribute("category",category);
+        return viewPage(model,1,3,"id",session);
     }
 
     @GetMapping("/page/{pageNum}")
     public String viewPage(Model model,
                            @PathVariable(name = "pageNum") int pageNum,
-                           @RequestParam(defaultValue = "8") Integer pageSize,
-                           @RequestParam(defaultValue = "id") String sortBy) {
+                           @RequestParam(defaultValue = "3") Integer pageSize,
+                           @RequestParam(defaultValue = "id") String sortBy,
+                           HttpSession session) {
 
-        Page<Book> page = bookService.getAllBooks(pageNum-1,pageSize,sortBy);
+//        Page<Book> page = bookService.getAllBooks(pageNum-1,pageSize,sortBy);
+        Category category = (Category) session.getAttribute("category");
+        Page<Book> page = bookService.getAllBooksByCategory(pageNum-1,pageSize,sortBy,category);
         List<Book> books = page.getContent();
 
         model.addAttribute("currentPage", pageNum);
@@ -46,9 +60,14 @@ public class BookController {
 //        model.addAttribute("sortDir", sortDir);
 //        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
-        model.addAttribute("books", books);
+        List<Category> categories = categoryService.getCategory();
 
-        return "book/lists";
+        model.addAttribute("books", books);
+        model.addAttribute("categories", categories);
+        session.setAttribute("pageNum",pageNum);
+
+        return "book/home";
+//        return "book/lists";
     }
 
     @GetMapping("/book/{id}")

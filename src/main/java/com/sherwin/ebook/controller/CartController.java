@@ -47,6 +47,7 @@ public class CartController {
     @PostMapping("/cart/add/{id}")
     public String addBook(@PathVariable Long id, @RequestParam("quantity") int quantity,
                           Authentication authentication, HttpSession session) {
+        int pageNum = (Integer) session.getAttribute("pageNum");
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
             Cart cart = cartService.get(user);  //get data from db
@@ -62,7 +63,7 @@ public class CartController {
             Cart cart = guest.getCart();
             cartService.addGuestBook(id, quantity, cart);
         }
-        return "redirect:/book";
+        return "redirect:/page/"+pageNum;
     }
 
     @PostMapping("/cart/update/{id}")

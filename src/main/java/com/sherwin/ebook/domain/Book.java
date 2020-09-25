@@ -46,6 +46,10 @@ public class Book extends Auditable  {
     @ManyToMany(mappedBy = "books", cascade = CascadeType.PERSIST)
     private Set<Favorite> favorites =new LinkedHashSet<>();
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Override
     public String toString() {
         return "Book{" +

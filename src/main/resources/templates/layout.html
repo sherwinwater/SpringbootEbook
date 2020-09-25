@@ -87,34 +87,30 @@
             }
         }
 
-
-
-
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
         }
+
     </style>
 </head>
 <body>
 
 <!-- Main Navigation -->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Sherwin's Book Store</a>
+    <a class="navbar-brand" href="#" th:href="@{/}">Sherwin's Book Store</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto" id="navbaritems">
-            <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/photo}">Photo</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/news}">News</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/user}">User</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/book}">Book</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/books}">Books</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/email}">Email</a></li>
+<!--            <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>-->
+<!--            <li class="nav-item"><a class="nav-link" th:href="@{/photo}">Photo</a></li>-->
+<!--            <li class="nav-item"><a class="nav-link" th:href="@{/news}">News</a></li>-->
+<!--            <li class="nav-item"><a class="nav-link" th:href="@{/books}">Books</a></li>-->
+<!--            <li class="nav-item"><a class="nav-link" th:href="@{/email}">Email</a></li>-->
         </ul>
         <form class="form-inline mt-0 mt-md-0" th:action="@{/user/search}" th:method="post">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
