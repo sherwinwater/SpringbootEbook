@@ -1,9 +1,6 @@
 package com.sherwin.ebook.domain;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
@@ -12,6 +9,7 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Setter
 public class Role {
 
     @Id
