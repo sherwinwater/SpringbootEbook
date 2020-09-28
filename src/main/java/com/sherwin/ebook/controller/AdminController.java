@@ -1,10 +1,8 @@
 package com.sherwin.ebook.controller;
 
 import com.sherwin.ebook.domain.*;
-import com.sherwin.ebook.service.BookService;
-import com.sherwin.ebook.service.CategoryService;
-import com.sherwin.ebook.service.RoleService;
-import com.sherwin.ebook.service.UserService;
+import com.sherwin.ebook.repository.OrderRepository;
+import com.sherwin.ebook.service.*;
 import com.sherwin.ebook.utilities.UploadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +38,9 @@ public class AdminController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/admin")
     public String goAdminHome() {
@@ -169,7 +170,7 @@ public class AdminController {
                           @RequestParam String details, @RequestParam String category,
                           @RequestParam(value = "file") MultipartFile file, Model model) {
 
-        String photoUrl = upload(file,model);
+        String photoUrl = upload(file, model);
         Book book = new Book(name, price, "", location);
         book.setDetails(details);
         book.setInventory(inventory);
@@ -180,7 +181,7 @@ public class AdminController {
         return "redirect:/admin/product/add";
     }
 
-    public String upload(@RequestParam(value = "file") MultipartFile file, Model model ) {
+    public String upload(@RequestParam(value = "file") MultipartFile file, Model model) {
 
         String filename = file.getOriginalFilename();
         File fileDir = UploadUtils.getImgDirFile();
@@ -266,8 +267,8 @@ public class AdminController {
     }
 
     @GetMapping("/admin/product/view")
-    public String getOrder(Model model, Authentication authentication,
-                           HttpSession session) {
+    public String getProduct(Model model, Authentication authentication,
+                             HttpSession session) {
         Book book = new Book();
         List<Book> books = new ArrayList<>();
         model.addAttribute("books", books);
@@ -275,5 +276,71 @@ public class AdminController {
         return "admin/product/viewProducts";
     }
 
+    //    order
+    @GetMapping("/admin/order/view")
+    public String getOrder(Model model, Authentication authentication,
+                           HttpSession session) {
+
+        Order order = (Order) session.getAttribute("order");
+        List<Order> orders = (List<Order>) session.getAttribute("orders");
+        String[] statuses = {"open", "placed", "delivery", "closed"};
+        if (orders == null) {
+            orders = new ArrayList<>();
+        }
+//        if (order == null) {
+//            order = new Order();
+//        }
+        model.addAttribute("orders", orders);
+        model.addAttribute("statuses", statuses);
+        return "admin/order/viewOrders";
+    }
+
+    @PostMapping("/admin/order/search")
+    public String searchOrder(Model model,
+                              @RequestParam(required = false) String productName,
+                              @RequestParam(required = false) String open,
+                              @RequestParam(required = false) String placed,
+                              @RequestParam(required = false) String delivery,
+                              @RequestParam(required = false) String closed,
+                              HttpSession session) {
+
+        List<Order> orders = new ArrayList<>();
+        if (open == null && placed == null && delivery == null && closed == null) {
+            orders = orderService.getAllOrders();
+        } else {
+            List<Order> orders1 = orderService.getOrdersByStatus(open);
+            List<Order> orders2 = orderService.getOrdersByStatus(placed);
+            List<Order> orders3 = orderService.getOrdersByStatus(delivery);
+            List<Order> orders4 = orderService.getOrdersByStatus(closed);
+            orders.addAll(orders1);
+            orders.addAll(orders2);
+            orders.addAll(orders3);
+            orders.addAll(orders4);
+        }
+
+        session.setAttribute("orders", orders);
+//            session.setAttribute("order", order);
+        model.addAttribute("orders", orders);
+
+        return "redirect:/admin/order/view";
+
+    }
+
+    @PostMapping("/admin/order/update")
+    public String updateBook(Model model, @RequestParam String orderId,
+                             @RequestParam String status) {
+        Order order = orderService.getOrder(Long.parseLong(orderId));
+        order.setStatus(status);
+        orderService.save(order);
+
+        return "redirect:/admin/order/view";
+
+    }
+
+    @GetMapping("/admin/order/delete/{id}")
+    public String deleteOrder(@PathVariable Long id) {
+        orderService.delete(id);
+        return "redirect:/admin/order/view";
+    }
 
 }

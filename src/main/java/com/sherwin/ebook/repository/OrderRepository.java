@@ -5,6 +5,7 @@ import com.sherwin.ebook.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -16,4 +17,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Set<Order> findOrderByStatusAndUser(String status, User user);
     Order findOrderById(Long id);
     Set<Order> findAllByUser(User user);
+    List<Order> findAllByStatus(String status);
 }

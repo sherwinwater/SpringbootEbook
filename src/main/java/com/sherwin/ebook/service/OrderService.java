@@ -48,10 +48,21 @@ public class OrderService {
         return orderRepository.findOrderByStatusAndUser(status, user);
     }
 
-    public Set<Order> getAllOrders(User user) {
+    public List<Order> getOrdersByStatus(String status){
+        return orderRepository.findAllByStatus(status);
+    }
+
+    public Set<Order> getAllOrdersByUser(User user) {
         return orderRepository.findAllByUser(user);
     }
 
+    public List<Order> getAllOrders(){
+        return orderRepository.findAll();
+    }
+
+    public void delete(Long id){
+        orderRepository.deleteById(id);
+    }
     public Order getOrder(Long id) {
         Order order = orderRepository.findOrderById(id);
         return order;

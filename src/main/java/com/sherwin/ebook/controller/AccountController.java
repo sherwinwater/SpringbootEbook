@@ -207,7 +207,7 @@ public class AccountController {
             user = userService.getUserByEmail(user.getEmail()); //get data from db
             Set<Order> orders = new HashSet<>();
             if (order.getStatus().isEmpty()) {
-                orders = orderService.getAllOrders(user);
+                orders = orderService.getAllOrdersByUser(user);
             }else {
                 orders = orderService.getOrders(order.getStatus(), user);
             }

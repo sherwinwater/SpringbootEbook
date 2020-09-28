@@ -1,5 +1,6 @@
 package com.sherwin.ebook.service;
 
+import com.sherwin.ebook.domain.Account;
 import com.sherwin.ebook.domain.Cart;
 import com.sherwin.ebook.domain.Role;
 import com.sherwin.ebook.domain.User;
@@ -70,6 +71,7 @@ public class UserService {
         user.setPassword(secret);
         user.setConfirmPassword(secret);
         user.setCart(new Cart());
+        user.setAccount(new Account());
         user.addRole(roleRepository.findByName("ROLE_USER"));
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
