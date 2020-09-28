@@ -98,29 +98,23 @@
 <body>
 
 <!-- Main Navigation -->
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-md fixed-top navbar-light" style="background-color: #e3f2fd;">
     <a class="navbar-brand" href="#" th:href="@{/}">Sherwin's Book Store</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto" id="navbaritems">
-<!--            <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>-->
-<!--            <li class="nav-item"><a class="nav-link" th:href="@{/photo}">Photo</a></li>-->
-<!--            <li class="nav-item"><a class="nav-link" th:href="@{/news}">News</a></li>-->
-<!--            <li class="nav-item"><a class="nav-link" th:href="@{/books}">Books</a></li>-->
-<!--            <li class="nav-item"><a class="nav-link" th:href="@{/email}">Email</a></li>-->
-        </ul>
-        <form class="form-inline mt-0 mt-md-0" th:action="@{/user/search}" th:method="post">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
+        <form class="form-inline mt-0 mt-md-0" th:action="@{/book/search}" th:method="post">
+            <input class="form-control mr-sm-2 " type="text" placeholder="Search" aria-label="Search"
                    name="searchcontent">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            <button class="btn btn-info my-2 my-sm-0" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </button>
-            <input class="form-control my-2 mr-sm-2" type="text" placeholder="QuickSearch" aria-label="Search"
-                   name="ajaxsearch" id="ajaxsearch">
+<!--            <input class="form-control my-2 mr-sm-2" type="text" placeholder="QuickSearch" aria-label="Search"-->
+<!--                   name="ajaxsearch" id="ajaxsearch">-->
         </form>
+
         <ul class="navbar-nav ml-auto ">
 
             <!-- if user is signed in -->

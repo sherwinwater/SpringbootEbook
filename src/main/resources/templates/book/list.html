@@ -61,16 +61,17 @@
                     </div>
 
                 </div>
-            </div>
-            <!--            <a th:href="@{/admin/book/create}">Add New book</a>-->
-            <br/><br/>
 
             <div th:if="${books.isEmpty()} == true">
                 <!--                    <div th:if="${books.size()} == 0">-->
                 <p class="alert alert-warning" role="alert">No book Found.</p>
-                <p th:text="${books.size()}"></p>
-                <p th:text="${books.isEmpty()}"></p>
+<!--                <p th:text="${books.size()}"></p>-->
+<!--                <p th:text="${books.isEmpty()}"></p>-->
             </div>
+
+            </div>
+            <br/>
+
         </div>
     </section>
 </div>
