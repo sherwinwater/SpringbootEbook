@@ -1,5 +1,8 @@
 package com.sherwin.ebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sherwin.ebook.config.Auditable;
 import com.sherwin.ebook.domain.validator.PasswordsMatch;
 import lombok.*;
@@ -21,6 +24,9 @@ import java.util.*;
 @Setter
 @PasswordsMatch
 @Table(name = "users")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class User extends Auditable implements UserDetails {
 
     @Id
@@ -45,6 +51,7 @@ public class User extends Auditable implements UserDetails {
     private boolean enabled;
 
     @OneToOne(cascade = {CascadeType.ALL})
+    @JsonIgnore
     private Cart cart;
 
     @OneToOne(cascade = {CascadeType.ALL})
@@ -90,6 +97,7 @@ public class User extends Auditable implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
+    @JsonIgnore
     private List<Role> roles = new ArrayList<>();
 //    private Set<Role> roles = new HashSet<>();
 

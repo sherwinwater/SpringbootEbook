@@ -1,5 +1,8 @@
 package com.sherwin.ebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sherwin.ebook.config.Auditable;
 import lombok.*;
 import org.aspectj.weaver.ast.Or;
@@ -13,6 +16,9 @@ import java.util.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Cart extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +26,7 @@ public class Cart extends Auditable {
 
 //    @NonNull
     @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL)
+    @JsonIgnore
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")

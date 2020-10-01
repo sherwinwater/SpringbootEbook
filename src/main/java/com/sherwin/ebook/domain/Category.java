@@ -1,5 +1,7 @@
 package com.sherwin.ebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sherwin.ebook.config.Auditable;
 import lombok.*;
 
@@ -14,6 +16,9 @@ import java.util.Set;
 @ToString
 @Getter
 @Setter
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Category extends Auditable  {
 
     @Id
