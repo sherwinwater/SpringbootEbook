@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>products</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="" th:fragment="table-refresh">
+        <div class="px-5 m-2">
+            <div class="row">
+                <div class="col-md-2">
+                    <div th:replace="admin/adminLeftSide.html :: leftside"></div>
+                </div>
+                <div class="col-md-10">
+
+                    <!--  start of order search     -->
+                    <form method="post" th:action="@{/admin/order/search}">
+<!--                        <div class="form-group row">-->
+<!--                            <label for="productName" class="col-sm-2 col-form-label">Product Name</label>-->
+<!--                            <div class="col-sm-4">-->
+<!--                                <input type="text" class="form-control" id="productName" name="productName">-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+                        <fieldset class="form-group">
+                            <div class="row">
+                                <div class="col-md-1 mb-3">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label" >status:</label>&nbsp;&nbsp;
+                                        <input type="checkbox" name="status" class="form-check-input"
+                                               th:each="status:${statuses}"
+                                               th:text="${status}"
+                                               th:value="${status}"
+                                               th:id="${status}"
+                                               th:name="${status}">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </fieldset>
+<!--                        <div class="form-group row">-->
+<!--                            <div class="col-sm-2">Year</div>-->
+<!--                            <div class="col-sm-10">-->
+<!--                                <div class="form-check d-inline">-->
+<!--                                    <input class="form-check-input" type="checkbox" id="gridCheck1">-->
+<!--                                    <label class="form-check-label" for="gridCheck1">-->
+<!--                                        2019-->
+<!--                                    </label>-->
+<!--                                </div>-->
+<!--                                <div class="form-check d-inline">-->
+<!--                                    <input class="form-check-input" type="checkbox" id="gridCheck2">-->
+<!--                                    <label class="form-check-label" for="gridCheck2">-->
+<!--                                        2020-->
+<!--                                    </label>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <div class="form-group row justify-content-center align-items-center">
+                            <div class="col-sm-10 ">
+                                <button type="submit" class="btn btn-info justify-content-center align-items-center">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!--  end of order search     -->
+
+                    <div th:if="${orders.isEmpty()} == false">
+                        <!--                    <div th:if="${cart.orders != null}">-->
+                        <h2>orders</h2>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Details</th>
+                                <th>Amount</th>
+                                <th>Created</th>
+                                <th>User</th>
+                                <th>Status</th>
+                                <th>Change Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="order : ${orders}">
+                                <td th:text="${order.id}"></td>
+                                <td>
+                                    <table>
+                                        <tr th:each="book:${order.books}">
+                                            <td th:text="${book.name}"></td>
+                                            <td th:text="${book.quantity}"></td>
+                                            <td th:text="${book.price}"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td th:text="${order.totalPrice}"></td>
+                                <td th:text="${order.creationDate}"></td>
+                                <td th:text="${order.user.email}"></td>
+                                <td th:text="${order.status}"></td>
+                                <td>
+                                    <form method="post" th:action="@{/admin/order/update}">
+                                        <fieldset class="form-group d-inline">
+                                            <div class="row">
+                                                <div class="col-md-1 mb-3">
+                                                    <input name="orderId" type="hidden" th:value="${order.id}">
+                                                    <select name="status">
+                                                        <option th:each="c:${statuses}"
+                                                                th:value="${c}"
+                                                                th:text="${c}"></option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <button type="submit"
+                                                class="btn-sm justify-content-center align-items-center d-inline
+                                                btn-warning text-white">
+                                            Update
+                                        </button>
+                                    </form>
+
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-info" href="#" th:href="@{/admin/order/} + ${order.id}">
+                                        <i class="fa fa-search"></i>View</a>
+                                    <!--                                    <a class="btn btn-sm btn-warning text-white" href="#"-->
+                                    <!--                                       th:href="@{/admin/order/update/} + ${order.id}">-->
+                                    <!--                                        <i class="fa fa-edit"></i>Update</a>-->
+<!--                                    <a class="btn btn-sm btn-danger" href="#"-->
+<!--                                       th:href="@{/admin/order/delete/} + ${order.id}">-->
+<!--                                        <i class="fa fa-remove"></i>Delete</a>-->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div th:if="${orders.isEmpty()} == true">
+                        <p class="alert alert-warning" role="alert">No Order Found.</p>
+                    </div>
+
+                </div>
+            </div>
+    </section>
+</div>
+
+</body>
+</html>

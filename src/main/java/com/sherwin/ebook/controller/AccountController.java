@@ -3,6 +3,7 @@ package com.sherwin.ebook.controller;
 import com.sherwin.ebook.domain.*;
 import com.sherwin.ebook.domain.Account;
 import com.sherwin.ebook.service.*;
+import org.aspectj.weaver.ast.Or;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class AccountController {
@@ -50,7 +54,7 @@ public class AccountController {
     @GetMapping("/account/billing")
     public String getBillingInfo(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Billing billing = user.getAccount().getBilling();
         if (billing == null) {
             billing = new Billing();
@@ -72,7 +76,7 @@ public class AccountController {
             return "account/billing";
         } else {
             User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
             Account account = user.getAccount();
             accountService.addBilling(account, billing);
             return "redirect:/account/billing";
@@ -82,7 +86,7 @@ public class AccountController {
     @GetMapping("/account/delivery")
     public String getDeliveryInfo(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Delivery delivery = user.getAccount().getDelivery();
         if (delivery == null) {
             delivery = new Delivery();
@@ -103,7 +107,7 @@ public class AccountController {
             return "account/delivery";
         } else {
             User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
             Account account = user.getAccount();
             accountService.addDelivery(account, delivery);
 //                redirectAttributes
@@ -118,7 +122,7 @@ public class AccountController {
                           Authentication authentication, HttpSession session) {
         if (authentication != null) {
             User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
             Account account = user.getAccount();
             accountService.addFavorite(account, id);
         } else {
@@ -137,10 +141,12 @@ public class AccountController {
     @GetMapping("/account/favorite")
     public String getFavorite(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Account account = user.getAccount();
         Favorite favorite = account.getFavorite();
-
+        if (favorite == null) {
+            favorite = new Favorite();
+        }
         model.addAttribute("favorite", favorite);
         return "account/favorite";
     }
@@ -149,11 +155,70 @@ public class AccountController {
     @GetMapping("/account/favorite/delete/{id}")
     public String deleteBook(@PathVariable Long id, Authentication authentication, HttpSession session) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Account account = user.getAccount();
         Favorite favorite = account.getFavorite();
         accountService.deleteFavorite(account, favorite, id);
         return "redirect:/account/favorite";
     }
 
+    @GetMapping("/account/order")
+    public String getOrder(Model model, Authentication authentication,
+                           HttpSession session) {
+        User user = (User) authentication.getPrincipal();
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
+//        Set<Order> orders = user.getOrders();
+//        if (orders.isEmpty()) {
+//            orders = new HashSet<>();
+//        } else {
+//            for (Order order : orders) {
+//                orders = new HashSet<>(orders);
+//                if (order.getStatus().equals("open")) {
+//                    orders.remove(order);
+//                }
+//            }
+//        }
+
+        Order order = (Order) session.getAttribute("order");
+        Set<Order> orders = (Set<Order>) session.getAttribute("orders");
+        if (orders == null) {
+            orders = new HashSet<>();
+        }
+        if (order == null) {
+            order = new Order();
+        }
+        model.addAttribute("orders", orders);
+        model.addAttribute("order", order);
+        return "account/order";
+    }
+
+    @PostMapping("/account/order/search")
+    public String searchOrder(@Valid Order order, BindingResult bindingResult,
+                              Model model, RedirectAttributes redirectAttributes,
+                              Authentication authentication, HttpSession session,
+                              HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            logger.info("Validation errors were found while adding delivery info");
+            model.addAttribute("order", order);
+            model.addAttribute("validationErrors", bindingResult.getAllErrors());
+            return "account/order/search";
+        } else {
+            User user = (User) authentication.getPrincipal();
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
+            Set<Order> orders = new HashSet<>();
+            if (order.getStatus().isEmpty()) {
+                orders = orderService.getAllOrdersByUser(user);
+            }else {
+                orders = orderService.getOrders(order.getStatus(), user);
+            }
+
+            session.setAttribute("orders", orders);
+            session.setAttribute("order", order);
+
+//                redirectAttributes
+//                        .addAttribute("id", newUser.getId())
+//                        .addFlashAttribute("success", true);
+            return "redirect:/account/order";
+        }
+    }
 }

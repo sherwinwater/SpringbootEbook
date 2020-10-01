@@ -33,7 +33,7 @@
         }
 
         li.active{
-            background-color: lightpink;
+            background-color: linen;
         }
         li.nav-item > a:hover {
             color: purple;
@@ -87,43 +87,34 @@
             }
         }
 
-
-
-
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
         }
+
     </style>
 </head>
 <body>
 
 <!-- Main Navigation -->
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Portfolio</a>
+<nav class="navbar navbar-expand-md fixed-top navbar-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="#" th:href="@{/}">Sherwin's Book Store</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto" id="navbaritems">
-            <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/photo}">Photo</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/news}">News</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/user}">User</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/book}">Book</a></li>
-            <li class="nav-item"><a class="nav-link" th:href="@{/email}">Email</a></li>
-        </ul>
-        <form class="form-inline mt-0 mt-md-0" th:action="@{/user/search}" th:method="post">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"
-                   name="searchcontent">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+        <form class="form-inline mt-0 mt-md-0" th:action="@{/book/search}" th:method="post">
+            <input class="form-control mr-sm-2 " type="text" placeholder="Search" aria-label="Search"
+                   name="searchcontent" style="width: 400px">
+            <button class="btn btn-info my-2 my-sm-0" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </button>
-            <input class="form-control my-2 mr-sm-2" type="text" placeholder="QuickSearch" aria-label="Search"
-                   name="ajaxsearch" id="ajaxsearch">
+<!--            <input class="form-control my-2 mr-sm-2" type="text" placeholder="QuickSearch" aria-label="Search"-->
+<!--                   name="ajaxsearch" id="ajaxsearch">-->
         </form>
+
         <ul class="navbar-nav ml-auto ">
 
             <!-- if user is signed in -->
@@ -146,11 +137,16 @@
                         Out</a>
                 </form>
             </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a class="nav-link text-info" th:href="@{/admin}">
+                    <i class="fas fa-database"></i> Admin</a>
+            </li>
+
 
             <!-- if user is not signed in -->
             <li class="nav-item" sec:authorize="!isAuthenticated()">
                 <a class="nav-link" th:href="@{/cart/guest}">
-                    <i class="fa fa-user" aria-hidden="true"></i> Cart</a>
+                    <i class="fas fa-shopping-cart" aria-hidden="true"></i> Cart</a>
             </li>
             <li class="nav-item" sec:authorize="!isAuthenticated()">
                 <a class="nav-link" th:href="@{/login}">
@@ -167,6 +163,8 @@
 
 <!-- Content Section -->
 <section layout:fragment="content" id="data">
+    <div layout:fragment="leftside"></div>
+    <div layout:fragment="subcontent"></div>
 </section>
 
 <footer class="footer mt-auto py-3 text-center fixed-bottom">

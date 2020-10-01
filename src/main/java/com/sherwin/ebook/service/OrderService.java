@@ -30,10 +30,39 @@ public class OrderService {
         return optionalOrder.get();
     }
 
-    public Order getOpenOrder(String status, User user) {
+    public Order getOpenOrder(User user) {
+
+        if(orderRepository.findOrderByStatusAndUser("open", user).iterator().hasNext()){
+            return orderRepository.findOrderByStatusAndUser("open", user).iterator().next();
+        }else {
+            Order order = new Order();
+            order.setStatus("open");
+            order.setUser(user);
+            orderRepository.save(order);
+            return orderRepository.findOrderByStatusAndUser("open", user).iterator().next();
+        }
+
+    }
+
+    public Set<Order> getOrders(String status, User user) {
         return orderRepository.findOrderByStatusAndUser(status, user);
     }
 
+    public List<Order> getOrdersByStatus(String status){
+        return orderRepository.findAllByStatus(status);
+    }
+
+    public Set<Order> getAllOrdersByUser(User user) {
+        return orderRepository.findAllByUser(user);
+    }
+
+    public List<Order> getAllOrders(){
+        return orderRepository.findAll();
+    }
+
+    public void delete(Long id){
+        orderRepository.deleteById(id);
+    }
     public Order getOrder(Long id) {
         Order order = orderRepository.findOrderById(id);
         return order;
@@ -78,7 +107,7 @@ public class OrderService {
         order1.setDelivery(delivery);
         orderRepository.save(order1);
 
-        Order order2 = getOpenOrder("open",user);
+        Order order2 = getOpenOrder(user);
         order2.setBilling(null);
         order2.setDelivery(null);
 //        order2.getBilling().setFirstName(order.getBilling().getFirstName());

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Book List</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="my-5" th:fragment="table-refresh">
+        <div class="album py-5 bg-light" align="center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3" th:each="book : ${books}">
+                        <div class="card mb-3 shadow-sm">
+                            <img class="card-img-top" th:src="@{${book.photoUrl}}" alt="photo" width="80%" height="250">
+                            <div class="card-body">
+                                <a href="#" th:href="@{/book}"><p class="card-text text-center" th:text="${book.name}">
+                                </p></a>
+                                <div>
+                                    <form th:action="@{/cart/add/} + ${book.id}" method="post" class="d-inline">
+                                        <div style="white-space:nowrap">
+                                            <span th:text="'$ '+${book.price}"></span>&nbsp;&nbsp;&nbsp;
+                                            <label class="">Qty</label>
+                                            <input type="number" class="" name="quantity" value="1"
+                                                   min="1" th:max="${book.inventory}"/>
+                                            <small class="text-muted" th:text="${book.inventory}">Stock</small>
+                                        </div>
+                                        <button type="submit" class="btn btn-success pull-right p-1">
+                                            <small>Add to cart</small></button>
+                                    </form>
+                                    <form th:action="@{/account/favorite/} + ${book.id}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-warning pull-right p-1">
+                                            <small>Favorite</small></button>
+                                    </form>
+                                    <small>
+                                        <form th:action="@{/account/favorite/} + ${book.id}" method="post">
+                                            <div class="score-wrap">
+                                           <span class="stars-active" style="width:88%">
+                                                <i class="fa fa-star checked" aria-hidden="true"></i>
+                                                <i class="fa fa-star checked" aria-hidden="true"></i>
+                                                <i class="fa fa-star checked" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                            </span>
+                                                <!--                                        <label class="" th:text="4.2">rating</label>&nbsp;&nbsp;&nbsp;-->
+                                                <input type="number" class="" name="quantity" value="1"
+                                                       min="1" max="5"/>
+                                                <button type="submit" class="btn btn-link pull-right p-1">
+                                                    <small>Rate</small></button>
+                                            </div>
+                                        </form>
+                                    </small>
+                                </div>
+
+                                <form>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--            <a th:href="@{/admin/book/create}">Add New book</a>-->
+            <br/><br/>
+
+            <!--            page-->
+            <div th:if="${totalPages > 1}">
+                Total Items: [[${totalItems}]]
+                &nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+
+                <a th:if="${currentPage > 1}"
+                   th:href="@{'/page/1' }">First</a>
+                <span th:unless="${currentPage > 1}">First</span>
+                &nbsp;&nbsp;
+
+                <a th:if="${currentPage > 1}"
+                   th:href="@{'/page/' + ${currentPage - 1} }">Previous</a>
+                <span th:unless="${currentPage > 1}">Previous</span>
+
+                &nbsp;&nbsp;
+
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+			<a th:if="${currentPage != i}"
+               th:href="@{'/page/' + ${i} }">[[${i}]]</a>
+			<span th:unless="${currentPage != i}">[[${i}]]</span>
+			&nbsp;
+		</span>
+
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/page/' + ${currentPage + 1} }">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+                &nbsp;&nbsp;
+
+                <a th:if="${currentPage < totalPages}"
+                   th:href="@{'/page/' + ${totalPages} }">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+            <!--page-->
+
+            <div th:if="${books.isEmpty()} == true">
+                <!--                    <div th:if="${books.size()} == 0">-->
+                <p class="alert alert-warning" role="alert">No book Found.</p>
+                <p th:text="${books.size()}"></p>
+                <p th:text="${books.isEmpty()}"></p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>

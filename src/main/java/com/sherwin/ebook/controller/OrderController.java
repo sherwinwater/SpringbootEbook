@@ -46,10 +46,10 @@ public class OrderController {
     @GetMapping("/order/checkout")
     public String checkout(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Cart cart = cartService.get(user);  //get data from db
         Account account = user.getAccount();
-        Order order = orderService.getOpenOrder("open", user);
+        Order order = orderService.getOpenOrder(user);
         if (order == null || order.getStatus().equals("placed")) {
             order = new Order();
         }
@@ -74,9 +74,9 @@ public class OrderController {
     @GetMapping("/order/placeorder")
     public String placeOrder(Model model, Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
+        user = userService.getUserByEmail(user.getEmail()); //get data from db
         Cart cart = cartService.get(user);  //get data from db
-        Order order = orderService.getOpenOrder("open", user);
+        Order order = orderService.getOpenOrder(user);
 
         orderService.placeOrder(user, cart, order);
         cartService.clearCart(cart);
@@ -95,8 +95,8 @@ public class OrderController {
             return "order/checkout";
         } else {
             User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-            Order order = orderService.getOpenOrder("open", user);
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
+            Order order = orderService.getOpenOrder(user);
 
             billingService.addBilling(order, billing);
             return "redirect:/order/checkout";
@@ -114,8 +114,8 @@ public class OrderController {
             return "order/checkout";
         } else {
             User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()).get(); //get data from db
-            Order order = orderService.getOpenOrder("open", user);
+            user = userService.getUserByEmail(user.getEmail()); //get data from db
+            Order order = orderService.getOpenOrder( user);
 
             deliveryService.addDelivery(order, delivery);
 //                redirectAttributes

@@ -1,6 +1,8 @@
 package com.sherwin.ebook.service;
 
+import com.sherwin.ebook.domain.Account;
 import com.sherwin.ebook.domain.Cart;
+import com.sherwin.ebook.domain.Role;
 import com.sherwin.ebook.domain.User;
 import com.sherwin.ebook.repository.RoleRepository;
 import com.sherwin.ebook.repository.UserRepository;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,15 +42,21 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email).get();
     }
 
-    public Optional<User> getByid(Long id) {
-        return userRepository.findUserById(id);
+    public User getUserById(Long id) {
+        return userRepository.findUserById(id).get();
     }
 
     public void delete(Long id) {
+        User user = userRepository.findUserById(id).get();
+        for (Role role : user.getRoles()) {
+            role.getUsers().remove(user);
+//            roleRepository.save(role);
+        }
+        ;
         userRepository.deleteById(id);
     }
 
@@ -62,10 +71,26 @@ public class UserService {
         user.setPassword(secret);
         user.setConfirmPassword(secret);
         user.setCart(new Cart());
+        user.setAccount(new Account());
         user.addRole(roleRepository.findByName("ROLE_USER"));
         user.setActivationCode(UUID.randomUUID().toString());
-        save(user);
+        userRepository.save(user);
         return user;
+    }
+
+    public void updateUser(User user) {
+        User existingUser = this.getUserById(user.getId());
+        String secret = "{bcrypt}" + encoder.encode(user.getPassword());
+        String secret2 = "{bcrypt}" + encoder.encode(user.getConfirmPassword());
+
+        existingUser.setFirstName(user.getFirstName());
+        existingUser.setLastName(user.getLastName());
+        existingUser.setAlias(user.getAlias());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setPassword(secret);
+        existingUser.setConfirmPassword(secret);
+
+        userRepository.save(existingUser);
     }
 
     @Transactional

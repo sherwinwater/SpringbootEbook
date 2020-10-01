@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>User List</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <section class="" th:fragment="table-refresh">
+        <div class="px-5 m-2">
+            <div class="row">
+                <div class="col-md-2">
+                    <div th:replace="admin/adminLeftSide.html :: leftside"></div>
+                </div>
+                <div class="col-md-10">
+
+                    <!-- User Registration form -->
+                    <div class="row" th:if="${success}">
+                        <div class="col-md-3"></div>
+                        <div class="col-md-6 alert alert-success" role="alert">
+                            You have successfully registered with us. Please check your email to activate your account.
+                        </div>
+                        <div class="col-md-3"></div>
+                    </div>
+
+                    <form class="form-horizontal" role="form" method="POST" th:action="@{/admin/user/update}"
+                          th:object="${user}"
+                          th:if="!${success}">
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <h2>Update User</h2>
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row" th:if="${validationErrors}">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+            <span class="text-danger align-middle">
+                <ul th:each="error : ${validationErrors}">
+                    <li th:text="${error.getDefaultMessage()}"></li>
+                </ul>
+            </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="id">User Id</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text"
+                                               name="id"
+                                               class="form-control"
+                                               id="id"
+                                               placeholder="id"
+                                               th:field="*{id}"
+                                               readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="first-name">First Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text"
+                                               name="first-name"
+                                               class="form-control"
+                                               id="first-name"
+                                               placeholder="First Name"
+                                               th:field="*{firstName}"
+                                               required autofocus>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="last-name">Last Name</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text"
+                                               name="last-name"
+                                               class="form-control"
+                                               id="last-name"
+                                               placeholder="Last Name"
+                                               th:field="*{lastName}"
+                                               required autofocus>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="alias">Alias</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text"
+                                               name="alias"
+                                               class="form-control"
+                                               id="alias"
+                                               placeholder="This will be your display name on links & comments"
+                                               th:field="*{alias}"
+                                               required autofocus>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="email">E-Mail Address</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i>
+                                        </div>
+                                        <input type="text"
+                                               name="email"
+                                               class="form-control"
+                                               id="email"
+                                               placeholder="you@example.com"
+                                               th:field="*{email}"
+                                               required autofocus>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" th:each="role,i:*{roles}">
+                            <div class="col-md-3 field-label-responsive">
+                                <label>Role</label><span th:text="${i.index+1}"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text"
+                                               name="role"
+                                               class="form-control"
+                                               id="role"
+                                               placeholder="role"
+                                               th:field="*{roles[__${i.index}__].name}" readonly
+                                        >
+                                        <!--                                               th:value="${role.name}"-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="password">Password</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group has-danger">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-key"></i>
+                                        </div>
+                                        <input type="password"
+                                               name="password"
+                                               class="form-control"
+                                               id="password"
+                                               placeholder="Password"
+                                               th:field="*{password}"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="password">Confirm Password</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem">
+                                            <i class="fas fa-key"></i>
+                                        </div>
+                                        <input type="password"
+                                               name="confirmPassword"
+                                               class="form-control"
+                                               id="confirmPassword"
+                                               placeholder="Confirm Password"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-sync-alt"></i> Update
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+
+                    <form class="form-horizontal" role="form" method="POST"
+                          th:action="@{/admin/user/changePrivilege/}+${user.id}">
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <h2>Change Privilege</h2>
+                                <hr>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="id">User Id</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text"
+                                               name="id"
+                                               class="form-control"
+                                               id="id"
+                                               th:field="${user.id}"
+                                               readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="email">E-Mail Address</label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i>
+                                        </div>
+                                        <input type="text"
+                                               name="email"
+                                               class="form-control"
+                                               id="email"
+                                               th:field="${user.email}"
+                                               readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:each="role,i:${user.roles}">
+                            <div class="row" >
+                                <div class="col-md-3 field-label-responsive">
+                                    <label>Role</label><span th:text="${i.index+1}"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon" style="width: 2.6rem"><i
+                                                    class="fa fa-at"></i></div>
+                                            <div type="text"
+                                                 class="form-control"
+                                                 th:text="${role.name}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 field-label-responsive">
+                                <label for="role">Role to Change</label>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="ROLE_USER" name="roleUser">
+                                    <label class="form-check-label" for="inlineCheckbox1">ROLE_USER</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="ROLE_ADMIN" name="roleAdmin">
+                                    <label class="form-check-label" for="inlineCheckbox2">ROLE_ADMIN</label>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-success"><i class="fa fa-sync-alt"></i>Change
+                                    Privilege
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>

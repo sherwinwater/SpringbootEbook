@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Favorite</title>
+</head>
+<body>
+<div th:fragment="leftside">
+
+    <ul class="nav flex-column">
+        <li>
+            <a class="">Product</a>
+            <ul class="nav flex-column">
+                <li class="nav-item ">
+                    <a class="nav-link" th:href="@{/admin/product/view}">View/Update</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" th:href="@{/admin/product/add}">Add</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="">Order</a>
+            <ul class="nav flex-column">
+                <li class="nav-item ">
+                    <a class="nav-link" th:href="@{/admin/order/view}">View/Update</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a class="">User</a>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/user/view}">View/Update</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" th:href="@{/admin/user/add}">Add</a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+</div>
+
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>

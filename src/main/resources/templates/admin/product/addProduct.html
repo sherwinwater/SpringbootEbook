@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Favorite</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="px-5 m-2">
+        <div class="row">
+            <div class="col-md-2">
+                <div th:replace="admin/adminLeftSide.html :: leftside"></div>
+            </div>
+            <div class="col-md-10">
+
+                <h4 class="mb-3">Insert Product</h4>
+                <form class="needs-validation" novalidate="" method="post"
+                      th:action="@{/admin/product/add}" enctype="multipart/form-data">
+<!--                <form class="needs-validation" novalidate="" method="post" th:action="@{/admin/product/add}" th:object="${book}">-->
+
+                    <div class="row">
+                        <div class="col-md-1 mb-3">
+                            <label for="id">Id</label>
+                            <input type="text" class="form-control" id="id" name="id" placeholder=""
+                                    readonly>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder=""
+                                   required>
+                            <div class="invalid-feedback">
+                                name is required.
+                            </div>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label >Category</label>
+                            <select name="category" >
+                                <option th:each="c:${categories}"
+                                th:value="${c.name}"
+                                th:text="${c.name}"></option>
+                            </select>
+
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="inventory">Inventory</label>
+                            <input type="number" class="form-control" id="inventory" name="inventory" placeholder=""
+                                    value=""
+                                   required="">
+                            <div class="invalid-feedback">
+                                inventory is required.
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="price">Price </span></label>
+                            <input type="number" class="form-control" id="price" name="price" placeholder=""
+                                   >
+                            <div class="invalid-feedback">
+                                Please enter a valid price.
+                            </div>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label for="location">Location </span></label>
+                            <input type="text" class="form-control" id="location" name="location" placeholder=""
+                                   >
+                            <div class="invalid-feedback">
+                                Location is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="details">Details</label>
+                            <!--                            <input type="text" class="form-control" id="details" placeholder=""-->
+                            <!--                                   th:field="*{details}">-->
+                            <textarea rows="5" cols="60" class="form-control" id="details" name="details"
+                                      placeholder="details..." >
+                            </textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 mb-3">
+                                <label>upload</label>
+                                <input type="file" name="file"/>
+                            <p>photo:</p>
+                            <img th:src="${filename}"/>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-md-3 mb-3 ">
+                            <button class="btn btn-info btn-lg btn-block" type="submit">Confirm</button>
+                        </div>
+                    </div>
+                </form>
+
+<!--                <div class="row">-->
+<!--                    <div class="col-md-5 mb-3">-->
+
+<!--                        <form th:action="@{/admin/fileUpload}" method="post" enctype="multipart/form-data">-->
+<!--                            <label>upload</label>-->
+<!--                            <input type="file" name="file"/>-->
+<!--                            <input type="submit" value="upload"/>-->
+<!--                        </form>-->
+<!--                        <p>photo:</p>-->
+<!--                        <img th:src="${filename}"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<th:block th:fragment="optional">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+</th:block>
+
+</body>
+</html>

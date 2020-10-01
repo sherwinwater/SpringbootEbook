@@ -25,7 +25,7 @@
                             <th>Modified by</th>
                             <th>Created by</th>
                             <th>View</th>
-                            <th>Edit</th>
+                            <th>Update</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
@@ -40,7 +40,7 @@
                             <td th:text="${user.lastModifiedBy}"></td>
                             <td th:text="${user.createdBy}"></td>
                             <td><a href="#" th:href="@{/user/} + ${user.id}">View</a></td>
-                            <td><a href="#" th:href="@{/admin/user/edit/} + ${user.id}">Edit</a></td>
+                            <td><a href="#" th:href="@{/admin/user/update/} + ${user.id}">Update</a></td>
                             <td><a href="#" th:href="@{/admin/user/delete/} + ${user.id}">Delete</a></td>
                         </tr>
                         </tbody>
