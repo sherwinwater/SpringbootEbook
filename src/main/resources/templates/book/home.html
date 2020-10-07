@@ -11,22 +11,28 @@
     <section class="jumbotron text-center m-0">
         <div class="container">
             <h1>Welcome to Sherwin's Book Store</h1>
-            <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-            <p>
-                <a href="#" class="btn btn-primary my-2">New Books</a>
-                <a href="#" class="btn btn-secondary my-2">Recommendation</a>
+            <p class="lead text-muted">“In the case of good books, the point is not to see how many of them
+                you can get through, but rather how many can get through to you.” – Mortimer J. Adler
+
             </p>
+<!--            <p>-->
+<!--                <a href="#" class="btn btn-primary my-2">New Books</a>-->
+<!--                <a href="#" class="btn btn-secondary my-2">Recommendation</a>-->
+<!--            </p>-->
         </div>
     </section>
     <div class="row bg-light">
-        <div class="ml-5 ">
-            <div layout:fragment="leftside" class="col-md-2">
-                <div th:replace="book/category.html :: leftside"></div>
+        <div class="container">
+            <div class="row">
+                <div layout:fragment="leftside" >
+                    <div th:replace="book/category.html :: leftside"></div>
+                </div>
             </div>
         </div>
-        <div layout:fragment="subcontent" class="col-md-10">
+
+        <div layout:fragment="subcontent" class="col-md-12">
             <section class="" th:fragment="table-refresh">
-                <div class="album py-5 " align="center">
+                <div class="album " align="center">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-3" th:each="book : ${books}">
@@ -40,11 +46,11 @@
                                         <div>
                                             <form th:action="@{/cart/add/} + ${book.id}" method="post" class="d-inline">
                                                 <div style="white-space:nowrap">
-                                                    <span th:text="'$ '+${book.price}"></span>&nbsp;&nbsp;&nbsp;
+                                                    <p th:text="'$ '+${book.price}"></p>&nbsp;&nbsp;&nbsp;
                                                     <label class="">Qty</label>
                                                     <input type="number" class="" name="quantity" value="1"
                                                            min="1" th:max="${book.inventory}"/>
-                                                    <small class="text-muted" th:text="${book.inventory}">Stock</small>
+                                                  <small class="text-muted" th:text="'stock:'+${book.inventory}">Stock</small>
                                                 </div>
                                                 <button type="submit" class="btn btn-success pull-right p-1">
                                                     <small>Add to cart</small></button>
@@ -54,24 +60,28 @@
                                                 <button type="submit" class="btn btn-warning pull-right p-1">
                                                     <small>Favorite</small></button>
                                             </form>
-                                            <small>
-                                                <form th:action="@{/account/favorite/} + ${book.id}" method="post">
-                                                    <div class="score-wrap">
-                                           <span class="stars-active" style="width:88%">
-                                                <i class="fa fa-star checked" aria-hidden="true"></i>
-                                                <i class="fa fa-star checked" aria-hidden="true"></i>
-                                                <i class="fa fa-star checked" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </span>
-                                                        <!--                                        <label class="" th:text="4.2">rating</label>&nbsp;&nbsp;&nbsp;-->
-                                                        <input type="number" class="" name="quantity" value="1"
-                                                               min="1" max="5"/>
-                                                        <button type="submit" class="btn btn-link pull-right p-1">
-                                                            <small>Rate</small></button>
-                                                    </div>
-                                                </form>
-                                            </small>
+
+<!--                                            rate-->
+<!--                                            <small>-->
+<!--                                                <form th:action="@{/account/favorite/} + ${book.id}" method="post">-->
+<!--                                                    <div class="score-wrap">-->
+<!--                                           <span class="stars-active" style="width:88%">-->
+<!--                                                <i class="fa fa-star checked" aria-hidden="true"></i>-->
+<!--                                                <i class="fa fa-star checked" aria-hidden="true"></i>-->
+<!--                                                <i class="fa fa-star checked" aria-hidden="true"></i>-->
+<!--                                                <i class="fa fa-star" aria-hidden="true"></i>-->
+<!--                                                <i class="fa fa-star" aria-hidden="true"></i>-->
+<!--                                            </span>-->
+<!--                                                        &lt;!&ndash;                                        <label class="" th:text="4.2">rating</label>&nbsp;&nbsp;&nbsp;&ndash;&gt;-->
+<!--                                                        <input type="number" class="" name="quantity" value="1"-->
+<!--                                                               min="1" max="5"/>-->
+<!--                                                        <button type="submit" class="btn btn-link pull-right p-1">-->
+<!--                                                            <small>Rate</small></button>-->
+<!--                                                    </div>-->
+<!--                                                </form>-->
+<!--                                            </small>-->
+<!--                                                rate-->
+
                                         </div>
 
                                         <form>
@@ -85,7 +95,6 @@
                         </div>
                     </div>
                     <!--            <a th:href="@{/admin/book/create}">Add New book</a>-->
-                    <br/><br/>
 
                     <!--            page-->
                     <div th:if="${totalPages > 1}">

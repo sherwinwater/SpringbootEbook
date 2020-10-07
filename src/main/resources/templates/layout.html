@@ -167,14 +167,11 @@
     <div layout:fragment="subcontent"></div>
 </section>
 
-<footer class="footer mt-auto py-3 text-center fixed-bottom">
+<footer class="footer mt-auto py-3 text-center">
     <div class="container">
         <span class="text-muted" th:text="${#dates.year(#dates.createNow())}"></span>
         <span class="text-muted">Sherwin Inc. All rights reserved.</span></div>
 </footer>
-
-<!-- Optional Section -->
-<th:block layout:fragment="optional"/>
 
 <script>
     /*

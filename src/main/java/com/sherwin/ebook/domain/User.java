@@ -2,6 +2,7 @@ package com.sherwin.ebook.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.sherwin.ebook.config.Auditable;
 import com.sherwin.ebook.domain.validator.PasswordsMatch;
@@ -27,6 +28,7 @@ import java.util.*;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
+@JsonIgnoreProperties(value={"carts","orders","account",""})
 public class User extends Auditable implements UserDetails {
 
     @Id

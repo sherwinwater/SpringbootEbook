@@ -48,7 +48,7 @@ public class AccountController {
 
     @GetMapping("/account")
     public String getAccountHome() {
-        return "account/home";
+        return "redirect:/account/billing";
     }
 
     @GetMapping("/account/billing")

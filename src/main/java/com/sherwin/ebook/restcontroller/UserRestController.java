@@ -22,6 +22,8 @@ public class UserRestController {
 		return userService.findAll();
 	}
 
+
+
 	@GetMapping("/user/search/{ajxsearchcontent}")
 	public List<User> search(@PathVariable("ajxsearchcontent") String ajxsearchcontent){
 		System.out.println(ajxsearchcontent);

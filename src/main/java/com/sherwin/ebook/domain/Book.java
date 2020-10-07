@@ -1,8 +1,6 @@
 package com.sherwin.ebook.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.sherwin.ebook.config.Auditable;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -20,6 +18,7 @@ import java.util.*;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
+@JsonIgnoreProperties(value={"carts","orders","favorites","category"})
 public class Book extends Auditable  {
 
     @Id
@@ -54,7 +53,6 @@ public class Book extends Auditable  {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
-    @JsonIgnore
     private Category category;
 
     @Override
