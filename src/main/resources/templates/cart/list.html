@@ -26,7 +26,7 @@
                                 <th>Inventory</th>
                                 <th>Quantity</th>
                                 <th>View</th>
-                                <th>Update</th>
+<!--                                <th>Update</th>-->
                                 <th>Delete</th>
                             </tr>
                             </thead>
@@ -43,21 +43,23 @@
                                 <td th:text="${book.price}"></td>
                                 <td th:text="${book.inventory}"></td>
                                 <td>
-                                    <form th:action="@{/cart/update/} + ${book.id}" method="post">
-                                        <div th:class="form-group ">
+<!--                                    <form th:action="@{/cart/update/} + ${book.id}" method="post">-->
+<!--                                        <div th:class="form-group ">-->
                                             <div class="col-sm-12 d-inline-block">
-                                                <input type="number" class="form-control" name="quantity"
+                                                <input type="text" th:value="${book.id}" hidden class="book-update-id">
+                                                <input type="number" class="form-control book-update-quantity" name="quantity"
                                                        th:value="${book.quantity}" min="1"
-                                                       th:max="${book.inventory}+${book.quantity}"/>
+                                                       th:max="${book.inventory}+${book.quantity}" />
                                             </div>
-                                        </div>
+<!--                                        </div>-->
                                 </td>
-                                <td>
-                                    <button type="submit" class="btn btn-link pull-right d-inline-block">Update</button>
-                                    </form>
-                                </td>
-                                <td><a href="#" th:href="@{/book} ">View</a></td>
-                                <td><a href="#" th:href="@{/cart/delete/} + ${book.id}">Delete</a></td>
+<!--                                <td>-->
+<!--                                    <button type="submit" class="btn btn-link pull-right d-inline-block">Update</button>-->
+<!--&lt;!&ndash;                                    </form>&ndash;&gt;-->
+<!--                                </td>-->
+                                <td><a href="#" th:href="@{/books} ">View</a></td>
+<!--                                <td><button class="book-delete btn-warning">Delete</button></td>-->
+                                <td><a href="#" th:href="@{/cart/delete/} + ${book.id}" >Delete</a></td>
                             </tr>
                             <tr th:with="totalPrice=${cart.totalPrice}" class="text-right">
                                 <td colspan="3" class="text-right">total price</td>

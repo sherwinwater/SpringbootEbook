@@ -8,20 +8,15 @@
 <body>
 
 <div layout:fragment="content">
-    <section class="jumbotron text-center m-0">
+    <section class="jumbotron text-center m-0" style="background:transparent !important">
         <div class="container">
-            <h1>Welcome to Sherwin's Book Store</h1>
+            <h1 style="color: purple">Knowledge &#8226; Wisdom &#8226; Truth</h1>
             <p class="lead text-muted">“In the case of good books, the point is not to see how many of them
                 you can get through, but rather how many can get through to you.” – Mortimer J. Adler
-
             </p>
-            <!--            <p>-->
-            <!--                <a href="#" class="btn btn-primary my-2">New Books</a>-->
-            <!--                <a href="#" class="btn btn-secondary my-2">Recommendation</a>-->
-            <!--            </p>-->
         </div>
     </section>
-    <div class="row bg-light">
+    <div class="row ">
         <div class="container">
             <div class="row">
                 <div layout:fragment="leftside">
@@ -48,18 +43,20 @@
 
                                     </div>
                                     <div class="card-footer">
-                                        <form th:action="@{/cart/add/} + ${book.id}" method="post" class="d-inline">
+<!--                                        <form action="#" method="post" class="d-inline">-->
+<!--                                        <form th:action="@{/cart/add/} + ${book.id}" method="post" class="d-inline">-->
                                             <div style="white-space:nowrap" hidden>
                                                 <p th:text="'$ '+${book.price}"></p>&nbsp;&nbsp;&nbsp;
                                                 <label class="" >Qty</label>
+                                                <input type="text" th:value="${book.id}" hidden class="book-id">
                                                 <input type="number" class="" name="quantity" value="1"
                                                        min="1" th:max="${book.inventory}" />
                                                 <small class="text-muted"
                                                        th:text="'stock:'+${book.inventory}" >Stock</small>
                                             </div>
-                                            <button type="submit" class="btn btn-success pull-right p-1">
+                                            <button type="submit" class="btn btn-success pull-right p-1 add-cart">
                                                 <small>Add to cart</small></button>
-                                        </form>
+<!--                                        </form>-->
                                         <form th:action="@{/account/favorite/} + ${book.id}" method="post"
                                               class="d-inline">
                                             <button type="submit" class="btn btn-warning pull-right p-1">

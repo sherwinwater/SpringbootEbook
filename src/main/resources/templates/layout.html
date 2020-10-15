@@ -32,9 +32,10 @@
             background-color: #f5f5f5;
         }
 
-        li.active{
+        li.active {
             background-color: linen;
         }
+
         li.nav-item > a:hover {
             color: purple;
         }
@@ -71,6 +72,7 @@
         .form-inline button:hover {
             background-color: royalblue;
         }
+
         .checked {
             color: orange;
         }
@@ -111,8 +113,8 @@
             <button class="btn btn-info my-2 my-sm-0" type="submit">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </button>
-<!--            <input class="form-control my-2 mr-sm-2" type="text" placeholder="QuickSearch" aria-label="Search"-->
-<!--                   name="ajaxsearch" id="ajaxsearch">-->
+            <!--            <input class="form-control my-2 mr-sm-2" type="text" placeholder="QuickSearch" aria-label="Search"-->
+            <!--                   name="ajaxsearch" id="ajaxsearch">-->
         </form>
 
         <ul class="navbar-nav ml-auto ">
@@ -120,7 +122,9 @@
             <!-- if user is signed in -->
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" th:href="@{/cart}">
-                    <i class="fas fa-shopping-cart" aria-hidden="true"></i> Cart</a>
+                    <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                    Cart<span class="badge badge-pill badge-success book-number"></span>
+                </a>
             </li>
             <li class="nav-item" sec:authorize="isAuthenticated()">
                 <a class="nav-link" th:href="@{/account}">
@@ -146,7 +150,8 @@
             <!-- if user is not signed in -->
             <li class="nav-item" sec:authorize="!isAuthenticated()">
                 <a class="nav-link" th:href="@{/cart/guest}">
-                    <i class="fas fa-shopping-cart" aria-hidden="true"></i> Cart</a>
+                    <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                    Cart <span class="badge badge-success book-number"></span></a>
             </li>
             <li class="nav-item" sec:authorize="!isAuthenticated()">
                 <a class="nav-link" th:href="@{/login}">
@@ -162,12 +167,12 @@
 </nav>
 
 <!-- Content Section -->
-<section layout:fragment="content" id="data">
+<section layout:fragment="content" id="data" class="bg">
     <div layout:fragment="leftside"></div>
     <div layout:fragment="subcontent"></div>
 </section>
 
-<footer class="footer mt-auto py-3 text-center">
+<footer class="footer mt-auto py-3 text-center bg">
     <div class="container">
         <span class="text-muted" th:text="${#dates.year(#dates.createNow())}"></span>
         <span class="text-muted">Sherwin Inc. All rights reserved.</span></div>
@@ -194,11 +199,59 @@
             $("#data").load("/user/ajaxsearch3" + searchvalue);
         });
 
-        $('ul.nav li.nav-item').click(function (e) {
-            // e.preventDefault();
-            $('ul.nav li.nav-item').removeClass('active');
-            $(this).addClass('active');
-        });
+
+        const cart = document.getElementsByClassName("add-cart");
+        const books = document.getElementsByClassName("book-id");
+        const bookNumber = document.getElementsByClassName("book-number");
+        const bookUpdate = document.getElementsByClassName("book-update-quantity");
+        const bookUpdateId = document.getElementsByClassName("book-update-id");
+        const bookDelete= document.getElementsByClassName("book-delete");
+
+        // add book to car
+        fetch("/api/cart")
+            .then(res => res.json())
+            .then(data => {
+                for (let i = 0; i < bookNumber.length; i++) {
+                    bookNumber[i].innerHTML = data;
+                }
+            });
+
+        for (let i = 0; i < cart.length; i++) {
+            cart[i].addEventListener("click", function () {
+                const bookId = books[i].value;
+                fetch("/api/cart/book/" + bookId)
+                    .then(res => res.json())
+                    .then(data => {
+                        for (let i = 0; i < bookNumber.length; i++) {
+                            bookNumber[i].innerHTML = data;
+                        }
+                    })
+            })
+        }
+
+        // update book in the cart
+        for(let i=0; i<bookUpdate.length;i++){
+            bookUpdate[i].addEventListener(("wheel"),function (){
+                fetch("/api/cart/book/update/"+bookUpdateId[i].value+"/"+bookUpdate[i].value)
+                .then(res=>res.json())
+                .then(data=>{
+                    console.log(data);
+                })
+            })
+        }
+
+        // delete book in the cart
+        for(let i=0; i<bookDelete.length;i++){
+            bookDelete[i].addEventListener(("click"),function (){
+                fetch("/api/cart/book/delete/"+bookUpdateId[i].value)
+                .then(res=>res.json())
+                .then(data=>{
+                    console.log(data);
+                })
+            })
+        }
+
+
 
     });
 

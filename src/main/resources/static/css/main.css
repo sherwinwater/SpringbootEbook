@@ -8,6 +8,9 @@ body {
 .jumbotron{
     height: 240px;
 }
+.bg{
+    background-color: white !important;
+}
 
 @media (max-width: 1200px) { /* screen size until 1200px */
     /*body {*/
