@@ -38,13 +38,13 @@
 
                                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12" th:each="book : ${books}">
 <!--                            <div class="card-deck">-->
-                                <div class="card my-3 mx-1 shadow-sm " style="height: 400px" >
+                                <div class="card my-3 mx-1 shadow-sm " style="height: 440px" >
                                     <img class="card-img-top" th:src="@{${book.photoUrl}}" alt="photo" width="80%"
                                          height="250">
                                     <div class="card-body">
+                                        <h4 th:text="'$ '+${book.price}" class="text-success"></h4>&nbsp;&nbsp;&nbsp;
                                         <a href="#"><p class="card-text text-center" th:text="${book.name}">
                                         </p></a>
-                                        <h4 th:text="'$ '+${book.price}" class="text-success"></h4>&nbsp;&nbsp;&nbsp;
 
                                     </div>
                                     <div class="card-footer">
