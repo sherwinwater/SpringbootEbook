@@ -57,11 +57,11 @@
                                             <button type="submit" class="btn btn-success pull-right p-1 add-cart">
                                                 <small>Add to cart</small></button>
 <!--                                        </form>-->
-                                        <form th:action="@{/account/favorite/} + ${book.id}" method="post"
-                                              class="d-inline">
-                                            <button type="submit" class="btn btn-warning pull-right p-1">
-                                                <small>Favorite</small></button>
-                                        </form>
+<!--                                        <form th:action="@{/account/favorite/} + ${book.id}" method="post"-->
+<!--                                              class="d-inline book-favorite">-->
+                                            <button type="submit" class="btn btn-warning pull-right p-1 book-favorite">
+                                                <small>Favorite</small><small class="favorite-hint"></small></button>
+<!--                                        </form>-->
 
                                     </div>
 <!--                                </div>-->
