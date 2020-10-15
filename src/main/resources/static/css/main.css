@@ -8,3 +8,39 @@ body {
 .jumbotron{
     height: 240px;
 }
+
+@media (max-width: 1200px) { /* screen size until 1200px */
+    /*body {*/
+    /*    font-size: 1.5em !important; !* 1.5x default size *!*/
+    /*}*/
+
+}
+@media  (max-width: 1000px) { /* screen size until 1000px */
+    /*body {*/
+    /*    font-size: 1.2em !important; !* 1.2x default size *!*/
+    /*}*/
+
+}
+@media (max-width: 770px) { /* screen size until 500px */
+    /*body {*/
+    /*    font-size: 0.8em !important; !* 0.8x default size *!*/
+    /*}*/
+    .jumbotron h1{
+        font-size: 2rem !important;
+    }
+    jumbotron p{
+        font-size: 1rem !important;
+    }
+}
+
+@media (max-width: 500px) { /* screen size until 500px */
+    /*body {*/
+    /*    font-size: 0.8em !important; !* 0.8x default size *!*/
+    /*}*/
+    .jumbotron h1{
+        font-size: 1.6rem !important;
+    }
+    jumbotron p{
+        font-size: 0.8rem !important;
+    }
+}
