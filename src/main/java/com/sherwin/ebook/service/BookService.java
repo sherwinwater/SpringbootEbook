@@ -62,6 +62,7 @@ public class BookService {
     public Page<Book> getAllBooksByCategory(Integer pageNo, Integer pageSize,
                                             String sortBy, Category category) {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        if(category.getName() == null) return bookRepository.findAll(paging);
         return bookRepository.findAllByCategory(category,paging);
 
 //        if(pagedResult.hasContent()){

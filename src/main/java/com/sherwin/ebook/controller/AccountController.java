@@ -135,7 +135,7 @@ public class AccountController {
             Cart cart = guest.getCart();
 //            cartService.addGuestBook(id, quantity, cart);
         }
-        return "redirect:/book";
+        return "redirect:/books";
     }
 
     @GetMapping("/account/favorite")

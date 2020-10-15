@@ -21,34 +21,35 @@ public class BookController {
     @Autowired
     private CategoryService categoryService;
 
-//    @GetMapping("/book")
-//    public String home(Model model) {
-//        return "redirect";
-//    }
-
     @GetMapping("/")
-    public String getAllBooks(Model model,HttpSession session){
-        Category category = categoryService.getCategory().get(0);
-        session.setAttribute("category",category);
-        return viewPage(model,1,3,"id",session);
+    public String home(Model model) {
+        return "redirect:/books";
     }
 
     @GetMapping("/book/category/{name}")
     public String getAllBooksByCategory(Model model, @PathVariable String name,HttpSession session){
         Category category = categoryService.getCategoryByName(name);
         session.setAttribute("category",category);
-        return viewPage(model,1,3,"id",session);
+        session.setAttribute("pageSize",8);
+        return viewPageByCategory(model,1,8,"id",session);
+    }
+
+    @GetMapping("/books")
+    public String getBooks(Model model, HttpSession session){
+        session.setAttribute("category",new Category());
+        session.setAttribute("pageSize",16);
+        return viewPageByCategory(model,1,16,"id",session);
     }
 
     @GetMapping("/page/{pageNum}")
-    public String viewPage(Model model,
+    public String viewPageByCategory(Model model,
                            @PathVariable(name = "pageNum") int pageNum,
                            @RequestParam(defaultValue = "3") Integer pageSize,
                            @RequestParam(defaultValue = "id") String sortBy,
                            HttpSession session) {
 
-//        Page<Book> page = bookService.getAllBooks(pageNum-1,pageSize,sortBy);
         Category category = (Category) session.getAttribute("category");
+        pageSize = (Integer)session.getAttribute("pageSize");
         Page<Book> page = bookService.getAllBooksByCategory(pageNum-1,pageSize,sortBy,category);
         List<Book> books = page.getContent();
 
