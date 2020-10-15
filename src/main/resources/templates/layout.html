@@ -206,6 +206,8 @@
         const bookUpdate = document.getElementsByClassName("book-update-quantity");
         const bookUpdateId = document.getElementsByClassName("book-update-id");
         const bookDelete= document.getElementsByClassName("book-delete");
+        const bookFavorite= document.getElementsByClassName("book-favorite");
+        const hintFavorite= document.getElementsByClassName("favorite-hint");
 
         // add book to car
         fetch("/api/cart")
@@ -251,6 +253,16 @@
             })
         }
 
+        // add favorite book
+        for(let i=0; i<bookFavorite.length;i++){
+            bookFavorite[i].addEventListener(("click"),function (){
+                fetch("/api/account/favorite/book/"+books[i].value)
+                .then(res=>res.json())
+                .then(data=>{
+                    console.log(data);
+                })
+            })
+        }
 
 
     });
