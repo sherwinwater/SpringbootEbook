@@ -36,14 +36,16 @@
                     <div class="container">
                         <div class="row">
 
-                                <div class="col-md-3" th:each="book : ${books}">
+                                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12" th:each="book : ${books}">
 <!--                            <div class="card-deck">-->
-                                <div class="card m-3 shadow-sm " style="height: 400px" >
+                                <div class="card my-3 mx-1 shadow-sm " style="height: 400px" >
                                     <img class="card-img-top" th:src="@{${book.photoUrl}}" alt="photo" width="80%"
                                          height="250">
                                     <div class="card-body">
                                         <a href="#"><p class="card-text text-center" th:text="${book.name}">
                                         </p></a>
+                                        <h4 th:text="'$ '+${book.price}" class="text-success"></h4>&nbsp;&nbsp;&nbsp;
+
                                     </div>
                                     <div class="card-footer">
                                         <form th:action="@{/cart/add/} + ${book.id}" method="post" class="d-inline">
