@@ -76,7 +76,7 @@ public class CartRestController {
             User user = (User) authentication.getPrincipal();
 //            Cart cart = user.getCart();
             Cart cart = cartService.get(user);  //get data from db
-            cartService.updateUserBook(id, quantity+1, cart);
+            cartService.updateUserBook(id, quantity, cart);
             return quantity;
         } else {
             User guest = (User) session.getAttribute("guest");
@@ -86,7 +86,7 @@ public class CartRestController {
                 guest.setCart(new Cart());
             }
             Cart cart = guest.getCart();
-            cartService.updateGuestBook(id, quantity+1, cart);
+            cartService.updateGuestBook(id, quantity, cart);
         }
 
         return quantity+1;

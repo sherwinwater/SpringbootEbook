@@ -37,10 +37,12 @@
                                 <td>
                                     <img th:src="@{${book.photoUrl}}" alt="photo" width="70" height="100">
                                 </td>
-                                <td class="text-right">$ <span
-                                        th:text="${#numbers.formatDecimal(totalprice, 0, 'COMMA', 2, 'POINT')}">10.00</span>
+<!--                                <td class="text-right ">$ <span class="subtotal-price"></span>-->
+<!--                                </td>-->
+                                <td class="text-right ">$ <span
+                                        th:text="${#numbers.formatDecimal(totalprice, 0, 'COMMA', 2, 'POINT')}" class="subtotal-price">10.00</span>
                                 </td>
-                                <td th:text="${book.price}"></td>
+                                <td th:text="${book.price}" class="book-price"></td>
                                 <td th:text="${book.inventory}"></td>
                                 <td>
 <!--                                    <form th:action="@{/cart/update/} + ${book.id}" method="post">-->

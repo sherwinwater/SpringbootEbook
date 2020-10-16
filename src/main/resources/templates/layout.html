@@ -207,7 +207,8 @@
         const bookUpdateId = document.getElementsByClassName("book-update-id");
         const bookDelete= document.getElementsByClassName("book-delete");
         const bookFavorite= document.getElementsByClassName("book-favorite");
-        const hintFavorite= document.getElementsByClassName("favorite-hint");
+        const bookPrice= document.getElementsByClassName("book-price");
+        const subTotalPrice= document.getElementsByClassName("subtotal-price");
 
         // add book to car
         fetch("/api/cart")
@@ -239,7 +240,9 @@
                 .then(data=>{
                     console.log(data);
                 })
+            subTotalPrice[i].innerHTML = (parseInt(bookUpdate[i].value) * parseFloat(bookPrice[i].innerHTML)).toPrecision(2);
             })
+
         }
 
         // delete book in the cart
@@ -263,7 +266,6 @@
                 })
             })
         }
-
 
     });
 
