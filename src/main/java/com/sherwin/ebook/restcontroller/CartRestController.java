@@ -89,7 +89,7 @@ public class CartRestController {
             cartService.updateGuestBook(id, quantity, cart);
         }
 
-        return quantity+1;
+        return quantity;
     }
 
     @GetMapping("/cart/book/delete/{id}")

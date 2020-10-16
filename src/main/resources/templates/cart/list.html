@@ -65,8 +65,7 @@
                             </tr>
                             <tr th:with="totalPrice=${cart.totalPrice}" class="text-right">
                                 <td colspan="3" class="text-right">total price</td>
-                                <td th:text="'$ '+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 2, 'POINT')}">total
-                                    price
+                                <td th:text="'$ '+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 2, 'POINT')}" id="total-price">
                                 </td>
                             </tr>
                             </tbody>
