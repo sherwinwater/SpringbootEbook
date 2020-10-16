@@ -39,11 +39,11 @@ public class BookService {
         if (name.equals("") && location.equals("")) {
             return bookRepository.findAll();
         } else if (name.equals("")) {
-            return bookRepository.findByLocationContaining(location);
+            return bookRepository.findByLocationContainingIgnoreCase(location);
         } else if (location.equals("")) {
-            return bookRepository.findByNameContaining(name);
+            return bookRepository.findByNameContainingIgnoreCase(name);
         }else if (!name.equals("") && !location.equals("")) {
-            return bookRepository.findByNameContainingAndLocationContaining(name, location);
+            return bookRepository.findByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(name, location);
         }
         return bookRepository.findAll();
     }
@@ -82,7 +82,7 @@ public class BookService {
     }
 
     public List<Book> search(String content) {
-        return bookRepository.findByNameContaining(content);
+        return bookRepository.findByNameContainingIgnoreCase(content);
     }
 
     public void updateBook(Book book) {

@@ -13,9 +13,9 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     Book findBookById(Long id);
-    List<Book> findByNameContaining(String name);
-    List<Book> findByNameContainingAndLocationContaining(String name,String location);
-    List<Book> findByLocationContaining(String location);
+    List<Book> findByNameContainingIgnoreCase(String name);
+    List<Book> findByNameContainingIgnoreCaseAndLocationContainingIgnoreCase(String name,String location);
+    List<Book> findByLocationContainingIgnoreCase(String location);
     List<Book> findByNameOrLocation(String name,String location);
     List<Book> findAllByOrderByIdAsc();
     Page<Book> findAll(Pageable pageable);
