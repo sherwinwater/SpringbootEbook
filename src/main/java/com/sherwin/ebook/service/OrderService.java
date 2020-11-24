@@ -44,7 +44,7 @@ public class OrderService {
 
     }
 
-    public Set<Order> getOrders(String status, User user) {
+    public List<Order> getOrders(String status, User user) {
         return orderRepository.findOrderByStatusAndUser(status, user);
     }
 
@@ -52,7 +52,7 @@ public class OrderService {
         return orderRepository.findAllByStatus(status);
     }
 
-    public Set<Order> getAllOrdersByUser(User user) {
+    public List<Order> getAllOrdersByUser(User user) {
         return orderRepository.findAllByUser(user);
     }
 

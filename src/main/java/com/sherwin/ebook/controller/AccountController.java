@@ -19,7 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -180,9 +182,9 @@ public class AccountController {
 //        }
 
         Order order = (Order) session.getAttribute("order");
-        Set<Order> orders = (Set<Order>) session.getAttribute("orders");
+        List<Order> orders = (List<Order>) session.getAttribute("orders");
         if (orders == null) {
-            orders = new HashSet<>();
+            orders = new ArrayList<>();
         }
         if (order == null) {
             order = new Order();
@@ -205,7 +207,7 @@ public class AccountController {
         } else {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()); //get data from db
-            Set<Order> orders = new HashSet<>();
+            List<Order> orders = new ArrayList<>();
             if (order.getStatus().isEmpty()) {
                 orders = orderService.getAllOrdersByUser(user);
             }else {
