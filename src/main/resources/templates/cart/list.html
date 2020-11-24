@@ -15,24 +15,24 @@
                     <div th:if="${cart.books.isEmpty()} == false">
                         <!--                    <div th:if="${cart.books != null}">-->
                         <h2>Your shopping cart</h2>
-                        <table class="table table-striped">
+                        <table class="table">
                             <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Name</th>
+<!--                                <th>Id</th>-->
+                                <th>Product Name</th>
                                 <th>Photo</th>
-                                <th>TotalPrice</th>
-                                <th>Price</th>
+                                <th class="text-right">TotalPrice</th>
+                                <th class="text-right">Price</th>
                                 <th>Inventory</th>
                                 <th>Quantity</th>
-                                <th>View</th>
+<!--                                <th>View</th>-->
 <!--                                <th>Update</th>-->
                                 <th>Delete</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="book : ${cart.books}" th:with="totalprice=${book.price}*${book.quantity}">
-                                <td th:text="${book.id}"></td>
+<!--                                <td th:text="${book.id}"></td>-->
                                 <td th:text="${book.name}"></td>
                                 <td>
                                     <img th:src="@{${book.photoUrl}}" alt="photo" width="70" height="100">
@@ -42,8 +42,8 @@
                                 <td class="text-right ">$ <span
                                         th:text="${#numbers.formatDecimal(totalprice, 0, 'COMMA', 2, 'POINT')}" class="subtotal-price">10.00</span>
                                 </td>
-                                <td th:text="${book.price}" class="book-price"></td>
-                                <td th:text="${book.inventory}"></td>
+                                <td th:text="${book.price}" class="book-price text-right"></td>
+                                <td th:text="${book.inventory}" class="text-center"></td>
                                 <td>
 <!--                                    <form th:action="@{/cart/update/} + ${book.id}" method="post">-->
 <!--                                        <div th:class="form-group ">-->
@@ -59,18 +59,19 @@
 <!--                                    <button type="submit" class="btn btn-link pull-right d-inline-block">Update</button>-->
 <!--&lt;!&ndash;                                    </form>&ndash;&gt;-->
 <!--                                </td>-->
-                                <td><a href="#" th:href="@{/books} ">View</a></td>
+<!--                                <td><a href="#" th:href="@{/books} ">View</a></td>-->
 <!--                                <td><button class="book-delete btn-warning">Delete</button></td>-->
                                 <td><a href="#" th:href="@{/cart/delete/} + ${book.id}" >Delete</a></td>
                             </tr>
                             <tr th:with="totalPrice=${cart.totalPrice}" class="text-right">
-                                <td colspan="3" class="text-right">total price</td>
+                                <td colspan="2" class="text-right"></td>
                                 <td th:text="'$ '+${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 2, 'POINT')}" id="total-price">
                                 </td>
+                                <td colspan="4" class="text-right"></td>
                             </tr>
                             </tbody>
                         </table>
-                        <p th:text="'Your items: '+${cart.books.size()} "></p>
+                        <p th:text="'Items: '+${cart.books.size()} "></p>
                         <a th:href="@{/order/checkout}">
                             <button class="btn btn-primary btn-lg btn-block">Continue to checkout</button>
                         </a>
@@ -79,10 +80,12 @@
                     <div th:if="${cart.books.isEmpty()} == true">
                         <!--                        <div th:if="${cart.books == null}">-->
                         <!--                    <div th:if="${carts.size()} == 0">-->
-                        <p class="alert alert-warning" role="alert">No Cart Found.</p>
+                        <p class="alert alert-warning" role="alert">No Item Found.</p>
                     </div>
-
-                    <a th:href="@{/}">Add book</a>
+                    <br>
+                    <div class="text-center">
+                        <a th:href="@{/}">Add book</a>
+                    </div>
 
                     <br/><br/>
                 </div>

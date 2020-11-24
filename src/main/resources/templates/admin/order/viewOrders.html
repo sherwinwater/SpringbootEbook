@@ -72,7 +72,7 @@
                     <div th:if="${orders.isEmpty()} == false">
                         <!--                    <div th:if="${cart.orders != null}">-->
                         <h2>orders</h2>
-                        <table class="table table-striped">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th>Id</th>
@@ -82,57 +82,46 @@
                                 <th>User</th>
                                 <th>Status</th>
                                 <th>Change Status</th>
-                                <th>Action</th>
+<!--                                <th>Action</th>-->
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="order : ${orders}">
                                 <td th:text="${order.id}"></td>
                                 <td>
-                                    <table>
-                                        <tr th:each="book:${order.books}">
-                                            <td th:text="${book.name}"></td>
-                                            <td th:text="${book.quantity}"></td>
-                                            <td th:text="${book.price}"></td>
+                                    <table th:class="table-borderless">
+                                        <tr th:each="book:${order.books}" th:class="small ">
+                                            <td th:text="${book.name}" style="width: 20%;" ></td>
+                                            <td th:text="${book.quantity}" style="width: 2%;" th:class="text-right"></td>
+                                            <td th:text="${book.price}" style="width: 2%;" th:class="text-right"></td>
                                         </tr>
                                     </table>
                                 </td>
-                                <td th:text="${order.totalPrice}"></td>
+                                <td th:text="${order.totalPrice}" th:class="text-right"></td>
                                 <td th:text="${order.creationDate}"></td>
                                 <td th:text="${order.user.email}"></td>
                                 <td th:text="${order.status}"></td>
                                 <td>
                                     <form method="post" th:action="@{/admin/order/update}">
                                         <fieldset class="form-group d-inline">
-                                            <div class="row">
-                                                <div class="col-md-1 mb-3">
+<!--                                            <div class="row">-->
+<!--                                                <div class="col-md-1 mb-3">-->
                                                     <input name="orderId" type="hidden" th:value="${order.id}">
                                                     <select name="status">
                                                         <option th:each="c:${statuses}"
                                                                 th:value="${c}"
                                                                 th:text="${c}"></option>
                                                     </select>
-                                                </div>
-                                            </div>
-                                        </fieldset>
+<!--                                                </div>-->
+<!--                                            </div>-->
+                                        </fieldset><br>
                                         <button type="submit"
-                                                class="btn-sm justify-content-center align-items-center d-inline
-                                                btn-warning text-white">
-                                            Update
+                                                class="btn-sm  btn-info text-white"> Update
                                         </button>
                                     </form>
 
                                 </td>
-                                <td>
-                                    <a class="btn btn-sm btn-info" href="#" th:href="@{/admin/order/} + ${order.id}">
-                                        <i class="fa fa-search"></i>View</a>
-                                    <!--                                    <a class="btn btn-sm btn-warning text-white" href="#"-->
-                                    <!--                                       th:href="@{/admin/order/update/} + ${order.id}">-->
-                                    <!--                                        <i class="fa fa-edit"></i>Update</a>-->
-<!--                                    <a class="btn btn-sm btn-danger" href="#"-->
-<!--                                       th:href="@{/admin/order/delete/} + ${order.id}">-->
-<!--                                        <i class="fa fa-remove"></i>Delete</a>-->
-                                </td>
+<!--                                <td><a href="#" th:href="@{/admin/order/delete/} + ${order.id}">Delete</a></td>-->
                             </tr>
                             </tbody>
                         </table>

@@ -181,7 +181,7 @@ public class AccountController {
 //                }
 //            }
 //        }
-        String[] statuses = {"open", "placed", "delivery", "closed"};
+        String[] statuses = { "placed", "delivery", "closed"};
 
         Order order = (Order) session.getAttribute("order");
         List<Order> orders = (List<Order>) session.getAttribute("orders");
@@ -198,55 +198,22 @@ public class AccountController {
         return "account/order";
     }
 
-//    @PostMapping("/account/order/search")
-//    public String searchOrder(@Valid Order order, BindingResult bindingResult,
-//                              Model model, RedirectAttributes redirectAttributes,
-//                              Authentication authentication, HttpSession session,
-//                              HttpServletRequest request) {
-//        if (bindingResult.hasErrors()) {
-//            logger.info("Validation errors were found while adding delivery info");
-//            model.addAttribute("order", order);
-//            model.addAttribute("validationErrors", bindingResult.getAllErrors());
-//            return "account/order/search";
-//        } else {
-//            User user = (User) authentication.getPrincipal();
-//            user = userService.getUserByEmail(user.getEmail()); //get data from db
-//            List<Order> orders = new ArrayList<>();
-//            if (order.getStatus().isEmpty()) {
-//                orders = orderService.getAllOrdersByUser(user);
-//            }else {
-//                orders = orderService.getOrders(order.getStatus(), user);
-//            }
-//
-//            session.setAttribute("orders", orders);
-//            session.setAttribute("order", order);
-//
-////                redirectAttributes
-////                        .addAttribute("id", newUser.getId())
-////                        .addFlashAttribute("success", true);
-//            return "redirect:/account/order";
-//        }
-//    }
-
-
     @PostMapping("/account/order/search")
-    public String searchOrder(Model model,
+    public String searchOrder(Model model,Authentication authentication,
                               @RequestParam(required = false) String productName,
-                              @RequestParam(required = false) String open,
                               @RequestParam(required = false) String placed,
                               @RequestParam(required = false) String delivery,
                               @RequestParam(required = false) String closed,
                               HttpSession session) {
+        User user = (User) authentication.getPrincipal();
 
         List<Order> orders = new ArrayList<>();
-        if (open == null && placed == null && delivery == null && closed == null) {
-            orders = orderService.getAllOrders();
+        if ( placed == null && delivery == null && closed == null) {
+            orders = orderService.getAllOrdersByUser(user);
         } else {
-            List<Order> orders1 = orderService.getOrdersByStatus(open);
-            List<Order> orders2 = orderService.getOrdersByStatus(placed);
-            List<Order> orders3 = orderService.getOrdersByStatus(delivery);
-            List<Order> orders4 = orderService.getOrdersByStatus(closed);
-            orders.addAll(orders1);
+            List<Order> orders2 = orderService.getOrdersByStatusAndUser(placed,user);
+            List<Order> orders3 = orderService.getOrdersByStatusAndUser(delivery,user);
+            List<Order> orders4 = orderService.getOrdersByStatusAndUser(closed,user);
             orders.addAll(orders2);
             orders.addAll(orders3);
             orders.addAll(orders4);
@@ -255,6 +222,16 @@ public class AccountController {
         session.setAttribute("orders", orders);
 //            session.setAttribute("order", order);
         model.addAttribute("orders", orders);
+
+        return "redirect:/account/order";
+    }
+
+    @GetMapping("/account/order/view")
+    public String showAllOrders(Model model,Authentication authentication,
+                              HttpSession session) {
+        User user = (User) authentication.getPrincipal();
+        List<Order> orders = orderService.getAllOrdersByUser(user);
+        session.setAttribute("orders", orders);
 
         return "redirect:/account/order";
     }

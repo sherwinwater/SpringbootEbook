@@ -51,13 +51,22 @@ public class OrderService {
     public List<Order> getOrdersByStatus(String status){
         return orderRepository.findAllByStatus(status);
     }
+    public List<Order> getOrdersByStatusAndUser(String status, User user){
+        return orderRepository.findOrderByStatusAndUser(status,user);
+    }
 
     public List<Order> getAllOrdersByUser(User user) {
-        return orderRepository.findAllByUser(user);
+        List<Order> list1 = orderRepository.findOrderByStatusAndUser("open",user);
+        List<Order> list2 = orderRepository.findAllByUser(user);
+        list2.removeAll(list1);
+        return list2;
     }
 
     public List<Order> getAllOrders(){
-        return orderRepository.findAll();
+        List<Order> list1 = orderRepository.findAllByStatus("open");
+        List<Order> list2 = orderRepository.findAll();
+        list2.removeAll(list1);
+        return list2;
     }
 
     public void delete(Long id){

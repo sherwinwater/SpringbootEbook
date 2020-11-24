@@ -12,12 +12,6 @@
             <div class="col-md-2">
 
                 <ul class="nav flex-column">
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link " th:href="@{/account}">Home</a>-->
-<!--                    </li>-->
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" th:href="@{/account/profile}">Profile</a>-->
-<!--                    </li>-->
                     <li class="nav-item ">
                         <a class="nav-link" th:href="@{/account/billing}">Billing</a>
                     </li>
@@ -28,7 +22,7 @@
                         <a class="nav-link" th:href="@{/account/favorite}">Wishlist</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/account/order}">Order</a>
+                        <a class="nav-link" th:href="@{/account/order/view}">Order</a>
                     </li>
                 </ul>
 
@@ -37,12 +31,6 @@
 
                 <!--  start of order search     -->
                 <form method="post" th:action="@{/account/order/search}">
-                    <!--                        <div class="form-group row">-->
-                    <!--                            <label for="productName" class="col-sm-2 col-form-label">Product Name</label>-->
-                    <!--                            <div class="col-sm-4">-->
-                    <!--                                <input type="text" class="form-control" id="productName" name="productName">-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
 
                     <fieldset class="form-group">
                         <div class="row">
@@ -60,24 +48,8 @@
                             </div>
                         </div>
                     </fieldset>
-                    <!--                        <div class="form-group row">-->
-                    <!--                            <div class="col-sm-2">Year</div>-->
-                    <!--                            <div class="col-sm-10">-->
-                    <!--                                <div class="form-check d-inline">-->
-                    <!--                                    <input class="form-check-input" type="checkbox" id="gridCheck1">-->
-                    <!--                                    <label class="form-check-label" for="gridCheck1">-->
-                    <!--                                        2019-->
-                    <!--                                    </label>-->
-                    <!--                                </div>-->
-                    <!--                                <div class="form-check d-inline">-->
-                    <!--                                    <input class="form-check-input" type="checkbox" id="gridCheck2">-->
-                    <!--                                    <label class="form-check-label" for="gridCheck2">-->
-                    <!--                                        2020-->
-                    <!--                                    </label>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <div class="form-group row justify-content-center align-items-center">
+
+                    <div class="form-group row justify-content-center align-items-center d-inline">
                         <div class="col-sm-10 ">
                             <button type="submit" class="btn btn-info justify-content-center align-items-center">
                                 Search
@@ -86,96 +58,16 @@
                     </div>
                 </form>
 
-
-<!--                &lt;!&ndash;  start of order search     &ndash;&gt;-->
-<!--                <form method="post" th:action="@{/account/order/search}" th:object="${order}">-->
-<!--                    <div class="form-group row">-->
-<!--                        <label for="orderId" class="col-sm-2 col-form-label">Status</label>-->
-<!--                        <div class="col-sm-4">-->
-<!--                            <input type="text" class="form-control" id="orderId" placeholder="status"-->
-<!--                                   th:field="*{status}">-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="form-group row">-->
-<!--                        <label for="productTitle" class="col-sm-2 col-form-label">Product Title</label>-->
-<!--                        <div class="col-sm-4">-->
-<!--                            <input type="text" class="form-control" id="productTitle" placeholder="Product Title">-->
-<!--                        </div>-->
-<!--                    </div>-->
-
-<!--                    <fieldset class="form-group">-->
-<!--                        <div class="row">-->
-<!--                            <legend class="col-form-label col-sm-2 pt-0">Status</legend>-->
-<!--                            <div class="col-sm-10">-->
-<!--                                <div class="form-check">-->
-<!--                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"-->
-<!--                                           value="option1" checked>-->
-<!--                                    <label class="form-check-label" for="gridRadios1">-->
-<!--                                        Closed-->
-<!--                                    </label>-->
-<!--                                </div>-->
-<!--                                <div class="form-check">-->
-<!--                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"-->
-<!--                                           value="option2">-->
-<!--                                    <label class="form-check-label" for="gridRadios2">-->
-<!--                                        Delivery-->
-<!--                                    </label>-->
-<!--                                </div>-->
-<!--                                <div class="form-check">-->
-<!--                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3"-->
-<!--                                           value="option3">-->
-<!--                                    <label class="form-check-label" for="gridRadios3">-->
-<!--                                        Packaging-->
-<!--                                    </label>-->
-<!--                                </div>-->
-<!--                                <div class="form-check">-->
-<!--                                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios4"-->
-<!--                                           value="option3">-->
-<!--                                    <label class="form-check-label" for="gridRadios4">-->
-<!--                                        Placed-->
-<!--                                    </label>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </fieldset>-->
-<!--                    <div class="form-group row">-->
-<!--                        <div class="col-sm-2">Year</div>-->
-<!--                        <div class="col-sm-10">-->
-<!--                            <div class="form-check d-inline">-->
-<!--                                <input class="form-check-input" type="checkbox" id="gridCheck1">-->
-<!--                                <label class="form-check-label" for="gridCheck1">-->
-<!--                                    2019-->
-<!--                                </label>-->
-<!--                            </div>-->
-<!--                            <div class="form-check d-inline">-->
-<!--                                <input class="form-check-input" type="checkbox" id="gridCheck2">-->
-<!--                                <label class="form-check-label" for="gridCheck2">-->
-<!--                                    2020-->
-<!--                                </label>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="form-group row justify-content-center align-items-center">-->
-<!--                        <div class="col-sm-10 ">-->
-<!--                            <button type="submit" class="btn btn-info justify-content-center align-items-center">Search-->
-<!--                                Order-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </form>-->
-
-                <!--  end of order search     -->
-
                 <div th:if="${orders.isEmpty()} == false">
                     <!--                    <div th:if="${cart.orders != null}">-->
                     <h2>Your order</h2>
-                    <table class="table table-striped">
+                    <table class="table">
                         <thead>
                         <tr>
                             <th>Id</th>
                             <th>status</th>
                             <th>Details</th>
-                            <th>Price</th>
+                            <th th:class="text-right">Price</th>
                             <th>Date</th>
                             <!--                            <th>Delete</th>-->
                         </tr>
@@ -185,15 +77,15 @@
                             <td th:text="${order.id}"></td>
                             <td th:text="${order.status}"></td>
                             <td>
-                                <table>
-                                    <tr th:each="book:${order.books}">
-                                        <td th:text="${book.name}"></td>
-                                        <td th:text="${book.quantity}"></td>
-                                        <td th:text="${book.price}"></td>
+                                <table th:class="table-borderless">
+                                    <tr th:each="book:${order.books}" th:class="small ">
+                                        <td th:text="${book.name}" style="width: 20%;" ></td>
+                                        <td th:text="${book.quantity}" style="width: 3%;" th:class="text-right"></td>
+                                        <td th:text="${book.price}" style="width: 3%;" th:class="text-right"></td>
                                     </tr>
                                 </table>
                             </td>
-                            <td th:text="${order.totalPrice}"></td>
+                            <td th:text="${order.totalPrice}" th:class="text-right"></td>
                             <td th:text="${order.creationDate}"></td>
                             <!--                            <td><a href="#" th:href="@{/account/favorite/delete/} + ${order.id}">Delete</a></td>-->
                         </tr>
@@ -206,35 +98,6 @@
                     <!--                    <div th:if="${carts.size()} == 0">-->
                     <p class="alert alert-warning" role="alert">No Order Found.</p>
                 </div>
-
-
-                <!--                <div th:if="${!orders.isEmpty()}">-->
-                <!--                    &lt;!&ndash;                    <div th:if="${cart.orders != null}">&ndash;&gt;-->
-                <!--                    <h2>Search results</h2>-->
-                <!--                    <table class="table table-striped">-->
-                <!--                        <thead>-->
-                <!--                        <tr>-->
-                <!--                            <th>Id</th>-->
-                <!--                            <th>status</th>-->
-                <!--                            <th>Details</th>-->
-                <!--                            <th>Price</th>-->
-                <!--                            <th>Date</th>-->
-                <!--                        </tr>-->
-                <!--                        </thead>-->
-                <!--                        <tbody>-->
-                <!--                        <tr >-->
-                <!--                            <td th:text="${order.id}"></td>-->
-                <!--                            <td th:text="${order.status}"></td>-->
-
-                <!--                            <td th:text="${order.books}">-->
-                <!--                            </td>-->
-                <!--                            <td th:text="${order.totalPrice}"></td>-->
-                <!--                            <td th:text="${order.creationDate}"></td>-->
-                <!--                        </tr>-->
-                <!--                        </tbody>-->
-                <!--                    </table>-->
-                <!--                </div>-->
-
 
             </div>
 

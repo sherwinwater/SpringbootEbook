@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -50,7 +51,9 @@ public class AuthController {
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "auth/register";
         } else {
-            User newUser = userService.register(user);
+            ArrayList<String> roles = new ArrayList<>();
+            roles.add("ROLE_USER");
+            User newUser = userService.register(user,roles);
             redirectAttributes
                     .addAttribute("id", newUser.getId())
                     .addFlashAttribute("success", true);

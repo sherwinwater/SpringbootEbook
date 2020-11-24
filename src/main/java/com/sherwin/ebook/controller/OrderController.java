@@ -33,7 +33,8 @@ public class OrderController {
     private PaymentService paymentService;
     @Autowired
     private DeliveryService deliveryService;
-
+    @Autowired
+    private AccountService accountService;
     @Autowired
     private BookService bookService;
 
@@ -97,8 +98,11 @@ public class OrderController {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()); //get data from db
             Order order = orderService.getOpenOrder(user);
-
             billingService.addBilling(order, billing);
+
+            Account account = user.getAccount();
+            accountService.addBilling(account, billing);
+
             return "redirect:/order/checkout";
         }
     }
@@ -116,8 +120,9 @@ public class OrderController {
             User user = (User) authentication.getPrincipal();
             user = userService.getUserByEmail(user.getEmail()); //get data from db
             Order order = orderService.getOpenOrder( user);
-
             deliveryService.addDelivery(order, delivery);
+            Account account = user.getAccount();
+            accountService.addDelivery(account, delivery);
 //                redirectAttributes
 //                        .addAttribute("id", newUser.getId())
 //                        .addFlashAttribute("success", true);

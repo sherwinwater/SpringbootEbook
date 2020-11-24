@@ -36,7 +36,7 @@ public class User extends Auditable implements UserDetails {
     private Long id;
 
     @NonNull
-    @Size(min = 8, max = 20, message = "Email size must be between {min} and {max}.")
+    @Size(min = 7, max = 20, message = "Email size must be between {min} and {max}.")
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -60,7 +60,7 @@ public class User extends Auditable implements UserDetails {
     private Account account;
 
     //    @NonNull
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL},mappedBy = "user")
 //    @ToString.Exclude
     private Set<Order> orders = new LinkedHashSet<>();
 

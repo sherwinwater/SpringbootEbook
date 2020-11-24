@@ -64,7 +64,7 @@ public class UserService {
         return userRepository.findByFirstNameOrLastNameOrEmailContaining(content, content, content);
     }
 
-    public User register(User user) {
+    public User register(User user, ArrayList<String> roles) {
         String secret = "{bcrypt}" + encoder.encode(user.getPassword());
 //        user.setEnabled(false);  //? need to activate
         user.setEnabled(true);  //
@@ -72,7 +72,10 @@ public class UserService {
         user.setConfirmPassword(secret);
         user.setCart(new Cart());
         user.setAccount(new Account());
-        user.addRole(roleRepository.findByName("ROLE_USER"));
+        for(String role:roles){
+            user.addRole(roleRepository.findFirstByName(role));
+        }
+//        user.addRole(roleRepository.findFirstByName("ROLE_USER"));
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
         return user;

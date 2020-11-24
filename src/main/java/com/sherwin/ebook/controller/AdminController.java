@@ -122,14 +122,19 @@ public class AdminController {
 
     @PostMapping("/admin/user/add")
     public String registerNewUser(@Valid User user, BindingResult bindingResult,
-                                  Model model, RedirectAttributes redirectAttributes) {
+                                  Model model, RedirectAttributes redirectAttributes,
+                                  @RequestParam(required = false) String roleUser,
+                                  @RequestParam(required = false) String roleAdmin) {
         if (bindingResult.hasErrors()) {
             logger.info("Validation errors were found while registering a new user");
             model.addAttribute("user", user);
             model.addAttribute("validationErrors", bindingResult.getAllErrors());
             return "admin/user/addUser";
         } else {
-            User newUser = userService.register(user);
+            ArrayList<String> roles = new ArrayList<>();
+            if(roleUser !=null ){roles.add("ROLE_USER");}
+            if(roleAdmin  !=null){roles.add("ROLE_ADMIN");}
+            User newUser = userService.register(user,roles);
             redirectAttributes
                     .addAttribute("id", newUser.getId())
                     .addFlashAttribute("success", true);
@@ -144,8 +149,8 @@ public class AdminController {
     ) {
         User user = userService.getUserById(id);
         user.getRoles().clear();
-        Role role1 = roleService.findByName(roleUser);
-        Role role2 = roleService.findByName(roleAdmin);
+        Role role1 = roleService.findFirstByName(roleUser);
+        Role role2 = roleService.findFirstByName(roleAdmin);
         user.getRoles().add(role1);
         user.getRoles().add(role2);
         userService.save(user);
@@ -235,7 +240,7 @@ public class AdminController {
             return "admin/product/addProduct";
         } else {
             bookService.updateBook(book);
-            return "redirect:/admin/product/add";
+            return "redirect:/admin/product/view";
         }
     }
 
@@ -270,26 +275,27 @@ public class AdminController {
     public String getProduct(Model model, Authentication authentication,
                              HttpSession session) {
         Book book = new Book();
-        List<Book> books = new ArrayList<>();
+        List<Book> books = bookService.findAll();
         model.addAttribute("books", books);
         model.addAttribute("book", book);
         return "admin/product/viewProducts";
     }
 
     //    order
-    @GetMapping("/admin/order/view")
+    @GetMapping("/admin/order")
     public String getOrder(Model model, Authentication authentication,
                            HttpSession session) {
 
         Order order = (Order) session.getAttribute("order");
         List<Order> orders = (List<Order>) session.getAttribute("orders");
-        String[] statuses = {"open", "placed", "delivery", "closed"};
+        String[] statuses = { "placed", "delivery", "closed"};
         if (orders == null) {
             orders = new ArrayList<>();
         }
 //        if (order == null) {
 //            order = new Order();
 //        }
+
         model.addAttribute("orders", orders);
         model.addAttribute("statuses", statuses);
         return "admin/order/viewOrders";
@@ -298,21 +304,18 @@ public class AdminController {
     @PostMapping("/admin/order/search")
     public String searchOrder(Model model,
                               @RequestParam(required = false) String productName,
-                              @RequestParam(required = false) String open,
                               @RequestParam(required = false) String placed,
                               @RequestParam(required = false) String delivery,
                               @RequestParam(required = false) String closed,
                               HttpSession session) {
 
         List<Order> orders = new ArrayList<>();
-        if (open == null && placed == null && delivery == null && closed == null) {
+        if (placed == null && delivery == null && closed == null) {
             orders = orderService.getAllOrders();
         } else {
-            List<Order> orders1 = orderService.getOrdersByStatus(open);
             List<Order> orders2 = orderService.getOrdersByStatus(placed);
             List<Order> orders3 = orderService.getOrdersByStatus(delivery);
             List<Order> orders4 = orderService.getOrdersByStatus(closed);
-            orders.addAll(orders1);
             orders.addAll(orders2);
             orders.addAll(orders3);
             orders.addAll(orders4);
@@ -322,8 +325,17 @@ public class AdminController {
 //            session.setAttribute("order", order);
         model.addAttribute("orders", orders);
 
-        return "redirect:/admin/order/view";
+        return "redirect:/admin/order";
 
+    }
+
+    @GetMapping("/admin/order/view")
+    public String showAllOrders(Model model,
+                                HttpSession session) {
+
+        List<Order> orders = orderService.getAllOrders();
+        session.setAttribute("orders", orders);
+        return "redirect:/admin/order";
     }
 
     @PostMapping("/admin/order/update")
@@ -333,12 +345,13 @@ public class AdminController {
         order.setStatus(status);
         orderService.save(order);
 
-        return "redirect:/admin/order/view";
+        return "redirect:/admin/order";
 
     }
 
     @GetMapping("/admin/order/delete/{id}")
     public String deleteOrder(@PathVariable Long id) {
+        System.out.println("delete");
         orderService.delete(id);
         return "redirect:/admin/order/view";
     }

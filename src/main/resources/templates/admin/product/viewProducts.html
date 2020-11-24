@@ -68,12 +68,12 @@
                             <td th:text="${book.location}"></td>
                             <td th:text="${book.inventory}"></td>
                             <td>
-                                <a class="btn btn-sm btn-info" href="#" th:href="@{/product/} + ${book.id}">
-                                    <i class="fa fa-search"></i>View</a>
-                                <a class="btn btn-sm btn-warning text-white" href="#" th:href="@{/admin/product/update/} + ${book.id}" >
+<!--                                <a class="btn btn-sm btn-primary" href="#" th:href="@{/product/} + ${book.id}">-->
+<!--                                    <i class="fa fa-search"></i>View</a>-->
+                                <a class="btn btn-sm btn-info text-white" href="#" th:href="@{/admin/product/update/} + ${book.id}" >
                                     <i class="fa fa-edit"></i>Update</a>
-                                <a class="btn btn-sm btn-danger" href="#" th:href="@{/admin/product/delete/} + ${book.id}">
-                                    <i class="fa fa-remove"></i>Delete</a>
+<!--                                <a class="btn btn-sm btn-danger" href="#" th:href="@{/admin/product/delete/} + ${book.id}">-->
+<!--                                    <i class="fa fa-remove"></i>Delete</a>-->
                             </td>
                         </tr>
                         </tbody>

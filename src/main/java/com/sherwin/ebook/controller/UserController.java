@@ -25,9 +25,9 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public String viewUser(@PathVariable Long id,Model model){
-        User user = userService.getUserByEmail("sam@sam.com");
+        User user = userService.getUserById(id);
         model.addAttribute("user",user);
-        return "user/view";
+        return "admin/user/view";
     }
 
     @PostMapping("/user/search")
