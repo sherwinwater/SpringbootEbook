@@ -181,6 +181,7 @@ public class AccountController {
 //                }
 //            }
 //        }
+        String[] statuses = {"open", "placed", "delivery", "closed"};
 
         Order order = (Order) session.getAttribute("order");
         List<Order> orders = (List<Order>) session.getAttribute("orders");
@@ -190,6 +191,8 @@ public class AccountController {
         if (order == null) {
             order = new Order();
         }
+
+        model.addAttribute("statuses", statuses);
         model.addAttribute("orders", orders);
         model.addAttribute("order", order);
         return "account/order";
@@ -253,8 +256,7 @@ public class AccountController {
 //            session.setAttribute("order", order);
         model.addAttribute("orders", orders);
 
-        return "account/order";
-
+        return "redirect:/account/order";
     }
 
 
