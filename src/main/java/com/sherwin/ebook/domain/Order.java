@@ -34,7 +34,7 @@ public class Order extends Auditable {
     @OneToOne(cascade = CascadeType.PERSIST)
     private Delivery delivery;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
     @JoinTable(
             name = "orders_books",
             joinColumns = {@JoinColumn(name = "order_id")},
