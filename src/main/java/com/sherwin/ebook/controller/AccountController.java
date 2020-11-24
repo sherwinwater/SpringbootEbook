@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -194,33 +195,67 @@ public class AccountController {
         return "account/order";
     }
 
+//    @PostMapping("/account/order/search")
+//    public String searchOrder(@Valid Order order, BindingResult bindingResult,
+//                              Model model, RedirectAttributes redirectAttributes,
+//                              Authentication authentication, HttpSession session,
+//                              HttpServletRequest request) {
+//        if (bindingResult.hasErrors()) {
+//            logger.info("Validation errors were found while adding delivery info");
+//            model.addAttribute("order", order);
+//            model.addAttribute("validationErrors", bindingResult.getAllErrors());
+//            return "account/order/search";
+//        } else {
+//            User user = (User) authentication.getPrincipal();
+//            user = userService.getUserByEmail(user.getEmail()); //get data from db
+//            List<Order> orders = new ArrayList<>();
+//            if (order.getStatus().isEmpty()) {
+//                orders = orderService.getAllOrdersByUser(user);
+//            }else {
+//                orders = orderService.getOrders(order.getStatus(), user);
+//            }
+//
+//            session.setAttribute("orders", orders);
+//            session.setAttribute("order", order);
+//
+////                redirectAttributes
+////                        .addAttribute("id", newUser.getId())
+////                        .addFlashAttribute("success", true);
+//            return "redirect:/account/order";
+//        }
+//    }
+
+
     @PostMapping("/account/order/search")
-    public String searchOrder(@Valid Order order, BindingResult bindingResult,
-                              Model model, RedirectAttributes redirectAttributes,
-                              Authentication authentication, HttpSession session,
-                              HttpServletRequest request) {
-        if (bindingResult.hasErrors()) {
-            logger.info("Validation errors were found while adding delivery info");
-            model.addAttribute("order", order);
-            model.addAttribute("validationErrors", bindingResult.getAllErrors());
-            return "account/order/search";
+    public String searchOrder(Model model,
+                              @RequestParam(required = false) String productName,
+                              @RequestParam(required = false) String open,
+                              @RequestParam(required = false) String placed,
+                              @RequestParam(required = false) String delivery,
+                              @RequestParam(required = false) String closed,
+                              HttpSession session) {
+
+        List<Order> orders = new ArrayList<>();
+        if (open == null && placed == null && delivery == null && closed == null) {
+            orders = orderService.getAllOrders();
         } else {
-            User user = (User) authentication.getPrincipal();
-            user = userService.getUserByEmail(user.getEmail()); //get data from db
-            List<Order> orders = new ArrayList<>();
-            if (order.getStatus().isEmpty()) {
-                orders = orderService.getAllOrdersByUser(user);
-            }else {
-                orders = orderService.getOrders(order.getStatus(), user);
-            }
-
-            session.setAttribute("orders", orders);
-            session.setAttribute("order", order);
-
-//                redirectAttributes
-//                        .addAttribute("id", newUser.getId())
-//                        .addFlashAttribute("success", true);
-            return "redirect:/account/order";
+            List<Order> orders1 = orderService.getOrdersByStatus(open);
+            List<Order> orders2 = orderService.getOrdersByStatus(placed);
+            List<Order> orders3 = orderService.getOrdersByStatus(delivery);
+            List<Order> orders4 = orderService.getOrdersByStatus(closed);
+            orders.addAll(orders1);
+            orders.addAll(orders2);
+            orders.addAll(orders3);
+            orders.addAll(orders4);
         }
+
+        session.setAttribute("orders", orders);
+//            session.setAttribute("order", order);
+        model.addAttribute("orders", orders);
+
+        return "account/order";
+
     }
+
+
 }
